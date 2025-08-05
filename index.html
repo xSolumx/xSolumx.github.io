@@ -1,473 +1,608 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S9KNZVPY3P"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-S9KNZVPY3P');
+    </script>
 
-   <!-- Google tag (gtag.js) -->
-   <script async src="https://www.googletagmanager.com/gtag/js?id=G-S9KNZVPY3P"></script>
-   <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#00ff88" />
+    <meta name="color-scheme" content="dark light" />
+    <title>Hayden Austin - Software Engineer | AI/ML Specialist Portfolio</title>
+    <meta name="description" content="Software Developer specializing in AI/ML, C#, Java, Python, and modern web technologies. Expert in game development and full-stack solutions." />
+    <meta name="keywords" content="software developer, AI developer, machine learning, C#, Java, Python, web development, game development, portfolio" />
+    <meta name="author" content="Hayden Austin" />
+    <meta name="robots" content="index, follow" />
 
-      gtag('config', 'G-S9KNZVPY3P');
-   </script>
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Hayden Austin - Software Developer Portfolio" />
+    <meta property="og:description" content="Passionate software developer specializing in AI/ML applications, game development, and full-stack solutions." />
+    <meta property="og:image" content="images/Micr3.png" />
+    <meta property="og:url" content="https://xsolumx.github.io" />
+    <meta property="og:type" content="website" />
 
-   <meta charset="utf-8">
-   <title>Hayden Austin's Portfolio</title>
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Hayden Austin - Software Developer" />
+    <meta name="twitter:description" content="AI/ML specialist and full-stack developer with expertise in multiple programming languages." />
+    <meta name="twitter:image" content="images/Micr3.png" />
 
-   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-   <link rel="stylesheet" href="style.css">
-   <link rel="stylesheet" href="css/bootstrap.min.css">
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"></script>
-   <script src="script.js"></script>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png" />
+    <link rel="apple-touch-icon" href="images/favicon.png" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json" />
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="style.css" as="style" />
+    <link rel="preload" href="script.js" as="script" />
+    <link rel="preload" href="images/Micr3.png" as="image" />
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    
+    <!-- DNS prefetch for performance -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//github.com" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Hayden Austin",
+        "jobTitle": "Software Engineer",
+        "description": "Software developer specializing in AI/ML, C#, Java, Python, and modern web technologies",
+        "url": "https://xsolumx.github.io",
+        "image": "https://xsolumx.github.io/images/Micr3.png",
+        "email": "haydaust@gmail.com",
+        "telephone": "+27679758624",
+        "sameAs": [
+            "https://github.com/xSolumx"
+        ],
+        "alumniOf": {
+            "@type": "EducationalOrganization",
+            "name": "Belgium Campus ITversity"
+        },
+        "knowsAbout": [
+            "C# Programming",
+            "Java Development",
+            "Python Programming", 
+            "Machine Learning",
+            "Artificial Intelligence",
+            "Web Development",
+            "Game Development",
+            "Software Engineering"
+        ]
+    }
+    </script>
 </head>
 
 <body>
+    <!-- Skip navigation for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
-   <!-- Navbar -->
-   <header>
-      <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-         <a class="navbar-brand" href="#"></a>
-         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-         </button>
-         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-               <li class="button-container">
-                  <a class="git-link" href="#about">About</a>
-               </li>
-               <li class="button-container">
-                  <a class="git-link" href="#education">Education</a>
-               </li>
-               <li class="button-container">
-                  <a class="git-link" href="#skills">Skills</a>
-               </li>
-               <li class="button-container">
-                  <a class="git-link" href="#projects">Projects</a>
-               </li>
-               <li>
-                  <div class="button-container">
-                     <a class="git-link" href="https://github.com/xSolumx">My GitHub</a>
-                  </div>
-               </li>
-               <li class="button-container">
-                  <a class="git-link"
-                     href="https://drive.google.com/file/d/1_uDjBxWP7nolbn9mmwO49v__YoySpGWC/view?usp=sharing">View
-                     CV</a>
-               </li>
-            </ul>
-         </div>
-         <div class="ml-auto pr-3">
-            <button id="dark-mode-toggle" class="btn btn-sm btn-dark-mode">Dark Mode</button>
-         </div>
-      </nav>
-   </header>
-   <div style="height: 2em;"></div> <!-- Separator-->
-   <!-- End of Navbar -->
-
-   <div class="cont" id="#1">
-      <div class="card">
-         <div class="row align-items-lg-start">
-            <div class="col-md-4 order-1 order-md-1">
-               <img src="images/Micr3.png" alt="Profile Picture" class="img-fluid mx-auto rounded-1">
+    <!-- Loading Screen -->
+    <div id="loading-screen" role="dialog" aria-label="Loading application">
+        <div class="loading-content">
+            <div class="loading-spinner" aria-hidden="true"></div>
+            <p class="loading-text" aria-live="polite">INITIALIZING PORTFOLIO...</p>
+            <div class="loading-progress">
+                <div class="loading-bar"></div>
             </div>
-            <div class="col-md-4 order-2 order-md-2">
-               <h2 class="card-title" style="font-size: 50px;">Hayden Austin</h2>
-               <p>Software Engineer / I play with tech</p>
-               <a>Email: haydaust@gmail.com</a>
-               <a>Phone: 067 975 8624</a>
-               <a>GitHub: https://github.com/xSolumx</a>
+        </div>
+    </div>
 
+    <!-- Main Game Container -->
+    <div class="game-container">
+        <!-- Game Header with Navigation -->
+        <header class="game-header" role="banner">
+            <div class="game-nav">
+                <nav class="nav-tabs" role="tablist" aria-label="Main navigation">
+                    <button 
+                        class="nav-tab" 
+                        role="tab" 
+                        aria-selected="false" 
+                        aria-controls="profile-section" 
+                        data-section="profile"
+                        id="profile-tab">
+                        <span class="nav-text">MISSIONS</span>
+                    </button>
+                    <button 
+                        class="nav-tab" 
+                        role="tab" 
+                        aria-selected="false" 
+                        aria-controls="skills-section" 
+                        data-section="skills"
+                        id="skills-tab">
+                        <span class="nav-text">CONTRAPTIONS</span>
+                    </button>
+                    <button 
+                        class="nav-tab active" 
+                        role="tab" 
+                        aria-selected="true" 
+                        aria-controls="perks-section" 
+                        data-section="perks"
+                        id="perks-tab">
+                        <span class="nav-text">PERKS</span>
+                    </button>
+                    <button 
+                        class="nav-tab" 
+                        role="tab" 
+                        aria-selected="false" 
+                        aria-controls="experience-section" 
+                        data-section="experience"
+                        id="experience-tab">
+                        <span class="nav-text">WEAPONS</span>
+                    </button>
+                    <button 
+                        class="nav-tab" 
+                        role="tab" 
+                        aria-selected="false" 
+                        aria-controls="projects-section" 
+                        data-section="projects"
+                        id="projects-tab">
+                        <span class="nav-text">EXTRAS</span>
+                    </button>
+                    <button 
+                        class="nav-tab" 
+                        role="tab" 
+                        aria-selected="false" 
+                        aria-controls="tutorials-section" 
+                        data-section="tutorials"
+                        id="tutorials-tab">
+                        <span class="nav-text">TUTORIALS</span>
+                    </button>
+                </nav>
             </div>
-            <div class="col-md-4 order-3 order-md-3">
-               <h2 class="card-title">About Me</h2>
-               <p>I've been currently working on Local ML model pipelines recently. I've been creating/playing with a Speech to Speech ChatBot using llama3.1 for text generation</p>
-               <p>I am an aspiring software developer in his last year of university with experience using programming
-                  and scripting languages, such as JavaScript, C# and Java. I founded and managed a small business where
-                  I led a team in creating a game server. The game server mainly catered to Minecraft users and hosted
-                  13,000 unique players and 20 players on the server on average. Through doing this, I gained valuable
-                  experience in project management and team leadership, as well as technical experience in Java and
-                  Sys Admin work.</p>
-            </div>
-         </div>
-      </div>
-      <div class="card">
-         <h2 class="card-title">Skills</h2>
-         <div class="skills card-text inset">
-            <ul class="random">
-               <li>C#</li>
-               <li>Java</li>
-               <li>Python</li>
-               <li>C++</li>
-               <li>Docker</li>
-               <li>Llama ccp + Transformers + Python</li>
-               <li>Node.js</li>
-               <li>Web Dev</li>
-               <li>JS</li>
-               <li>SQL</li>
-               <li>Git</li>
-               <li>UI/UX</li>
-               <li>Windows Platform Apps</li>
-               <li>Linux Server Management</li>
-               <li>Databse management</li>
-               <li>Adobe PhotoShop</li>
-               <li>Blender</li>
-            </ul>
-         </div>
-      </div>
-      <div class="card" id="#about">
-         <h2 class="card-title">A Litle Bit About Myself</h2>
-         <div class="card-text">
-            <ul class="ms">
-               <li class="m">As far as hobbies go, I love reading books; that's probably my main hobby considering I've
-                  read about 0.226 books per day in the past year (down from 0.321 last year). I mainly read Sci-fi and
-                  Fantasy novels, some memorable books to me are: The Name of the Wind, Ringworld, Foundation, Dune,
-                  Speaker For The Dead, and absolutely everything by Terry Pratchet and Isaac Asimov.</li>
-               <li class="m">I've also enjoyed Gaming throughout my life.I probably play more strategy games than
-                  anything else,
-                  Civ 5, Civ 6(still prefer 5 tho), Cities Skylines, Stellaris, Anno 1800.
-                  I'm constantly picking up indie games when I find myself lacking creative energy,
-                  the innovation and design choices in indie games really inspires me, i also just
-                  enjoy looking at pretty design.</li>
-               <li class="m">Technology has also been a major passion throughout my life. I always loved seeing new
-                  technology come out when I was a child, and I still follow Nvidia, AMD, and intel; just to see who's
-                  on top. It's incredible to witness how technology has evolved over the years. From artificial
-                  intelligence and machine learning to virtual and augmented reality, the possibilities seem endless.
-                  I'm amazed by the power of modern computers and the Rapid race of AI revolutionaries, bringing us
-                  closer to intelligent automation and incredible application of natural language processing and
-                  computer vision into modern life. Also NASA, because they have invented and innovated so much in the
-                  realm of Technology. They also give us cool pictures of the galaxy to look at.</li>
-               <li class="m">I'd also say i'm an artist; Though i only produce a few scribbles every now an then, i
-                  still have the background.
-                  It is something i've done since i can remember, drawing pirate ships and castles to still fruits next
-                  too a glass jar. i've always had a passion for Art and good design</li>
-            </ul>
-         </div>
-      </div>
-      <div class="card">
-         <h1 class="card-title">A Brief Overview Of My Programming Experience</h1>
-         <div class="card-text aboview">
-            <h4>2019-2023</h4>
-            <div class="inset">
-               <h4>Belgium Campus</h4>
-               <ul>
-                  <li>I've recently suspended my final year of studies at BC to focus more on self improvement</li>
-                  <li>I've loved every programming class so far. Ecspecially Web Programming, though that may be purely
-                     because i had such a great lecturer. there's a class called SAD(Sofware Analysis and Design)and
-                     the title SAD really makes sense. Leanring design patterns was quite SAD, but also very interesting and challening for me, That class helped me learn to write better and more reuseable code.</li>
-                  <li>i've been doing many  small programming projects or tests to learn new things (C++, C#, Python, JS), because i don't get
-                     nearly enough programming classes during the year</li>
-                  <li>I've enjoyed the fast paced learning style</li>
-                  <li>I enjoyed MLG382 so much that i've started playing around with public datasets and training some
-                     models myself, I'm very interested in data, and using that data to train prediction or classification models.</li>
-                  </li>
-               </ul>
-               <h4>Beyond Higschool</h4>
-               <ul>
-                  <li></li>
-                  <li>Founded a successful Minecraft server with a modest $40 capital investment</li>
-                  <li>Turned half a million Rand return in 2 years</li>
-                  <li>Managed a team of up to 12 people</li>
-                  <li>Honed important skills, including:</li>
-                  <ul class="skills">
-                     <li>Strategic design principles</li>
-                     <li>Content moderation</li>
-                     <li>Linux server configuration and maintenance</li>
-                     <li>Java programming</li>
-                     <li>Teamwork and adaptability</li>
-                     <li>Project management</li>
-                     <li>Optimizing systems</li>
-                     <li>Communication</li>
-                  </ul>
-                  </li>
-               </ul>
-            </div>
+        </header>
 
-            <h4>2015-2018</h4>
-            <div class="inset">
-               <h4>High School</h4>
-               <ul>
-                  <li>In high school I created Java games and virtual 3D worlds outside of class for my assignments and
-                     projects.</li>
-
-                  <li>I developed a strong relationship with the school's IT department, and contributed to their
-                     infrastructure by
-                     reconfiguring the Wi-Fi setup to more evenly distribute Wi-Fi in a physical setting. sharing
-                     computer knowledge with them, and attending CISCO training sessions alongside the regular employed
-                     technicians.
-                  </li>
-
-                  <li>I co-founded the 'Computers Club' to teach programming skills to fellow students and conduct
-                     hardware
-                     experiments using the school's resources, leading to enjoyable learning experiences and personal
-                     growth.</li>
-            </div>
-
-            <!-- </ul>
-            <h4>2009-2014</h4>
-            <p>Early Years</p>
-            <ul style="list-style: disc;">
-               <li>As an early enthusiast of technology and programming, I discovered my love for programming at the age
-                  of 8, when I began creating text adventure games using batch scripting. This
-                  early experience ignited a passion within me, motivating me to delve deeper into the world of
-                  computers.</li>
-               <li>In my eagerness to learn, I would often take apart laptops and desktops, and then
-                  reassemble them to gain a better understanding of their inner workings. These experiences fostered a
-                  lifelong curiosity in the field of computing.</li>
-            </ul> -->
-         </div>
-      </div>
-
-      <!-- Education start -->
-
-      <div class="card" id="#education">
-         <div class="row align-items-center">
-            <div>
-               <h2 style="text-align: center; font-size: 46px;">Education</h2>
-            </div>
-         </div>
-         <div class="lazer">
-            <div class="card">
-               <h2 class="card-title">Bachelor of Computing</h2>
-               <div class="card-text">
-                  <h3>Belgium Campus ITVersity</h3>
-                  <p>Relevant Courses: Programming, Mathematics, Software
-                     Analysis and Design, Machine Learning</p>
-               </div>
-            </div>
-            <div class="card">
-               <h2 class="card-title">Waterford Kamhlabha UWCSA | 2017- 2018</h2>
-               <div class="card-text">
-                  <h3>International General Certificate of Secondary Education</h3>
-                  <p>Relevant Courses: Higher Level Mathematics, Physics</p>
-               </div>
-            </div>
-         </div>
-      </div>
-
-      <!-- Skills i guess -->
-
-      <div class="" id="#skills">
-         <div class="row align-items-center">
-            <div>
-               <h2>Technologies that i've used in the past or am working with now</h2>
-            </div>
-         </div>
-      </div>
-
-      <div class="card blocky">
-         <div class="flex-grow-1 align-items-baseline">
-            <div class="">
-               <div class="card card-skill">
-                  <div class="card-header"></div>
-                  <div class="card-body">
-                     <div class="row">
-                        <div class="col-md-4">
-                           <img src="images/logo-csharp.png" class="card-img" alt="C#">
+        <!-- Main Content Area -->
+        <main id="main-content" class="game-content">
+            <!-- Profile Section (MISSIONS) -->
+            <section 
+                id="profile-section" 
+                class="game-section" 
+                role="tabpanel" 
+                aria-labelledby="profile-tab"
+                hidden>
+                <div class="profile-panel">
+                    <div class="player-avatar">
+                        <img src="images/Micr3.png" alt="Hayden Austin - Profile Picture" class="profile-image" />
+                        <div class="status-indicator"></div>
+                    </div>
+                    <div class="profile-info">
+                        <h1>Hayden Austin</h1>
+                        <h2>Software Engineer | AI/ML Specialist</h2>
+                        <p class="profile-bio">Software developer with experience using programming languages like C#, Java, Python, JS, and more. Passionate about AI/ML applications, Game Development, and creating innovative solutions.</p>
+                        <div class="contact-info">
+                            <a href="mailto:haydaust@gmail.com" class="contact-link">
+                                <span class="contact-icon">📧</span>
+                                haydaust@gmail.com
+                            </a>
+                            <a href="tel:+27679758624" class="contact-link">
+                                <span class="contact-icon">📱</span>
+                                067 975 8624
+                            </a>
+                            <a href="https://github.com/xSolumx" class="contact-link" target="_blank" rel="noopener noreferrer">
+                                <span class="contact-icon">🔗</span>
+                                GitHub Portfolio
+                            </a>
                         </div>
-                        <div class="col-md-8">
-                           <h5 class="card-title">C#</h5>
-                           <p class="card-text">2017 +</p>
-                           <p class="card-text">WPF WinUI .NET </p>
+                        <div class="personal-interests">
+                            <h3>Personal Interests</h3>
+                            <p>Passionate about AI/ML research, game development, and innovative technology solutions. Always exploring new programming paradigms and contributing to open-source projects.</p>
                         </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="">
-               <div class="card card-skill">
-                  <div class="card-body">
-                     <div class="row">
-                        <div class="col-md-4">
-                           <img src="images/logo-java.png" class="card-img" alt="Java">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skills Section (CONTRAPTIONS) -->
+            <section 
+                id="skills-section" 
+                class="game-section" 
+                role="tabpanel" 
+                aria-labelledby="skills-tab"
+                hidden>
+                <h2 class="section-title">Technical Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-card" data-skill="csharp">
+                        <img src="images/logo-csharp.png" alt="C# Logo" class="skill-icon" loading="lazy" />
+                        <h3>C#</h3>
+                        <p>Advanced proficiency in C# development</p>
+                        <div class="skill-level"></div>
+                    </div>
+                    <div class="skill-card" data-skill="java">
+                        <img src="images/logo-java.png" alt="Java Logo" class="skill-icon" loading="lazy" />
+                        <h3>Java</h3>
+                        <p>Strong foundation in Java programming</p>
+                        <div class="skill-level"></div>
+                    </div>
+                    <div class="skill-card" data-skill="python">
+                        <img src="images/logo-python.png" alt="Python Logo" class="skill-icon" loading="lazy" />
+                        <h3>Python</h3>
+                        <p>Experienced in Python for AI/ML</p>
+                        <div class="skill-level"></div>
+                    </div>
+                    <div class="skill-card" data-skill="cpp">
+                        <img src="images/logo-Cplus.png" alt="C++ Logo" class="skill-icon" loading="lazy" />
+                        <h3>C++</h3>
+                        <p>Systems programming and game development</p>
+                        <div class="skill-level"></div>
+                    </div>
+                    <div class="skill-card" data-skill="web">
+                        <img src="images/logo-htmlcss.png" alt="Web Logo" class="skill-icon" loading="lazy" />
+                        <h3>Web Development</h3>
+                        <p>Modern web technologies</p>
+                        <div class="skill-level"></div>
+                    </div>
+                    <div class="skill-card" data-skill="javascript">
+                        <img src="images/logo-javascript.png" alt="JavaScript Logo" class="skill-icon" loading="lazy" />
+                        <h3>JavaScript</h3>
+                        <p>Full-stack JavaScript development</p>
+                        <div class="skill-level"></div>
+                    </div>
+                    <div class="skill-card" data-skill="sql">
+                        <img src="images/logo-sql.png" alt="SQL Logo" class="skill-icon" loading="lazy" />
+                        <h3>SQL & Databases</h3>
+                        <p>Database design and management</p>
+                        <div class="skill-level"></div>
+                    </div>
+                    <div class="skill-card" data-skill="tools">
+                        <img src="images/logo-github.png" alt="Tools Logo" class="skill-icon" loading="lazy" />
+                        <h3>Development Tools</h3>
+                        <p>Git, Linux, and development workflows</p>
+                        <div class="skill-level"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Perks Section (Main Skills Layout) -->
+            <section 
+                id="perks-section" 
+                class="game-section active" 
+                role="tabpanel" 
+                aria-labelledby="perks-tab">
+                <div class="perks-container">
+                    <div class="perks-grid">
+                        <!-- Stealth Column -->
+                        <div class="perk-column">
+                            <h3 class="column-title">Stealth</h3>
+                            <div class="perk-tree">
+                                <div class="perk-item unlocked" data-perk="stealth-1">
+                                    <div class="perk-icon">
+                                        <img src="images/logo-python.png" alt="Python" />
+                                    </div>
+                                    <span class="perk-number">1</span>
+                                </div>
+                                <div class="perk-item unlocked" data-perk="stealth-2">
+                                    <div class="perk-icon">
+                                        <img src="images/logo-javascript.png" alt="JavaScript" />
+                                    </div>
+                                    <span class="perk-number">1</span>
+                                </div>
+                                <div class="perk-item locked" data-perk="stealth-3">
+                                    <div class="perk-icon">
+                                        <img src="images/logo-sql.png" alt="SQL" />
+                                    </div>
+                                    <span class="perk-number">2</span>
+                                </div>
+                                <div class="perk-item locked" data-perk="stealth-4">
+                                    <div class="perk-icon">
+                                        <img src="images/logo-github.png" alt="Git" />
+                                    </div>
+                                    <span class="perk-number">1</span>
+                                </div>
+                                <div class="perk-item locked" data-perk="stealth-5">
+                                    <div class="perk-icon">
+                                        <img src="images/logo-blender.png" alt="Blender" />
+                                    </div>
+                                    <span class="perk-number">0</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-8">
-                           <h5 class="card-title">Java</h5>
-                           <p class="card-text">2016+ Familiarity with external libraries, and with Maven and Jenkins</p>
+
+                        <!-- Mayhem Column -->
+                        <div class="perk-column">
+                            <h3 class="column-title">Mayhem</h3>
+                            <div class="perk-tree">
+                                <div class="perk-item unlocked" data-perk="mayhem-1">
+                                    <div class="perk-icon">
+                                        <img src="images/logo-csharp.png" alt="C#" />
+                                    </div>
+                                    <span class="perk-number">2</span>
+                                </div>
+                                <div class="perk-item unlocked" data-perk="mayhem-2">
+                                    <div class="perk-icon">
+                                        <img src="images/logo-java.png" alt="Java" />
+                                    </div>
+                                    <span class="perk-number">2</span>
+                                </div>
+                                <div class="perk-item unlocked" data-perk="mayhem-3">
+                                    <div class="perk-icon">
+                                        <img src="images/logo-Cplus.png" alt="C++" />
+                                    </div>
+                                    <span class="perk-number">2</span>
+                                </div>
+                                <div class="perk-item locked" data-perk="mayhem-4">
+                                    <div class="perk-icon">
+                                        <img src="images/logo-htmlcss.png" alt="Web" />
+                                    </div>
+                                    <span class="perk-number">0</span>
+                                </div>
+                                <div class="perk-item locked" data-perk="mayhem-5">
+                                    <div class="perk-icon">
+                                        <img src="images/logo-photoshop.png" alt="Photoshop" />
+                                    </div>
+                                    <span class="perk-number">0</span>
+                                </div>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="">
-               <div class="card card-skill">
-                  <div class="card-body">
-                     <div class="row">
-                        <div class="col-md-4">
-                           <img src="images/logo-python.png" class="card-img" alt="Python">
+
+                        <!-- Tactical Column -->
+                        <div class="perk-column">
+                            <h3 class="column-title">Tactical</h3>
+                            <div class="perk-tree">
+                                <div class="perk-item unlocked" data-perk="tactical-1">
+                                    <div class="perk-icon">
+                                        <span class="icon-placeholder">🔥</span>
+                                    </div>
+                                    <span class="perk-number">0</span>
+                                </div>
+                                <div class="perk-item unlocked" data-perk="tactical-2">
+                                    <div class="perk-icon">
+                                        <span class="icon-placeholder">⚡</span>
+                                    </div>
+                                    <span class="perk-number">0</span>
+                                </div>
+                                <div class="perk-item locked" data-perk="tactical-3">
+                                    <div class="perk-icon">
+                                        <span class="icon-placeholder">🛡️</span>
+                                    </div>
+                                    <span class="perk-number">0</span>
+                                </div>
+                                <div class="perk-item locked" data-perk="tactical-4">
+                                    <div class="perk-icon">
+                                        <span class="icon-placeholder">💀</span>
+                                    </div>
+                                    <span class="perk-number">0</span>
+                                </div>
+                                <div class="perk-item locked" data-perk="tactical-5">
+                                    <div class="perk-icon">
+                                        <span class="icon-placeholder">🎯</span>
+                                    </div>
+                                    <span class="perk-number">0</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-8">
-                           <h5 class="card-title">Python</h5>
-                           <p class="card-text">2017+ PyTorch, TensorFlow</p>
+                    </div>
+
+                    <!-- Progress Panel -->
+                    <div class="progress-panel">
+                        <div class="progress-circle">
+                            <svg class="progress-svg" viewBox="0 0 120 120">
+                                <circle 
+                                    class="progress-bg" 
+                                    cx="60" 
+                                    cy="60" 
+                                    r="50" 
+                                    fill="none" 
+                                    stroke="#333" 
+                                    stroke-width="4"/>
+                                <circle 
+                                    class="progress-bar" 
+                                    cx="60" 
+                                    cy="60" 
+                                    r="50" 
+                                    fill="none" 
+                                    stroke="#00ff88" 
+                                    stroke-width="4"
+                                    stroke-dasharray="314.16"
+                                    stroke-dashoffset="85.9"
+                                    transform="rotate(-90 60 60)"/>
+                            </svg>
+                            <div class="progress-content">
+                                <div class="progress-number">55<span class="progress-total">/75</span></div>
+                                <div class="progress-label">Mastery: 2</div>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="">
-               <div class="card card-skill">
-                  <div class="card-body">
-                     <div class="row">
-                        <div class="col-md-4">
-                           <img src="images/logo-htmlcss.png" class="card-img" alt="HTML/CSS">
+                        
+                        <div class="progress-details">
+                            <h4>Grenade kills</h4>
+                            <p>Killing enemies by using the Handgrenade.</p>
+                            
+                            <div class="reward-section">
+                                <div class="reward-label">REWARD</div>
+                                <div class="reward-text">Increased grenade capacity</div>
+                            </div>
+                            
+                            <div class="progress-status">
+                                <span class="current-progress">Current: 2</span>
+                                <span class="next-progress">Next: 3</span>
+                            </div>
                         </div>
-                        <div class="col-md-8">
-                           <h5 class="card-title">HTML/CSS</h5>
-                           <p class="card-text">Since 20 something + Websites and all that yeah. I've used many different UI frameworks i have a good understaning of how they work in general.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Experience Section (WEAPONS) -->
+            <section 
+                id="experience-section" 
+                class="game-section" 
+                role="tabpanel" 
+                aria-labelledby="experience-tab"
+                hidden>
+                <h2 class="section-title">Experience Journey</h2>
+                <div class="experience-timeline">
+                    <div class="exp-item">
+                        <div class="exp-year">2019-2025</div>
+                        <div class="exp-content">
+                            <h3>Software Engineering Studies</h3>
+                            <h4>Belgium Campus ITversity</h4>
+                            <p>Bachelor's degree in Software Engineering with focus on AI/ML, web development, and software architecture. Developing comprehensive skills in multiple programming languages and modern development practices.</p>
+                            <ul class="exp-highlights">
+                                <li>Advanced programming in C#, Java, Python</li>
+                                <li>Machine Learning and AI applications</li>
+                                <li>Web development and full-stack solutions</li>
+                                <li>Software engineering best practices</li>
+                            </ul>
                         </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="">
-               <div class="card card-skill">
-                  <div class="card-body">
-                     <div class="row">
-                        <div class="col-md-4">
-                           <img src="images/logo-javascript.png" class="card-img img-fluid" alt="JavaScript">
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-year">2015-2018</div>
+                        <div class="exp-content">
+                            <h3>Gaming Server Development</h3>
+                            <h4>Minecraft Community Projects</h4>
+                            <p>Founded and managed successful gaming servers, leading teams and developing custom solutions for online gaming communities.</p>
+                            <ul class="exp-highlights">
+                                <li>Java plugin development</li>
+                                <li>Server management and optimization</li>
+                                <li>Team leadership and project management</li>
+                                <li>Community building and engagement</li>
+                            </ul>
                         </div>
-                        <div class="col-md-8">
-                           <h5 class="card-title">JavaScript</h5>
-                           <p class="card-text">2019 + (React, Express, )</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section (EXTRAS) -->
+            <section 
+                id="projects-section" 
+                class="game-section" 
+                role="tabpanel" 
+                aria-labelledby="projects-tab"
+                hidden>
+                <h2 class="section-title">Featured Projects</h2>
+                <div class="projects-grid">
+                    <div class="project-card" data-project="ai-nexus">
+                        <div class="project-thumb">
+                            <img src="images/imgNexus.png" alt="AI Nexus Project" loading="lazy" />
                         </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="">
-               <div class="card card-skill">
-                  <div class="card-body">
-                     <div class="row">
-                        <div class="col-md-4">
-                           <img src="images/logo-sql.png" class="card-img img-fluid" alt="SQL">
+                        <div class="project-info">
+                            <h3>AI Nexus</h3>
+                            <p>Advanced machine learning platform</p>
+                            <span class="project-tech">Python • TensorFlow</span>
                         </div>
-                        <div class="col-md-8">
-                           <h5 class="card-title">SQL</h5>
-                           <p class="card-text">2020 + </p>
+                    </div>
+                    <div class="project-card" data-project="brain-simulation">
+                        <div class="project-thumb">
+                            <img src="images/imgBrain.png" alt="Neural Network Simulator" loading="lazy" />
                         </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="">
-               <div class="card card-skill">
-                  <div class="card-body">
-                     <div class="row">
-                        <div class="col-md-4">
-                           <img src="images/logo-github.png" class="card-img" alt="Git">
+                        <div class="project-info">
+                            <h3>Neural Network Simulator</h3>
+                            <p>Interactive educational neural network visualization</p>
+                            <span class="project-tech">JavaScript • WebGL</span>
                         </div>
-                        <div class="col-md-8">
-                           <h5 class="card-title">Git</h5>
-                           <p class="card-text">2017 + honestly i don't think i can explain what i do know, because there is still so much i don't</p>
+                    </div>
+                    <div class="project-card" data-project="tech-hub">
+                        <div class="project-thumb">
+                            <img src="images/imgTech.png" alt="Tech Hub Platform" loading="lazy" />
                         </div>
-                     </div>
-                  </div>
-               </div>
+                        <div class="project-info">
+                            <h3>Tech Hub Platform</h3>
+                            <p>Social platform for tech enthusiasts</p>
+                            <span class="project-tech">C# • React</span>
+                        </div>
+                    </div>
+                    <div class="project-card" data-project="game-engine">
+                        <div class="project-thumb">
+                            <img src="images/imgComp.png" alt="Custom Game Engine" loading="lazy" />
+                        </div>
+                        <div class="project-info">
+                            <h3>Custom Game Engine</h3>
+                            <p>Lightweight 2D game engine in C++</p>
+                            <span class="project-tech">C++ • OpenGL</span>
+                        </div>
+                    </div>
+                    <div class="project-card" data-project="automation-suite">
+                        <div class="project-thumb">
+                            <img src="images/imgbr.png" alt="Automation Suite" loading="lazy" />
+                        </div>
+                        <div class="project-info">
+                            <h3>Automation Suite</h3>
+                            <p>Python tools for productivity automation</p>
+                            <span class="project-tech">Python • Selenium</span>
+                        </div>
+                    </div>
+                    <div class="project-card" data-project="portfolio-site">
+                        <div class="project-thumb">
+                            <img src="images/astro.png" alt="Gaming Portfolio Site" loading="lazy" />
+                        </div>
+                        <div class="project-info">
+                            <h3>Gaming Portfolio Site</h3>
+                            <p>This modern gaming-themed portfolio</p>
+                            <span class="project-tech">HTML5 • CSS3</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tutorials Section -->
+            <section 
+                id="tutorials-section" 
+                class="game-section" 
+                role="tabpanel" 
+                aria-labelledby="tutorials-tab"
+                hidden>
+                <h2 class="section-title">Tutorials & Learning</h2>
+                <div class="tutorials-content">
+                    <p>Coming soon: Interactive tutorials and guides!</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Project Modal -->
+    <div id="project-modal" class="modal-overlay" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 id="modal-title" class="modal-title"></h2>
+                <button class="modal-close" aria-label="Close modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-         </div>
-      </div>
-
-      <!-- Projects section -->
-
-      <div class="row align-items-center" id="#projects">
-         <div>
-            <h2 style="text-align: center; font-size: 46px;">Projects</h2>
-         </div>
-      </div>
-      <div class="frame grid">
-
-         <div class="card">
-            <h2 class="card-title">AI Culture Mind</h2>
-            <div class="card-text">
-               <h3>The goal of this project is to build a working ChatBot with fast speech recognition and generation capabilities. as well as using a RAG memory</h3>
-               <p>This is a fun project so that i don't have to pay to use ChatGPT or anything similar, the premise is a completely offline ChatBot capable of having a voise conversation with. 
-                  The current problem is that the Text to Speech generation is taking such a long time, such that you'd only get a response about a minute after you ask a question. Obviously this also depends on the question but right now i'm trying to use a faster TTS and SST Library/Model/System.
-                  I've had a lot of fun with this, and i've seen my local AI contextually break down so much that it just generates garbage, it's all a learning process.
-                  After I've gotten the speech capabilities optimized, I plan to add a way for the ML model to access the internet and retreive pages of context regarding the input tokens, format it, cache it, and trim it over time to keep the context smaller for faster inference.
-                  RAG + Internet and turning this ChatBot into something that i would like to talk to is my end goal.
-               </p>
+            <div class="modal-content">
+                <div class="modal-image">
+                    <img id="modal-project-image" src="" alt="" />
+                </div>
+                <div class="modal-details">
+                    <div class="modal-description">
+                        <p id="modal-project-description"></p>
+                    </div>
+                    <div class="modal-tech-stack">
+                        <h3>Technologies Used</h3>
+                        <div id="modal-tech-tags" class="tech-tags"></div>
+                    </div>
+                    <div class="modal-features">
+                        <h3>Key Features</h3>
+                        <ul id="modal-features-list"></ul>
+                    </div>
+                    <div class="modal-links">
+                        <a id="modal-demo-link" href="#" class="modal-button demo-button" target="_blank" rel="noopener noreferrer" style="display: none;">
+                            <span class="button-icon">🚀</span>
+                            Live Demo
+                        </a>
+                        <a id="modal-github-link" href="#" class="modal-button github-button" target="_blank" rel="noopener noreferrer" style="display: none;">
+                            <span class="button-icon">📁</span>
+                            View Code
+                        </a>
+                    </div>
+                </div>
             </div>
-         </div>
+        </div>
+    </div>
 
-         <div class="card">
-            <h2 class="card-title">Animal image classification with ML</h2>
-            <div class="card-text">
-               <h3>Built from scratch without external models</h3>
-               <p>I gathered all the training and test data myself and spent a couple weeks building this ML model. it was really fun and even addictive.
-                  My main problem was getting my GPU to be used for training and inference, getting that right took my training times from plus five hours down to a few minutes.
-                  I was able to achieve a 78% accuracy on validation. I think this is pretty good as i was not using ResNet, Inception, or any other pretrained model.
-               </p>
-            </div>
-         </div>
-
-         <div class="card">
-            <h2 class="card-title">Additional-Blocks</h2>
-            <div class="card-text">
-               <h3>Minecraft Plugin That Allows The Use Of Custom Modelled Blocks, Written In Java </h3>
-               <p>I created a system that allowed me to add custom blocks into the base game of Minecraft, I
-                  wrote
-                  scripts to import JSON files and PNG files and appropriately catagorized them into their block or
-                  item
-                  types.
-                  Directional placement was a small challenge that I had to overcome using the players camera
-                  position
-                  and abstracted vector maths.</p>
-            </div>
-         </div>
-
-         <div class="card">
-            <h2 class="card-title">Rebels-Items</h2>
-            <div class="card-text">
-               <h3>Framework To Implement Customized In Game Weapons and Tools, Written In Java</h3>
-               <p>This has been an ongoing project for 2 years and I'm still not done. The solution uses some janky
-                  methods to store data on the item object
-                  itself which was not possible using the minecraft server framework, so a workaround was required.
-               </p>
-            </div>
-         </div>
-         <div class="card">
-            <h2 class="card-title">Rebels-Back</h2>
-            <div class="card-text">
-               <h3>Minecraft Plugin That Manipulates And Stores Player Locations</h3>
-               <p>Coded in Java, this plugin stores the players location upon their death or any teleport event so
-                  that
-                  they can jump between locations for convenience, while this is a very simple plugin, it implements
-                  features that do not exist among other publically available plugins.</p>
-            </div>
-         </div>
-         <div class="card">
-            <h2 class="card-title">Rebels-Pack</h2>
-            <div class="card-text">
-               <h3>Minecraft Resource Pack - UI</h3>
-               <p>Contains custom item icons, models, and modified JSON files.
-                  This integrates into Rebels-Items and Additional-Blocks to provide the customized textures and
-                  models.
-                  There was no programming involved with this, though I did create 12 custom GUI's, 100 Custom icons,
-                  and 20 custom models for this project.
-               </p>
-            </div>
-         </div>
-      </div>
-
-
-   </div>
-
-
-   </div>
-
-   </div>
-
-
-   </div>
-   </div>
-   </div>
-
-   <!-- Add the jQuery library -->
-   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-   <!-- Add the Bootstrap JavaScript file -->
-   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- JavaScript -->
+    <script src="script.js"></script>
 </body>
-
 </html>

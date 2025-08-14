@@ -46,90 +46,97 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Project data
     const projects = {
+        // Mind_Core (AI/ML LLM build)
         'ai-nexus': {
-            title: 'AI Nexus',
+            title: 'Mind_Core',
             image: 'images/imgNexus.png',
-            description: 'A comprehensive machine learning platform designed for data scientists and researchers. AI Nexus provides an intuitive interface for building, training, and deploying machine learning models with advanced data visualization and analysis capabilities.',
-            technologies: ['Python', 'TensorFlow', 'Pandas', 'NumPy', 'Flask', 'React', 'PostgreSQL'],
+            description: 'Personal ML custom LLM build focused on efficient training, fine-tuning and local inference.',
+            technologies: ['Python', 'Ollama', 'JAX', 'Flax'],
             features: [
-                'Interactive data visualization and exploration tools',
-                'Automated feature engineering and selection',
-                'Support for multiple ML algorithms',
-                'Real-time model performance monitoring',
-                'Collaborative workspace for team projects'
+                'Custom tokenizer and training pipeline',
+                'Local inference with quantization',
+                'Experiment tracking and evaluation'
             ],
             githubLink: 'https://github.com/xSolumx'
         },
+        // Agricultural Website
         'brain-simulation': {
-            title: 'Neural Network Simulator',
+            title: 'Agricultural Website',
             image: 'images/imgBrain.png',
-            description: 'An interactive educational tool that visualizes how neural networks learn and process information. This simulator allows users to build custom network architectures and observe the training process in real-time.',
-            technologies: ['JavaScript', 'WebGL', 'Three.js', 'D3.js', 'HTML5 Canvas'],
+            description: 'Website for showcasing agricultural products and services with a modern, responsive UI.',
+            technologies: ['React', 'Firebase'],
             features: [
-                'Real-time neural network visualization',
-                'Interactive network architecture builder',
-                'Step-by-step training process animation',
-                'Multiple activation functions and optimizers',
-                'Educational tutorials and guided examples'
+                'Product catalog and detail pages',
+                'Realtime data with Firebase',
+                'Responsive and accessible design'
             ],
             githubLink: 'https://github.com/xSolumx'
         },
+        // Jewelry Shop
         'tech-hub': {
-            title: 'Tech Hub Platform',
+            title: 'Jewelry Shop',
             image: 'images/imgTech.png',
-            description: 'A full-stack social platform where tech enthusiasts can showcase their projects, collaborate on ideas, and learn from each other. Features real-time collaboration tools and project galleries.',
-            technologies: ['C#', 'ASP.NET Core', 'Entity Framework', 'SQL Server', 'React', 'TypeScript', 'SignalR'],
+            description: 'Online store for the advertisement of jewelry products with fast, SEO-friendly pages.',
+            technologies: ['Next.js', 'React', 'Firebase'],
             features: [
-                'User profiles with skill showcasing',
-                'Project portfolio and collaboration tools',
-                'Real-time messaging and video chat',
-                'Skill-based project recommendations',
-                'Community forums and knowledge sharing'
+                'SSR/SSG for performance',
+                'Product galleries and filtering',
+                'Secure auth and data with Firebase'
             ],
             githubLink: 'https://github.com/xSolumx'
         },
+        // Custom Game Engine Injection
         'game-engine': {
-            title: 'Custom Game Engine',
+            title: 'Custom Game Engine Injection',
             image: 'images/imgComp.png',
-            description: 'A lightweight, high-performance 2D game engine built from scratch in C++. This engine focuses on simplicity and efficiency, providing essential game development tools.',
-            technologies: ['C++', 'OpenGL', 'GLFW', 'OpenAL', 'Box2D', 'CMake'],
+            description: 'Lightweight C++ injection for adding mods/assets into an existing game engine.',
+            technologies: ['C++', 'Lua'],
             features: [
-                'Efficient 2D sprite rendering system',
-                'Integrated physics engine with collision detection',
-                'Multi-channel audio system with 3D positioning',
-                'Scene graph management and entity-component system',
-                'Cross-platform compatibility (Windows, Linux, macOS)'
+                'Runtime hooking and API exposure',
+                'Lua scripting integration',
+                'Asset pipeline for rapid iteration'
             ],
             githubLink: 'https://github.com/xSolumx'
         },
+        // Automation Suite
         'automation-suite': {
             title: 'Automation Suite',
             image: 'images/imgbr.png',
-            description: 'A comprehensive collection of Python automation tools designed to streamline repetitive tasks and improve productivity. Each tool is designed with a focus on reliability and ease of use.',
-            technologies: ['Python', 'Selenium', 'BeautifulSoup', 'Pandas', 'Schedule', 'Tkinter', 'SQLite'],
+            description: 'Python tools for productivity automation across file, web, and reporting workflows.',
+            technologies: ['Python', 'Selenium', 'BeautifulSoup', 'Pandas', 'Schedule', 'SQLite'],
             features: [
-                'Intelligent file organization and cleanup',
-                'Web scraping and data extraction tools',
-                'System monitoring and health checks',
-                'Automated report generation',
-                'Email and notification systems'
+                'File organization and cleanup',
+                'Scraping and data extraction',
+                'Automated reports and notifications'
             ],
             githubLink: 'https://github.com/xSolumx'
         },
+        // Gaming Portfolio Site
         'portfolio-site': {
             title: 'Gaming Portfolio Site',
             image: 'images/astro.png',
-            description: 'This modern, gaming-themed portfolio website showcases my development skills and projects. Built with a focus on performance, accessibility, and user experience.',
-            technologies: ['HTML5', 'CSS3', 'JavaScript', 'PWA', 'Web Workers'],
+            description: 'Gaming-themed portfolio focused on performance, accessibility, and UX.',
+            technologies: ['HTML5', 'CSS3', 'JavaScript', 'PWA'],
             features: [
-                'Responsive design for all device sizes',
-                'Progressive Web App (PWA) functionality',
-                'Smooth animations and transitions',
-                'Accessibility-first design approach',
-                'Gaming-themed UI with cyberpunk aesthetics'
+                'Responsive layout',
+                'PWA installability',
+                'Smooth animations and transitions'
             ],
             demoLink: 'https://xsolumx.github.io',
             githubLink: 'https://github.com/xSolumx/xSolumx.github.io'
+        },
+        // Portfolio for an Architect
+        'architect-portfolio': {
+            title: 'Portfolio for an Architect',
+            image: 'images/imgBrain.png',
+            description: 'A portfolio site to showcase architectural designs and projects.',
+            technologies: ['Next.js', 'React', 'Firebase'],
+            features: [
+                'Project galleries and details',
+                'Content management with Firebase',
+                'Optimized images and SEO'
+            ],
+            githubLink: 'https://github.com/xSolumx'
         }
     };
 
@@ -144,40 +151,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalGithubLink = document.getElementById('modal-github-link');
     const modalClose = document.querySelector('.modal-close');
 
-    console.log('Modal elements found:', {
-        modal: !!modal,
-        modalTitle: !!modalTitle,
-        modalImage: !!modalImage,
-        modalDescription: !!modalDescription,
-        modalTechTags: !!modalTechTags,
-        modalFeaturesList: !!modalFeaturesList,
-        modalDemoLink: !!modalDemoLink,
-        modalGithubLink: !!modalGithubLink,
-        modalClose: !!modalClose
-    });
 
     function openModal(projectKey) {
-        console.log('Opening modal for project:', projectKey);
         const project = projects[projectKey];
         if (!project) {
-            console.error('Project not found:', projectKey);
             return;
         }
 
-        // Check if modal elements exist
         if (!modal || !modalTitle || !modalImage || !modalDescription || !modalTechTags || !modalFeaturesList) {
-            console.error('Modal elements not found:', {
-                modal: !!modal,
-                modalTitle: !!modalTitle,
-                modalImage: !!modalImage,
-                modalDescription: !!modalDescription,
-                modalTechTags: !!modalTechTags,
-                modalFeaturesList: !!modalFeaturesList
-            });
             return;
         }
-
-        console.log('Populating modal with project data:', project.title);
 
         // Populate modal content
         modalTitle.textContent = project.title;
@@ -218,12 +201,9 @@ document.addEventListener('DOMContentLoaded', function() {
             modalGithubLink.style.display = 'none';
         }
 
-        console.log('Showing modal...');
-        // Show modal
         modal.classList.add('active');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
-        console.log('Modal should now be visible');
     }
 
     function closeModal() {
@@ -234,14 +214,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Project card click handlers
     const projectCards = document.querySelectorAll('.project-card');
-    console.log('Found project cards:', projectCards.length);
     
     projectCards.forEach((card, index) => {
         const projectKey = card.dataset.project;
-        console.log(`Setting up card ${index + 1}: ${projectKey}`);
         
         card.addEventListener('click', () => {
-            console.log('Project card clicked:', projectKey);
             openModal(projectKey);
         });
         
@@ -250,23 +227,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add keyboard support
         card.setAttribute('tabindex', '0');
-        card.addEventListener('keydown', (e) => {
+    card.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                console.log('Project card keyboard activated:', projectKey);
                 openModal(projectKey);
             }
         });
     });
-
-    // Test: Add a simple click test to the first project card
-    if (projectCards.length > 0) {
-        console.log('Adding test click listener to first project card');
-        const firstCard = projectCards[0];
-        firstCard.addEventListener('click', () => {
-            console.log('TEST: First project card was clicked!');
-        });
-    }
 
     // Modal close handlers
     if (modalClose) {
@@ -279,8 +246,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 closeModal();
             }
         });
-    } else {
-        console.error('Modal element not found!');
     }
 
     document.addEventListener('keydown', (e) => {
@@ -289,51 +254,194 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    console.log('Portfolio initialized successfully');
-
-    // Add test button for modal
-    const testButton = document.createElement('button');
-    testButton.textContent = 'Test Modal';
-    testButton.style.position = 'fixed';
-    testButton.style.top = '10px';
-    testButton.style.right = '10px';
-    testButton.style.zIndex = '9999';
-    testButton.style.padding = '10px';
-    testButton.style.backgroundColor = '#00ff88';
-    testButton.style.color = '#000';
-    testButton.style.border = 'none';
-    testButton.style.borderRadius = '5px';
-    testButton.style.cursor = 'pointer';
-    
-    testButton.addEventListener('click', () => {
-        console.log('Test button clicked - opening modal');
-        openModal('ai-nexus');
-    });
-    
-    document.body.appendChild(testButton);
-
-    // Add test button to navigate to projects
-    const projectsButton = document.createElement('button');
-    projectsButton.textContent = 'Go to Projects';
-    projectsButton.style.position = 'fixed';
-    projectsButton.style.top = '60px';
-    projectsButton.style.right = '10px';
-    projectsButton.style.zIndex = '9999';
-    projectsButton.style.padding = '10px';
-    projectsButton.style.backgroundColor = '#ff6b35';
-    projectsButton.style.color = '#000';
-    projectsButton.style.border = 'none';
-    projectsButton.style.borderRadius = '5px';
-    projectsButton.style.cursor = 'pointer';
-    
-    projectsButton.addEventListener('click', () => {
-        console.log('Projects button clicked - navigating to projects');
-        // Find and click the projects tab
-        const projectsTab = document.querySelector('[data-section="projects"]');
-        if (projectsTab) {
-            projectsTab.click();
+    // Perk interactions: click to show details in the progress panel
+    const perkData = {
+        // Core Languages
+        'languages-1': {
+            title: 'Python Fundamentals',
+            category: 'Core Languages',
+            description: 'Scripting, data handling and automation for AI/ML and tooling.',
+            reward: 'Unlocks data wrangling and automation workflows'
+        },
+        'languages-2': {
+            title: 'JavaScript Fundamentals',
+            category: 'Core Languages',
+            description: 'Core JS concepts including ES modules, functions, objects, and async.',
+            reward: 'Unlocks modern web interactivity and tooling'
+        },
+        'languages-3': {
+            title: 'C# OOP',
+            category: 'Core Languages',
+            description: 'Object-oriented design, .NET ecosystem, and application architecture.',
+            reward: 'Unlocks backend services and tooling in .NET'
+        },
+        'languages-4': {
+            title: 'Java OOP',
+            category: 'Core Languages',
+            description: 'Strongly-typed OOP, JVM ecosystem, and enterprise patterns.',
+            reward: 'Unlocks scalable backend systems on the JVM'
+        },
+        'languages-5': {
+            title: 'C++ Systems Programming',
+            category: 'Core Languages',
+            description: 'Memory management, performance tuning, and engine-level development.',
+            reward: 'Unlocks engine/game modding and high-performance modules'
+        },
+        // Web & Databases
+        'web-1': {
+            title: 'HTML & CSS',
+            category: 'Web & Databases',
+            description: 'Semantic HTML, responsive design, and modern CSS layouts.',
+            reward: 'Unlocks clean, accessible UI foundations'
+        },
+        'web-2': {
+            title: 'JavaScript for Web',
+            category: 'Web & Databases',
+            description: 'DOM APIs, fetch, routing patterns, and client-side performance.',
+            reward: 'Unlocks interactive, data-driven UIs'
+        },
+        'web-3': {
+            title: 'React',
+            category: 'Web & Databases',
+            description: 'Component-driven UIs, hooks, state management, and composition.',
+            reward: 'Unlocks scalable SPA development'
+        },
+        'web-4': {
+            title: 'Progressive Web Apps (PWA)',
+            category: 'Web & Databases',
+            description: 'Service workers, offline caching, installable experiences.',
+            reward: 'Unlocks offline-first and installable apps'
+        },
+        'web-5': {
+            title: 'SQL & Databases',
+            category: 'Web & Databases',
+            description: 'Relational modeling, querying, and performance basics.',
+            reward: 'Unlocks robust data persistence and reporting'
+        },
+        // Tools & Design
+        'tools-1': {
+            title: 'Git & GitHub',
+            category: 'Tools & Design',
+            description: 'Branching, PR workflows, and collaboration best practices.',
+            reward: 'Unlocks reliable versioning and teamwork'
+        },
+        'tools-2': {
+            title: 'Linux & Dev Environment',
+            category: 'Tools & Design',
+            description: 'Shell, package managers, and developer environment setup.',
+            reward: 'Unlocks efficient development workflows'
+        },
+        'tools-3': {
+            title: 'Photoshop Basics',
+            category: 'Tools & Design',
+            description: 'Raster editing, asset optimization, and export pipelines.',
+            reward: 'Unlocks clean visual assets for apps'
+        },
+        'tools-4': {
+            title: 'Blender Basics',
+            category: 'Tools & Design',
+            description: 'Modeling, materials, and export formats for 3D assets.',
+            reward: 'Unlocks 3D assets for games and visuals'
+        },
+        'tools-5': {
+            title: 'QA & CI',
+            category: 'Tools & Design',
+            description: 'Testing fundamentals and CI pipelines for reliable releases.',
+            reward: 'Unlocks automated quality gates'
         }
+    };
+
+    const perkItems = document.querySelectorAll('.perk-item');
+    const progressPanel = document.querySelector('.progress-panel');
+    const detailsTitle = progressPanel?.querySelector('.progress-details h4');
+    const detailsDesc = progressPanel?.querySelector('.progress-details p');
+    const rewardSection = progressPanel?.querySelector('.reward-section');
+    const progressStatus = progressPanel?.querySelector('.progress-status');
+    const progressNumber = progressPanel?.querySelector('.progress-number');
+    const progressBar = progressPanel?.querySelector('.progress-svg .progress-bar');
+
+    function getProficiencyFromItem(item) {
+        const n = item.querySelector('.perk-number');
+        return n ? parseInt(n.textContent || '0', 10) || 0 : 0;
+    }
+
+    function setRewardSection(text) {
+        if (!rewardSection) return;
+        // Ensure inner structure exists
+        let label = rewardSection.querySelector('.reward-label');
+        let value = rewardSection.querySelector('.reward-text');
+        if (!label) {
+            label = document.createElement('div');
+            label.className = 'reward-label';
+            label.textContent = 'REWARD';
+            rewardSection.appendChild(label);
+        }
+        if (!value) {
+            value = document.createElement('div');
+            value.className = 'reward-text';
+            rewardSection.appendChild(value);
+        }
+        value.textContent = text;
+    }
+
+    function updateRing(proficiency) {
+        if (!progressBar) return;
+        const r = parseFloat(progressBar.getAttribute('r') || '50');
+        const circumference = 2 * Math.PI * r;
+        // Assume scale 0-3
+        const max = 3;
+        const ratio = Math.max(0, Math.min(proficiency / max, 1));
+        const offset = circumference * (1 - ratio);
+        progressBar.setAttribute('stroke-dasharray', `${circumference.toFixed(2)}`);
+        progressBar.setAttribute('stroke-dashoffset', `${offset.toFixed(2)}`);
+        if (progressNumber) {
+            progressNumber.innerHTML = `${proficiency}<span class="progress-total">/${max}</span>`;
+        }
+    }
+
+    function selectPerk(item) {
+        // Clear selection
+        perkItems.forEach(pi => pi.classList.remove('selected'));
+        item.classList.add('selected');
+    }
+
+    function showPerkInPanel(perkKey, item) {
+        const data = perkData[perkKey];
+        const proficiency = getProficiencyFromItem(item);
+        if (!data || !progressPanel) return;
+
+        if (detailsTitle) detailsTitle.textContent = data.title;
+        if (detailsDesc) detailsDesc.textContent = data.description;
+        setRewardSection(data.reward);
+        if (progressStatus) {
+            progressStatus.innerHTML = `<span class="current-progress">Proficiency: ${proficiency}</span>`;
+        }
+        updateRing(proficiency);
+    }
+
+    // Wire up events for perk items
+    perkItems.forEach((item) => {
+        item.setAttribute('tabindex', '0');
+        item.addEventListener('click', () => {
+            const key = item.getAttribute('data-perk') || '';
+            selectPerk(item);
+            showPerkInPanel(key, item);
+        });
+        item.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const key = item.getAttribute('data-perk') || '';
+                selectPerk(item);
+                showPerkInPanel(key, item);
+            }
+        });
     });
-    
-    document.body.appendChild(projectsButton);
+
+    // Initialize panel with first unlocked perk if available
+    const firstUnlocked = Array.from(perkItems).find(i => i.classList.contains('unlocked')) || perkItems[0];
+    if (firstUnlocked) {
+        const key = firstUnlocked.getAttribute('data-perk') || '';
+        selectPerk(firstUnlocked);
+        showPerkInPanel(key, firstUnlocked);
+    }
 });

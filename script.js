@@ -12,35 +12,65 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }, 2000);
 
-    // Navigation functionality
+    // Navigation functionality with deep-link support
     const navTabs = document.querySelectorAll(".nav-tab");
     const sections = document.querySelectorAll(".game-section");
+
+    function activateSectionById(sectionId) {
+        // expects full id like 'skills-section'
+        const name = sectionId?.replace(/-section$/, "") || "perks";
+        activateSection(name, false);
+    }
+
+    function activateSection(name, pushHash = true) {
+        // Remove active from all tabs and sections
+        navTabs.forEach((t) => {
+            t.classList.remove("active");
+            t.setAttribute("aria-selected", "false");
+        });
+        sections.forEach((s) => {
+            s.classList.remove("active");
+            s.setAttribute("hidden", "");
+        });
+
+        const tab = document.querySelector(`.nav-tab[data-section="${name}"]`);
+        const targetSection = document.getElementById(`${name}-section`);
+        if (tab) {
+            tab.classList.add("active");
+            tab.setAttribute("aria-selected", "true");
+        }
+        if (targetSection) {
+            targetSection.classList.add("active");
+            targetSection.removeAttribute("hidden");
+            if (pushHash) {
+                const id = targetSection.getAttribute("id");
+                if (id) {
+                    history.replaceState(null, "", `#${id}`);
+                }
+            }
+        }
+    }
 
     navTabs.forEach((tab) => {
         tab.addEventListener("click", (e) => {
             e.preventDefault();
             const sectionName = tab.dataset.section;
-
-            // Remove active from all tabs and sections
-            navTabs.forEach((t) => {
-                t.classList.remove("active");
-                t.setAttribute("aria-selected", "false");
-            });
-            sections.forEach((s) => {
-                s.classList.remove("active");
-                s.setAttribute("hidden", "");
-            });
-
-            // Add active to clicked tab and corresponding section
-            tab.classList.add("active");
-            tab.setAttribute("aria-selected", "true");
-
-            const targetSection = document.getElementById(`${sectionName}-section`);
-            if (targetSection) {
-                targetSection.classList.add("active");
-                targetSection.removeAttribute("hidden");
-            }
+            activateSection(sectionName);
         });
+    });
+
+    // On load, honor hash if present
+    const initialHash = (location.hash || "").replace(/^#/, "");
+    if (initialHash && document.getElementById(initialHash)) {
+        activateSectionById(initialHash);
+    }
+
+    // Respond to hash changes (e.g., back/forward)
+    window.addEventListener("hashchange", () => {
+        const h = (location.hash || "").replace(/^#/, "");
+        if (h && document.getElementById(h)) {
+            activateSectionById(h);
+        }
     });
 
     // Project data
@@ -236,6 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     projectCards.forEach((card, index) => {
         const projectKey = card.dataset.project;
+        const project = projects[projectKey];
 
         card.addEventListener("click", () => {
             openModal(projectKey);
@@ -246,12 +277,65 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Add keyboard support
         card.setAttribute("tabindex", "0");
+        if (project?.title) {
+            card.setAttribute("aria-label", `Open details for ${project.title}`);
+        }
         card.addEventListener("keydown", (e) => {
             if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
                 openModal(projectKey);
             }
         });
+
+        // Image fallback for broken thumbnails
+        const img = card.querySelector(".project-thumb img");
+        if (img) {
+            img.addEventListener("error", () => {
+                if (img.dataset.fallbackApplied) return;
+                img.dataset.fallbackApplied = "true";
+                img.classList.add("img-error");
+                img.src = "images/astro.png";
+            });
+        }
+
+        // Add quick action badges for Demo/GitHub when available
+        if (project && (project.demoLink || project.githubLink)) {
+            const badges = document.createElement("div");
+            badges.className = "project-badges";
+
+            if (project.demoLink) {
+                const a = document.createElement("a");
+                a.href = project.demoLink;
+                a.target = "_blank";
+                a.rel = "noopener noreferrer";
+                a.className = "badge demo";
+                a.setAttribute("aria-label", `Open live demo for ${project.title}`);
+                a.innerHTML = `<span class="badge-icon">🚀</span><span class="badge-text">Demo</span>`;
+                a.addEventListener("click", (ev) => ev.stopPropagation());
+                badges.appendChild(a);
+            }
+            if (project.githubLink) {
+                const a = document.createElement("a");
+                a.href = project.githubLink;
+                a.target = "_blank";
+                a.rel = "noopener noreferrer";
+                a.className = "badge code";
+                a.setAttribute("aria-label", `View code for ${project.title}`);
+                a.innerHTML = `<span class="badge-icon">📁</span><span class="badge-text">Code</span>`;
+                a.addEventListener("click", (ev) => ev.stopPropagation());
+                badges.appendChild(a);
+            }
+            card.appendChild(badges);
+        }
+
+        // Add centered title overlay on the image
+        const thumb = card.querySelector('.project-thumb');
+        if (thumb && project?.title) {
+            const overlay = document.createElement('div');
+            overlay.className = 'project-title-overlay';
+            overlay.textContent = project.title;
+            thumb.appendChild(overlay);
+        }
     });
 
     // Modal close handlers
@@ -577,6 +661,26 @@ document.addEventListener("DOMContentLoaded", function () {
     let nodeMeta = {}; // key -> {unlocked, group, prof, prereqs: string[]}
     let svgLayers = { center: null, related: null, prereqs: null };
 
+    // Spacing configuration: thresholds selected by total node count, then scaled by CSS vars
+    const SPACING_THRESHOLDS = [
+        // upTo, groupGap (deg), minSep (deg), marginFactor
+        { upTo: 28, groupGap: 25, minSep: 2, marginFactor: 0.5 },
+        { upTo: 40, groupGap: 18, minSep: 14, marginFactor: 0.1 },
+        { upTo: 60, groupGap: 20, minSep: 12, marginFactor: 0.1 },
+        { upTo: Infinity, groupGap: 12, minSep: 6, marginFactor: 0.08 },
+    ];
+
+    function cssScale(varName, fallback = 1) {
+        try {
+            const val = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+            if (!val) return fallback;
+            const n = parseFloat(val);
+            return Number.isFinite(n) ? n : fallback;
+        } catch {
+            return fallback;
+        }
+    }
+
     const progressPanel = document.querySelector(".progress-panel");
     const detailsTitle = progressPanel?.querySelector(".progress-details h4");
     const detailsDesc = progressPanel?.querySelector(".progress-details p");
@@ -821,17 +925,19 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             {
                 key: "web-8",
-                icon: "images/logo-graphql.png",
+                icon: null,
                 prof: 0,
                 unlocked: false,
+                emoji: "🔺",
                 alt: "GraphQL Basics",
                 prereqs: ["web-7"],
             },
             {
                 key: "web-9",
-                icon: "images/logo-nosql.png",
+                icon: null,
                 prof: 1,
                 unlocked: true,
+                emoji: "🗃️",
                 alt: "NoSQL Databases",
                 prereqs: ["web-5"],
             },
@@ -958,9 +1064,10 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             {
                 key: "tools-8",
-                icon: "images/logo-figma.png",
+                icon: null,
                 prof: 2,
                 unlocked: true,
+                emoji: "🎨",
                 alt: "Figma Basics",
             },
             {
@@ -974,9 +1081,10 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             {
                 key: "tools-10",
-                icon: "images/logo-kubernetes.png",
+                icon: null,
                 prof: 0,
                 unlocked: false,
+                emoji: "☸️",
                 alt: "Kubernetes Basics",
                 prereqs: ["tools-9"],
             },
@@ -1099,15 +1207,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const created = [];
 
-        // Determine spacing based on total node count
-        const totalNodes = groups.reduce((acc, g) => acc + (nodesDef[g.id]?.length || 0), 0);
-        const spacing = (count) => {
-            if (count <= 28) return { groupGap: 25, minSep: 2, marginFactor: 0.5 };
-            if (count <= 40) return { groupGap: 18, minSep: 14, marginFactor: 0.1 };
-            if (count <= 60) return { groupGap: 20, minSep: 12,  marginFactor: 0.1 };
-            return { groupGap: 12, minSep: 6, marginFactor: 0.08 };
-        };
-        const { groupGap, minSep, marginFactor } = spacing(totalNodes);
+    // Determine spacing based on total node count + CSS-variable scaling
+    const totalNodes = groups.reduce((acc, g) => acc + (nodesDef[g.id]?.length || 0), 0);
+    const base = SPACING_THRESHOLDS.find(t => totalNodes <= t.upTo) || SPACING_THRESHOLDS[SPACING_THRESHOLDS.length - 1];
+    const scaleGap = cssScale("--perk-group-gap-scale", 1);
+    const scaleSep = cssScale("--perk-node-sep-scale", 1);
+    const scaleMargin = cssScale("--perk-margin-scale", 1);
+    const groupGap = base.groupGap * scaleGap;
+    const minSep = base.minSep * scaleSep;
+    const marginFactor = base.marginFactor * scaleMargin;
         const available = 360 - groupGap * groups.length;
         let currentStart = -90; // start pointing up
 
@@ -1373,8 +1481,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.body.appendChild(tooltipEl);
                 }
                 tooltipEl.innerHTML = `<div class="tt-title">${data.title}</div><div class="tt-meta">${data.category}</div><div class="tt-desc">${data.description}</div>`;
-                tooltipEl.style.left = `${ev.pageX + 12}px`;
-                tooltipEl.style.top = `${ev.pageY + 12}px`;
+                // clamp to viewport
+                const pad = 12;
+                const vw = window.innerWidth;
+                const vh = window.innerHeight;
+                const tw = 260; // approx max width
+                const th = 140; // approx height
+                let left = ev.pageX + pad;
+                let top = ev.pageY + pad;
+                if (left + tw > window.scrollX + vw) left = ev.pageX - tw - pad;
+                if (top + th > window.scrollY + vh) top = ev.pageY - th - pad;
+                tooltipEl.style.left = `${left}px`;
+                tooltipEl.style.top = `${top}px`;
                 tooltipEl.style.display = "block";
             });
             el.addEventListener("mouseleave", () => {

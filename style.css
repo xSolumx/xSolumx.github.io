@@ -665,143 +665,144 @@ body {
     opacity: 0.7;
 }
 
-.perks-grid {
-    display: flex;
-    gap: var(--spacing-3xl);
+/* Radial Perk Graph */
+.perk-graph {
+    position: relative;
     flex: 1;
-    justify-content: space-around;
-    position: relative;
-    z-index: 1;
-}
-
-.perk-column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacing-lg);
-    min-width: 120px;
-}
-
-.column-title {
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--gaming-text);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: var(--spacing-md);
-    text-shadow: 
-        0 1px 2px rgba(255, 255, 255, 0.5),
-        0 2px 4px rgba(0, 0, 0, 0.2);
-    padding: var(--spacing-sm) var(--spacing-md);
-    background: linear-gradient(135deg, rgba(245, 241, 232, 0.3), rgba(232, 220, 198, 0.2));
+    min-height: 560px;
     border: 2px solid var(--gaming-border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
+    background: radial-gradient(circle at center, rgba(245,241,232,0.5), rgba(232,220,198,0.2) 60%, transparent 70%);
+    overflow: hidden;
 }
 
-.perk-tree {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-lg);
-    align-items: center;
-    position: relative;
-}
-
-.perk-tree::before {
-    content: '';
+.perk-links {
     position: absolute;
-    top: 35px;
-    bottom: 35px;
-    left: 50%;
-    width: 2px;
-    background: linear-gradient(180deg, 
-        transparent 0%, 
-        rgba(139, 69, 19, 0.4) 20%, 
-        rgba(160, 82, 45, 0.3) 80%, 
-        transparent 100%);
-    transform: translateX(-50%);
-    z-index: 0;
-    border-radius: 1px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
 }
 
-.perk-item {
-    position: relative;
-    width: 70px;
-    height: 70px;
+.perk-links line {
+    stroke: rgba(101, 67, 33, 0.7);
+    stroke-width: 3;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+}
+
+.perk-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid var(--gaming-border);
+    background: linear-gradient(135deg, var(--primary-light), var(--secondary-color));
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.5);
+    text-align: center;
+    color: var(--gaming-text);
+    cursor: default;
+    z-index: 3;
+}
+
+.perk-center .perk-icon {
+    width: 55px;
+    height: 55px;
+}
+
+.perk-center-label {
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--gaming-text);
+    padding: 3px 8px;
+    border: 2px solid var(--gaming-border);
+    border-radius: 999px;
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.perk-nodes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.perk-node {
+    position: absolute;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all var(--transition-normal);
-    border: 4px solid;
-    box-shadow: 
-        0 4px 8px rgba(0, 0, 0, 0.3),
-        inset 0 2px 4px rgba(255, 255, 255, 0.4),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal), background var(--transition-normal);
+    border: 3px solid var(--gaming-border);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25), inset 0 2px 4px rgba(255,255,255,0.4);
+    transform: translate(-50%, -50%);
+    z-index: 2;
 }
 
-.perk-item.unlocked {
-    background: linear-gradient(135deg, var(--gaming-bg-light) 0%, var(--gaming-bg) 50%, var(--gaming-bg-dark) 100%);
-    border-color: var(--gaming-border);
-    color: var(--gaming-text);
-    box-shadow: 
-        0 4px 8px rgba(0, 0, 0, 0.3),
-        inset 0 2px 4px rgba(255, 255, 255, 0.5),
-        inset 0 -2px 4px rgba(139, 69, 19, 0.3);
+.perk-node.unlocked {
+    background: linear-gradient(135deg, var(--gaming-bg-light) 0%, var(--gaming-bg) 60%, var(--gaming-bg-dark) 100%);
+    filter: none;
 }
 
-.perk-item.locked {
-    background: linear-gradient(135deg, #d3d3d3 0%, #a8a8a8 100%);
-    border-color: #808080;
-    color: #666;
-    opacity: 0.7;
-    filter: grayscale(100%) brightness(0.8);
+.perk-node.locked {
+    background: linear-gradient(135deg, #d3d3d3, #8d8d8d);
+    opacity: 0.85;
+    filter: grayscale(90%);
 }
 
-.perk-item:hover {
-    transform: scale(1.1);
-    box-shadow: 
-        0 6px 12px rgba(0, 0, 0, 0.3),
-        inset 0 2px 4px rgba(255, 255, 255, 0.4),
-        0 0 15px rgba(139, 69, 19, 0.4);
+.perk-node:hover {
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-light) 60%, var(--secondary-light) 100%);
+    transform: translate(-50%, -50%) scale(1.08);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35), 0 0 18px rgba(205,133,63,0.5);
+    z-index: 4;
 }
 
-.perk-item.unlocked:hover {
-    background: linear-gradient(135deg, #a0522d 0%, #cd853f 100%);
-    box-shadow: 
-        0 8px 16px rgba(0, 0, 0, 0.4),
-        inset 0 2px 4px rgba(255, 255, 255, 0.5),
-        0 0 20px rgba(205, 133, 63, 0.6);
+.perk-node.selected {
+    outline: 3px solid #00ff88;
+    box-shadow: 0 0 24px rgba(0,255,136,0.6), inset 0 2px 6px rgba(255,255,255,0.5);
 }
 
 .perk-icon {
     position: relative;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .perk-icon img {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     object-fit: contain;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
 }
 
 .perk-icon .icon-placeholder {
     font-size: 24px;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
 }
 
 .perk-number {
     position: absolute;
     bottom: -8px;
     right: -8px;
-    background: linear-gradient(135deg, var(--gaming-text) 0%, #2c1810 100%);
+    background: linear-gradient(135deg, var(--gaming-text), #2c1810);
     color: var(--gaming-bg-light);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bold);
@@ -812,10 +813,55 @@ body {
     align-items: center;
     justify-content: center;
     border: 2px solid var(--gaming-bg-light);
-    box-shadow: 
-        0 2px 4px rgba(0, 0, 0, 0.4),
-        inset 0 1px 2px rgba(255, 255, 255, 0.2);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.2);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.graph-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px dashed rgba(101,67,33,0.35);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.graph-ring.ring-1 { width: 200px; height: 200px; }
+.graph-ring.ring-2 { width: 300px; height: 300px; }
+.graph-ring.ring-3 { width: 400px; height: 400px; }
+.graph-ring.ring-4 { width: 500px; height: 500px; }
+.graph-ring.ring-5 { width: 600px; height: 600px; }
+
+/* Simple tooltip for perks */
+.perk-tooltip {
+        position: absolute;
+        max-width: 240px;
+        background: linear-gradient(135deg, #2c1810 0%, #1a0f08 100%);
+        color: #fff;
+        border: 2px solid var(--gaming-border);
+        border-radius: var(--radius-md);
+        padding: 8px 10px;
+        font-size: var(--font-size-sm);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.35), inset 0 1px 2px rgba(255,255,255,0.1);
+        pointer-events: none;
+        z-index: 5;
+        display: none;
+}
+
+.perk-tooltip .tt-title { color: #00ff88; font-weight: 700; margin-bottom: 2px; }
+.perk-tooltip .tt-meta { color: rgba(255,255,255,0.8); font-size: var(--font-size-xs); margin-bottom: 4px; }
+.perk-tooltip .tt-desc { color: rgba(255,255,255,0.85); }
+
+/* Responsive adjustments for graph on small screens */
+@media (max-width: 768px) {
+    .perk-graph { min-height: 420px; }
+    .graph-ring.ring-5 { display: none; }
+}
+@media (max-width: 480px) {
+    .perk-graph { min-height: 360px; }
+    .graph-ring.ring-4 { display: none; }
 }
 
 .progress-panel {
@@ -1172,7 +1218,7 @@ body {
     max-height: calc(100vh - 200px);
     overflow-y: auto;
     overflow-x: hidden;
-    padding: var(--spacing-lg);
+    padding: var(--spacing-xl);
 }
 
 .project-card {

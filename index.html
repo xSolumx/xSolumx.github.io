@@ -1,28 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S9KNZVPY3P"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-S9KNZVPY3P"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-S9KNZVPY3P');
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-S9KNZVPY3P");
     </script>
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#00ff88" />
     <meta name="color-scheme" content="dark light" />
-    <title>Hayden Austin - Software Engineer | AI/ML Specialist Portfolio</title>
-    <meta name="description" content="Software Developer specializing in AI/ML, C#, Java, Python, and modern web technologies. Expert in game development and full-stack solutions." />
-    <meta name="keywords" content="software developer, AI developer, machine learning, C#, Java, Python, web development, game development, portfolio" />
+    <title>
+      Hayden Austin - Software Engineer | AI/ML Specialist Portfolio
+    </title>
+    <meta
+      name="description"
+      content="Software Developer specializing in AI/ML, C#, Java, Python, and modern web technologies. Expert in game development and full-stack solutions." />
+    <meta
+      name="keywords"
+      content="software developer, AI developer, machine learning, C#, Java, Python, web development, game development, portfolio" />
     <meta name="author" content="Hayden Austin" />
     <meta name="robots" content="index, follow" />
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Hayden Austin - Software Developer Portfolio" />
-    <meta property="og:description" content="Passionate software developer specializing in AI/ML applications, game development, and full-stack solutions." />
+    <meta
+      property="og:title"
+      content="Hayden Austin - Software Developer Portfolio" />
+    <meta
+      property="og:description"
+      content="Passionate software developer specializing in AI/ML applications, game development, and full-stack solutions." />
     <meta property="og:image" content="images/Micr3.png" />
     <meta property="og:url" content="https://xsolumx.github.io" />
     <meta property="og:type" content="website" />
@@ -30,7 +44,9 @@
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Hayden Austin - Software Developer" />
-    <meta name="twitter:description" content="AI/ML specialist and full-stack developer with expertise in multiple programming languages." />
+    <meta
+      name="twitter:description"
+      content="AI/ML specialist and full-stack developer with expertise in multiple programming languages." />
     <meta name="twitter:image" content="images/Micr3.png" />
 
     <!-- Favicon -->
@@ -44,10 +60,10 @@
     <link rel="preload" href="style.css" as="style" />
     <link rel="preload" href="script.js" as="script" />
     <link rel="preload" href="images/Micr3.png" as="image" />
-    
+
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://www.googletagmanager.com" />
-    
+
     <!-- DNS prefetch for performance -->
     <link rel="dns-prefetch" href="//fonts.googleapis.com" />
     <link rel="dns-prefetch" href="//github.com" />
@@ -57,7 +73,7 @@
 
     <!-- Structured Data for SEO -->
     <script type="application/ld+json">
-    {
+      {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Hayden Austin",
@@ -67,561 +83,572 @@
         "image": "https://xsolumx.github.io/images/Micr3.png",
         "email": "haydaust@gmail.com",
         "telephone": "+27679758624",
-        "sameAs": [
-            "https://github.com/xSolumx"
-        ],
+        "sameAs": ["https://github.com/xSolumx"],
         "alumniOf": {
-            "@type": "EducationalOrganization",
-            "name": "Belgium Campus ITversity"
+          "@type": "EducationalOrganization",
+          "name": "Belgium Campus ITversity"
         },
         "knowsAbout": [
-            "C# Programming",
-            "Java Development",
-            "Python Programming", 
-            "Machine Learning",
-            "Artificial Intelligence",
-            "Web Development",
-            "Software Engineering"
+          "C# Programming",
+          "Java Development",
+          "Python Programming",
+          "Machine Learning",
+          "Artificial Intelligence",
+          "Web Development",
+          "Software Engineering"
         ]
-    }
+      }
     </script>
-</head>
+  </head>
 
-<body>
+  <body>
     <!-- Skip navigation for accessibility -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- Loading Screen -->
     <div id="loading-screen" role="dialog" aria-label="Loading application">
-        <div class="loading-content">
-            <div class="loading-spinner" aria-hidden="true"></div>
-            <p class="loading-text" aria-live="polite">INITIALIZING PORTFOLIO...</p>
-            <div class="loading-progress">
-                <div class="loading-bar"></div>
-            </div>
+      <div class="loading-content">
+        <div class="loading-spinner" aria-hidden="true"></div>
+        <p class="loading-text" aria-live="polite">INITIALIZING PORTFOLIO...</p>
+        <div class="loading-progress">
+          <div class="loading-bar"></div>
         </div>
+      </div>
     </div>
 
     <!-- Main Game Container -->
     <div class="game-container">
-        <!-- Game Header with Navigation -->
-        <header class="game-header" role="banner">
-            <div class="game-nav">
-                <nav class="nav-tabs" role="tablist" aria-label="Main navigation">
-                    <button 
-                        class="nav-tab" 
-                        role="tab" 
-                        aria-selected="false" 
-                        aria-controls="profile-section" 
-                        data-section="profile"
-                        id="profile-tab">
-                        <span class="nav-text">PROFILE</span>
-                    </button>
-                    <button 
-                        class="nav-tab" 
-                        role="tab" 
-                        aria-selected="false" 
-                        aria-controls="skills-section" 
-                        data-section="skills"
-                        id="skills-tab">
-                        <span class="nav-text">SKILLS</span>
-                    </button>
-                    <button 
-                        class="nav-tab active" 
-                        role="tab" 
-                        aria-selected="true" 
-                        aria-controls="perks-section" 
-                        data-section="perks"
-                        id="perks-tab">
-                        <span class="nav-text">MORE-SKILLS</span>
-                    </button>
-                    <button 
-                        class="nav-tab" 
-                        role="tab" 
-                        aria-selected="false" 
-                        aria-controls="experience-section" 
-                        data-section="experience"
-                        id="experience-tab">
-                        <span class="nav-text">EXPERIENCE</span>
-                    </button>
-                    <button 
-                        class="nav-tab" 
-                        role="tab" 
-                        aria-selected="false" 
-                        aria-controls="projects-section" 
-                        data-section="projects"
-                        id="projects-tab">
-                        <span class="nav-text">PROJECTS</span>
-                    </button>
-                    <button 
-                        class="nav-tab" 
-                        role="tab" 
-                        aria-selected="false" 
-                        aria-controls="tutorials-section" 
-                        data-section="tutorials"
-                        id="tutorials-tab">
-                        <span class="nav-text">TUTORIALS</span>
-                    </button>
-                </nav>
+      <!-- Game Header with Navigation -->
+      <header class="game-header" role="banner">
+        <div class="game-nav">
+          <nav class="nav-tabs" role="tablist" aria-label="Main navigation">
+            <button
+              class="nav-tab"
+              role="tab"
+              aria-selected="false"
+              aria-controls="profile-section"
+              data-section="profile"
+              id="profile-tab">
+              <span class="nav-text">PROFILE</span>
+            </button>
+            <button
+              class="nav-tab"
+              role="tab"
+              aria-selected="false"
+              aria-controls="skills-section"
+              data-section="skills"
+              id="skills-tab">
+              <span class="nav-text">SKILLS</span>
+            </button>
+            <button
+              class="nav-tab active"
+              role="tab"
+              aria-selected="true"
+              aria-controls="perks-section"
+              data-section="perks"
+              id="perks-tab">
+              <span class="nav-text">MORE-SKILLS</span>
+            </button>
+            <button
+              class="nav-tab"
+              role="tab"
+              aria-selected="false"
+              aria-controls="experience-section"
+              data-section="experience"
+              id="experience-tab">
+              <span class="nav-text">EXPERIENCE</span>
+            </button>
+            <button
+              class="nav-tab"
+              role="tab"
+              aria-selected="false"
+              aria-controls="projects-section"
+              data-section="projects"
+              id="projects-tab">
+              <span class="nav-text">PROJECTS</span>
+            </button>
+            <button
+              class="nav-tab"
+              role="tab"
+              aria-selected="false"
+              aria-controls="tutorials-section"
+              data-section="tutorials"
+              id="tutorials-tab">
+              <span class="nav-text">TUTORIALS</span>
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      <!-- Main Content Area -->
+      <main id="main-content" class="game-content">
+        <!-- Profile Section (MISSIONS) -->
+        <section
+          id="profile-section"
+          class="game-section"
+          role="tabpanel"
+          aria-labelledby="profile-tab"
+          hidden>
+          <div class="profile-panel">
+            <div class="player-avatar">
+              <img
+                src="images/Micr3.png"
+                alt="Hayden Austin - Profile Picture"
+                class="profile-image" />
+              <div class="status-indicator"></div>
             </div>
-        </header>
+            <div class="profile-info">
+              <h1>Hayden Austin</h1>
+              <h2>Software Engineer |</h2>
+              <p class="profile-bio">
+                Software developer with experience using programming languages
+                like C#, Java, Python, JS, and more. Passionate about Web
+                development, AI/ML applications, and creating innovative
+                solutions.
+              </p>
+              <div class="contact-info">
+                <a href="mailto:haydaust@gmail.com" class="contact-link">
+                  <span class="contact-icon">📧</span>
+                  haydaust@gmail.com
+                </a>
+                <a
+                  href="https://github.com/xSolumx"
+                  class="contact-link"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  <span class="contact-icon">🔗</span>
+                  GitHub Portfolio
+                </a>
+              </div>
+              <div class="personal-interests">
+                <h3>Personal Interests</h3>
+                <p>
+                  Passionate about AI/ML research, Web development, and
+                  innovative technology solutions. Always exploring new
+                  programming paradigms.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-        <!-- Main Content Area -->
-        <main id="main-content" class="game-content">
-            <!-- Profile Section (MISSIONS) -->
-            <section 
-                id="profile-section" 
-                class="game-section" 
-                role="tabpanel" 
-                aria-labelledby="profile-tab"
-                hidden>
-                <div class="profile-panel">
-                    <div class="player-avatar">
-                        <img src="images/Micr3.png" alt="Hayden Austin - Profile Picture" class="profile-image" />
-                        <div class="status-indicator"></div>
-                    </div>
-                    <div class="profile-info">
-                        <h1>Hayden Austin</h1>
-                        <h2>Software Engineer | </h2>
-                        <p class="profile-bio">Software developer with experience using programming languages like C#, Java, Python, JS, and more. Passionate about Web development, AI/ML applications, and creating innovative solutions.</p>
-                        <div class="contact-info">
-                            <a href="mailto:haydaust@gmail.com" class="contact-link">
-                                <span class="contact-icon">📧</span>
-                                haydaust@gmail.com
-                            </a>
-                            <a href="https://github.com/xSolumx" class="contact-link" target="_blank" rel="noopener noreferrer">
-                                <span class="contact-icon">🔗</span>
-                                GitHub Portfolio
-                            </a>
-                        </div>
-                        <div class="personal-interests">
-                            <h3>Personal Interests</h3>
-                            <p>Passionate about AI/ML research, Web development, and innovative technology solutions. Always exploring new programming paradigms.</p>
-                        </div>
-                    </div>
+        <!-- Skills Section (CONTRAPTIONS) -->
+        <section
+          id="skills-section"
+          class="game-section"
+          role="tabpanel"
+          aria-labelledby="skills-tab"
+          hidden>
+          <h2 class="section-title">Technical Skills</h2>
+          <div class="skills-grid">
+            <div class="skill-card" data-skill="csharp">
+              <img
+                src="images/logo-csharp.png"
+                alt="C# Logo"
+                class="skill-icon"
+                loading="lazy" />
+              <h3>C#</h3>
+              <p>Medium proficiency in C# development</p>
+              <div class="skill-level"></div>
+            </div>
+            <div class="skill-card" data-skill="java">
+              <img
+                src="images/logo-java.png"
+                alt="Java Logo"
+                class="skill-icon"
+                loading="lazy" />
+              <h3>Java</h3>
+              <p>Strong foundation in Java programming</p>
+              <div class="skill-level"></div>
+            </div>
+            <div class="skill-card" data-skill="python">
+              <img
+                src="images/logo-python.png"
+                alt="Python Logo"
+                class="skill-icon"
+                loading="lazy" />
+              <h3>Python</h3>
+              <p>Medium proficiency in Python for AI/ML</p>
+              <div class="skill-level"></div>
+            </div>
+            <div class="skill-card" data-skill="cpp">
+              <img
+                src="images/logo-Cplus.png"
+                alt="C++ Logo"
+                class="skill-icon"
+                loading="lazy" />
+              <h3>C++</h3>
+              <p>Low proficiency in C++ for systems programming</p>
+              <div class="skill-level"></div>
+            </div>
+            <div class="skill-card" data-skill="web">
+              <img
+                src="images/react-1-logo-png-transparent.png"
+                alt="Web Logo"
+                class="skill-icon"
+                loading="lazy" />
+              <h3>Web Development</h3>
+              <p>Experienced in Modern web technology stacks</p>
+              <div class="skill-level"></div>
+            </div>
+            <div class="skill-card" data-skill="javascript">
+              <img
+                src="images/logo-javascript.png"
+                alt="JavaScript Logo"
+                class="skill-icon"
+                loading="lazy" />
+              <h3>JavaScript</h3>
+              <p>Full-stack JavaScript development</p>
+              <div class="skill-level"></div>
+            </div>
+            <div class="skill-card" data-skill="sql">
+              <img
+                src="images/logo-sql.png"
+                alt="SQL Logo"
+                class="skill-icon"
+                loading="lazy" />
+              <h3>SQL & Databases</h3>
+              <p>Database design and management</p>
+              <div class="skill-level"></div>
+            </div>
+            <div class="skill-card" data-skill="tools">
+              <img
+                src="images/logo-github.png"
+                alt="Tools Logo"
+                class="skill-icon"
+                loading="lazy" />
+              <h3>Development Tools</h3>
+              <p>Git, Linux, and development workflows</p>
+              <div class="skill-level"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Perks Section (Main SkillTree Layout) -->
+        <section
+          id="perks-section"
+          class="game-section active"
+          role="tabpanel"
+          aria-labelledby="perks-tab">
+          <div class="perks-container">
+            <!-- Radial Node Graph -->
+            <div
+              class="perk-graph"
+              id="perk-graph"
+              aria-label="Skill tree graph">
+              <!-- SVG for connection lines -->
+              <svg
+                class="perk-links"
+                id="perk-links"
+                width="100%"
+                height="100%"
+                aria-hidden="true"></svg>
+
+              <!-- Center Node -->
+              <div
+                class="perk-center"
+                id="perk-center"
+                tabindex="0"
+                aria-label="Core Skills">
+                <div class="perk-icon">
+                  <span class="icon-placeholder" aria-hidden="true">🌐</span>
                 </div>
-            </section>
+                <div class="perk-center-label">Skill Tree</div>
+              </div>
 
-            <!-- Skills Section (CONTRAPTIONS) -->
-            <section 
-                id="skills-section" 
-                class="game-section" 
-                role="tabpanel" 
-                aria-labelledby="skills-tab"
-                hidden>
-                <h2 class="section-title">Technical Skills</h2>
-                <div class="skills-grid">
-                    <div class="skill-card" data-skill="csharp">
-                        <img src="images/logo-csharp.png" alt="C# Logo" class="skill-icon" loading="lazy" />
-                        <h3>C#</h3>
-                        <p>Medium proficiency in C# development</p>
-                        <div class="skill-level"></div>
-                    </div>
-                    <div class="skill-card" data-skill="java">
-                        <img src="images/logo-java.png" alt="Java Logo" class="skill-icon" loading="lazy" />
-                        <h3>Java</h3>
-                        <p>Strong foundation in Java programming</p>
-                        <div class="skill-level"></div>
-                    </div>
-                    <div class="skill-card" data-skill="python">
-                        <img src="images/logo-python.png" alt="Python Logo" class="skill-icon" loading="lazy" />
-                        <h3>Python</h3>
-                        <p>Medium proficiency in Python for AI/ML</p>
-                        <div class="skill-level"></div>
-                    </div>
-                    <div class="skill-card" data-skill="cpp">
-                        <img src="images/logo-Cplus.png" alt="C++ Logo" class="skill-icon" loading="lazy" />
-                        <h3>C++</h3>
-                        <p>Low proficiency in C++ for systems programming</p>
-                        <div class="skill-level"></div>
-                    </div>
-                    <div class="skill-card" data-skill="web">
-                        <img src="images/react-1-logo-png-transparent.png" alt="Web Logo" class="skill-icon" loading="lazy" />
-                        <h3>Web Development</h3>
-                        <p>Experienced in Modern web technology stacks</p>
-                        <div class="skill-level"></div>
-                    </div>
-                    <div class="skill-card" data-skill="javascript">
-                        <img src="images/logo-javascript.png" alt="JavaScript Logo" class="skill-icon" loading="lazy" />
-                        <h3>JavaScript</h3>
-                        <p>Full-stack JavaScript development</p>
-                        <div class="skill-level"></div>
-                    </div>
-                    <div class="skill-card" data-skill="sql">
-                        <img src="images/logo-sql.png" alt="SQL Logo" class="skill-icon" loading="lazy" />
-                        <h3>SQL & Databases</h3>
-                        <p>Database design and management</p>
-                        <div class="skill-level"></div>
-                    </div>
-                    <div class="skill-card" data-skill="tools">
-                        <img src="images/logo-github.png" alt="Tools Logo" class="skill-icon" loading="lazy" />
-                        <h3>Development Tools</h3>
-                        <p>Git, Linux, and development workflows</p>
-                        <div class="skill-level"></div>
-                    </div>
+              <!-- Nodes go here (built by JS) -->
+              <div class="perk-nodes" id="perk-nodes" aria-live="polite"></div>
+
+              <!-- Decorative rings -->
+              <div class="graph-ring ring-1" aria-hidden="true"></div>
+              <div class="graph-ring ring-2" aria-hidden="true"></div>
+              <div class="graph-ring ring-3" aria-hidden="true"></div>
+              <div class="graph-ring ring-4" aria-hidden="true"></div>
+              <div class="graph-ring ring-5" aria-hidden="true"></div>
+            </div>
+
+            <!-- Progress Panel -->
+            <div class="progress-panel">
+              <div class="progress-circle">
+                <svg class="progress-svg" viewBox="0 0 120 120">
+                  <circle
+                    class="progress-bg"
+                    cx="60"
+                    cy="60"
+                    r="50"
+                    fill="none"
+                    stroke="#333"
+                    stroke-width="4" />
+                  <circle
+                    class="progress-bar"
+                    cx="60"
+                    cy="60"
+                    r="50"
+                    fill="none"
+                    stroke="#00ff88"
+                    stroke-width="4"
+                    stroke-dasharray="314.16"
+                    stroke-dashoffset="85.9"
+                    transform="rotate(-90 60 60)" />
+                </svg>
+                <div class="progress-content">
+                  <div class="progress-number">
+                    55<span class="progress-total">/75</span>
+                  </div>
+                  <div class="progress-label">Mastery: 2</div>
                 </div>
-            </section>
+              </div>
 
-            <!-- Perks Section (Main SkillTree Layout) -->
-            <section 
-                id="perks-section" 
-                class="game-section active" 
-                role="tabpanel" 
-                aria-labelledby="perks-tab">
-                <div class="perks-container">
-                    <div class="perks-grid">
-                        <!-- Core Languages Column -->
-                        <div class="perk-column">
-                            <h3 class="column-title">Core Languages</h3>
-                            <div class="perk-tree">
-                                <!-- Before: Python & JavaScript fundamentals -->
-                                <div class="perk-item unlocked" data-perk="languages-1">
-                                    <div class="perk-icon">
-                                        <img src="images/logo-python.png" alt="Python Fundamentals" />
-                                    </div>
-                                    <span class="perk-number">1</span>
-                                </div>
-                                <div class="perk-item unlocked" data-perk="languages-2">
-                                    <div class="perk-icon">
-                                        <img src="images/logo-javascript.png" alt="JavaScript Fundamentals" />
-                                    </div>
-                                    <span class="perk-number">1</span>
-                                </div>
-                                <!-- After: Strongly-typed OOP languages -->
-                                <div class="perk-item unlocked" data-perk="languages-3">
-                                    <div class="perk-icon">
-                                        <img src="images/logo-csharp.png" alt="C# OOP" />
-                                    </div>
-                                    <span class="perk-number">2</span>
-                                </div>
-                                <div class="perk-item unlocked" data-perk="languages-4">
-                                    <div class="perk-icon">
-                                        <img src="images/logo-java.png" alt="Java OOP" />
-                                    </div>
-                                    <span class="perk-number">2</span>
-                                </div>
-                                <!-- Advanced: Systems programming -->
-                                <div class="perk-item locked" data-perk="languages-5">
-                                    <div class="perk-icon">
-                                        <img src="images/logo-Cplus.png" alt="C++ Systems Programming" />
-                                    </div>
-                                    <span class="perk-number">2</span>
-                                </div>
-                            </div>
-                        </div>
+              <div class="progress-details">
+                <h4>Grenade kills</h4>
+                <p>Killing enemies by using the Handgrenade.</p>
 
-                        <!-- Web & Databases Column -->
-                        <div class="perk-column">
-                            <h3 class="column-title">Web & Databases</h3>
-                            <div class="perk-tree">
-                                <!-- Before: Markup & styling fundamentals -->
-                                <div class="perk-item unlocked" data-perk="web-1">
-                                    <div class="perk-icon">
-                                        <img src="images/logo-htmlcss.png" alt="HTML & CSS" />
-                                    </div>
-                                    <span class="perk-number">1</span>
-                                </div>
-                                <!-- After: DOM & modern JS for the web -->
-                                <div class="perk-item unlocked" data-perk="web-2">
-                                    <div class="perk-icon">
-                                        <img src="images/logo-javascript.png" alt="JavaScript for Web" />
-                                    </div>
-                                    <span class="perk-number">1</span>
-                                </div>
-                                <!-- After: React library basics -->
-                                <div class="perk-item unlocked" data-perk="web-3">
-                                    <div class="perk-icon">
-                                        <img src="images/react-1-logo-png-transparent.png" alt="React" />
-                                    </div>
-                                    <span class="perk-number">2</span>
-                                </div>
-                                <!-- After: Progressive Web Apps (placeholder icon) -->
-                                <div class="perk-item unlocked" data-perk="web-4">
-                                    <div class="perk-icon">
-                                        <span class="icon-placeholder" aria-hidden="true">🚀</span>
-                                    </div>
-                                    <span class="perk-number">1</span>
-                                </div>
-                                <!-- Databases: SQL foundations -->
-                                <div class="perk-item unlocked" data-perk="web-5">
-                                    <div class="perk-icon">
-                                        <img src="images/logo-sql.png" alt="SQL & Databases" />
-                                    </div>
-                                    <span class="perk-number">2</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Tools & Design Column -->
-                        <div class="perk-column">
-                            <h3 class="column-title">Tools & Design</h3>
-                            <div class="perk-tree">
-                                <!-- Core tooling: Git/GitHub -->
-                                <div class="perk-item unlocked" data-perk="tools-1">
-                                    <div class="perk-icon">
-                                        <img src="images/logo-github.png" alt="Git & GitHub" />
-                                    </div>
-                                    <span class="perk-number">1</span>
-                                </div>
-                                <!-- Dev environment & OS basics (placeholder icon) -->
-                                <div class="perk-item unlocked" data-perk="tools-2">
-                                    <div class="perk-icon">
-                                        <span class="icon-placeholder" aria-hidden="true">🐧</span>
-                                    </div>
-                                    <span class="perk-number">1</span>
-                                </div>
-                                <!-- Design tools -->
-                                <div class="perk-item locked" data-perk="tools-3">
-                                    <div class="perk-icon">
-                                        <img src="images/logo-photoshop.png" alt="Photoshop" />
-                                    </div>
-                                    <span class="perk-number">0</span>
-                                </div>
-                                <div class="perk-item locked" data-perk="tools-4">
-                                    <div class="perk-icon">
-                                        <img src="images/logo-blender.png" alt="Blender" />
-                                    </div>
-                                    <span class="perk-number">0</span>
-                                </div>
-                                <!-- Quality & delivery (placeholder icon) -->
-                                <div class="perk-item locked" data-perk="tools-5">
-                                    <div class="perk-icon">
-                                        <span class="icon-placeholder" aria-hidden="true">✅</span>
-                                    </div>
-                                    <span class="perk-number">0</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Progress Panel -->
-                    <div class="progress-panel">
-                        <div class="progress-circle">
-                            <svg class="progress-svg" viewBox="0 0 120 120">
-                                <circle 
-                                    class="progress-bg" 
-                                    cx="60" 
-                                    cy="60" 
-                                    r="50" 
-                                    fill="none" 
-                                    stroke="#333" 
-                                    stroke-width="4"/>
-                                <circle 
-                                    class="progress-bar" 
-                                    cx="60" 
-                                    cy="60" 
-                                    r="50" 
-                                    fill="none" 
-                                    stroke="#00ff88" 
-                                    stroke-width="4"
-                                    stroke-dasharray="314.16"
-                                    stroke-dashoffset="85.9"
-                                    transform="rotate(-90 60 60)"/>
-                            </svg>
-                            <div class="progress-content">
-                                <div class="progress-number">55<span class="progress-total">/75</span></div>
-                                <div class="progress-label">Mastery: 2</div>
-                            </div>
-                        </div>
-                        
-                        <div class="progress-details">
-                            <h4>Grenade kills</h4>
-                            <p>Killing enemies by using the Handgrenade.</p>
-                            
-                            <div class="reward-section">
-                                <div class="reward-label">REWARD</div>
-                                <div class="reward-text">Increased grenade capacity</div>
-                            </div>
-                            
-                            <div class="progress-status">
-                                <span class="current-progress">Current: 2</span>
-                                <span class="next-progress">Next: 3</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="reward-section">
+                  <div class="reward-label">REWARD</div>
+                  <div class="reward-text">Increased grenade capacity</div>
                 </div>
-            </section>
 
-            <!-- Experience Section (Timeline) -->
-            <section 
-                id="experience-section" 
-                class="game-section" 
-                role="tabpanel" 
-                aria-labelledby="experience-tab"
-                hidden>
-                <h2 class="section-title">Experience Journey</h2>
-                <div class="experience-timeline">
-                    <div class="exp-item">
-                        <div class="exp-year">2019-2025</div>
-                        <div class="exp-content">
-                            <h3>Software Engineering Studies</h3>
-                            <h4>Belgium Campus ITversity</h4>
-                            <p>Bachelor's degree in Software Engineering.  Focus on AI/ML, web development, and software architecture. Developing comprehensive skills in multiple programming languages and modern development practices.</p>
-                            <ul class="exp-highlights">
-                                <li>programming in C#, Java, Python, JS</li>
-                                <li>Machine Learning and Algorithmic applications</li>
-                                <li>Web development and full-stack solutions</li>
-                                <li>Software engineering best practices</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="exp-item">
-                        <div class="exp-year">2018-2022</div>
-                        <div class="exp-content">
-                            <h3>Gaming Server Development</h3>
-                            <h4>Minecraft Community Projects</h4>
-                            <p>Founded and managed successful gaming servers, leading teams and developing custom solutions for online gaming communities.</p>
-                            <ul class="exp-highlights">
-                                <li>Java plugin development</li>
-                                <li>Linux server administration</li>
-                                <li>Custom server modding</li>
-                                <li>Server management and optimization</li>
-                                <li>Team leadership and project management</li>
-                                <li>Community building and engagement</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="progress-status">
+                  <span class="current-progress">Current: 2</span>
+                  <span class="next-progress">Next: 3</span>
                 </div>
-            </section>
+              </div>
+            </div>
+          </div>
+        </section>
 
-            <!-- Projects Section (EXTRAS) -->
-            <section 
-                id="projects-section" 
-                class="game-section" 
-                role="tabpanel" 
-                aria-labelledby="projects-tab"
-                hidden>
-                <h2 class="section-title">Featured Projects</h2>
-                <div class="projects-grid">
-                    <div class="project-card" data-project="ai-nexus">
-                        <div class="project-thumb">
-                            <img src="images/imgNexus.png" alt="AI Nexus Project" loading="lazy" />
-                        </div>
-                        <div class="project-info">
-                            <h3>Mind_Core</h3>
-                            <p>Personal ML custom LLM build</p>
-                            <span class="project-tech">Python • Ollama • Flax • Jax</span>
-                        </div>
-                    </div>
-                    <div class="project-card" data-project="brain-simulation">
-                        <div class="project-thumb">
-                            <img src="images/imgBrain.png" alt="Neural Network Simulator" loading="lazy" />
-                        </div>
-                        <div class="project-info">
-                            <h3>Agricultural Website</h3>
-                            <p>Website for showcasing agricultural products and services</p>
-                            <span class="project-tech">React • Firebase</span>
-                        </div>
-                    </div>
-                    <div class="project-card" data-project="tech-hub">
-                        <div class="project-thumb">
-                            <img src="images/imgTech.png" alt="Tech Hub Platform" loading="lazy" />
-                        </div>
-                        <div class="project-info">
-                            <h3>Jewelry Shop</h3>
-                            <p>Online store for the advertisement of jewelry products</p>
-                            <span class="project-tech">Next.js • React • Firebase</span>
-                        </div>
-                    </div>
-                    <div class="project-card" data-project="architect-portfolio">
-                        <div class="project-thumb">
-                            <img src="images/imgBrain.png" alt="Neural Network Simulator" loading="lazy" />
-                        </div>
-                        <div class="project-info">
-                            <h3>Portfolio for an Architect</h3>
-                            <p>Website for showcasing architectural designs and projects</p>
-                            <span class="project-tech">Next.js • React • Firebase</span>
-                        </div>
-                    </div>
-                    <div class="project-card" data-project="game-engine">
-                        <div class="project-thumb">
-                            <img src="images/imgComp.png" alt="Custom Game Engine" loading="lazy" />
-                        </div>
-                        <div class="project-info">
-                            <h3>Custom Game Engine Injection</h3>
-                            <p>Lightweight Injection into game engine in C++, for the creation of mods and adding assets</p>
-                            <span class="project-tech">C++ • Lua</span>
-                        </div>
-                    </div>
-                    <div class="project-card" data-project="automation-suite">
-                        <div class="project-thumb">
-                            <img src="images/imgbr.png" alt="Automation Suite" loading="lazy" />
-                        </div>
-                        <div class="project-info">
-                            <h3>Automation Suite</h3>
-                            <p>Python tools for productivity automation</p>
-                            <span class="project-tech">Python • Selenium • Puppeteer</span>
-                        </div>
-                    </div>
-                    <div class="project-card" data-project="portfolio-site">
-                        <div class="project-thumb">
-                            <img src="images/astro.png" alt="Gaming Portfolio Site" loading="lazy" />
-                        </div>
-                        <div class="project-info">
-                            <h3>Gaming Portfolio Site</h3>
-                            <p>This modern gaming-themed portfolio showcases my projects and skills.</p>
-                            <span class="project-tech">HTML5 • CSS3</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
+        <!-- Experience Section (Timeline) -->
+        <section
+          id="experience-section"
+          class="game-section"
+          role="tabpanel"
+          aria-labelledby="experience-tab"
+          hidden>
+          <h2 class="section-title">Experience Journey</h2>
+          <div class="experience-timeline">
+            <div class="exp-item">
+              <div class="exp-year">2019-2025</div>
+              <div class="exp-content">
+                <h3>Software Engineering Studies</h3>
+                <h4>Belgium Campus ITversity</h4>
+                <p>
+                  Bachelor's degree in Software Engineering. Focus on AI/ML, web
+                  development, and software architecture. Developing
+                  comprehensive skills in multiple programming languages and
+                  modern development practices.
+                </p>
+                <ul class="exp-highlights">
+                  <li>programming in C#, Java, Python, JS</li>
+                  <li>Machine Learning and Algorithmic applications</li>
+                  <li>Web development and full-stack solutions</li>
+                  <li>Software engineering best practices</li>
+                </ul>
+              </div>
+            </div>
+            <div class="exp-item">
+              <div class="exp-year">2018-2022</div>
+              <div class="exp-content">
+                <h3>Gaming Server Development</h3>
+                <h4>Minecraft Community Projects</h4>
+                <p>
+                  Founded and managed successful gaming servers, leading teams
+                  and developing custom solutions for online gaming communities.
+                </p>
+                <ul class="exp-highlights">
+                  <li>Java plugin development</li>
+                  <li>Linux server administration</li>
+                  <li>Custom server modding</li>
+                  <li>Server management and optimization</li>
+                  <li>Team leadership and project management</li>
+                  <li>Community building and engagement</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
 
-            <!-- Tutorials Section -->
-            <section 
-                id="tutorials-section" 
-                class="game-section" 
-                role="tabpanel" 
-                aria-labelledby="tutorials-tab"
-                hidden>
-                <h2 class="section-title">Tutorials & Learning</h2>
-                <div class="tutorials-content">
-                    <p>Coming soon: Interactive tutorials and guides!</p>
-                </div>
-            </section>
-        </main>
+        <!-- Projects Section (EXTRAS) -->
+        <section
+          id="projects-section"
+          class="game-section"
+          role="tabpanel"
+          aria-labelledby="projects-tab"
+          hidden>
+          <h2 class="section-title">Featured Projects</h2>
+          <div class="projects-grid">
+            <div class="project-card" data-project="ai-nexus">
+              <div class="project-thumb">
+                <img
+                  src="images/imgNexus.png"
+                  alt="AI Nexus Project"
+                  loading="lazy" />
+              </div>
+              <div class="project-info">
+                <h3>Mind_Core</h3>
+                <p>Personal ML custom LLM build</p>
+                <span class="project-tech">Python • Ollama • Flax • Jax</span>
+              </div>
+            </div>
+            <div class="project-card" data-project="brain-simulation">
+              <div class="project-thumb">
+                <img
+                  src="images/imgBrain.png"
+                  alt="Neural Network Simulator"
+                  loading="lazy" />
+              </div>
+              <div class="project-info">
+                <h3>Agricultural Website</h3>
+                <p>Website for showcasing agricultural products and services</p>
+                <span class="project-tech">React • Firebase</span>
+              </div>
+            </div>
+            <div class="project-card" data-project="tech-hub">
+              <div class="project-thumb">
+                <img
+                  src="images/imgTech.png"
+                  alt="Tech Hub Platform"
+                  loading="lazy" />
+              </div>
+              <div class="project-info">
+                <h3>Jewelry Shop</h3>
+                <p>Online store for the advertisement of jewelry products</p>
+                <span class="project-tech">Next.js • React • Firebase</span>
+              </div>
+            </div>
+            <div class="project-card" data-project="architect-portfolio">
+              <div class="project-thumb">
+                <img
+                  src="images/imgBrain.png"
+                  alt="Neural Network Simulator"
+                  loading="lazy" />
+              </div>
+              <div class="project-info">
+                <h3>Portfolio for an Architect</h3>
+                <p>Website for showcasing architectural designs and projects</p>
+                <span class="project-tech">Next.js • React • Firebase</span>
+              </div>
+            </div>
+            <div class="project-card" data-project="game-engine">
+              <div class="project-thumb">
+                <img
+                  src="images/imgComp.png"
+                  alt="Custom Game Engine"
+                  loading="lazy" />
+              </div>
+              <div class="project-info">
+                <h3>Custom Game Engine Injection</h3>
+                <p>
+                  Lightweight Injection into game engine in C++, for the
+                  creation of mods and adding assets
+                </p>
+                <span class="project-tech">C++ • Lua</span>
+              </div>
+            </div>
+            <div class="project-card" data-project="automation-suite">
+              <div class="project-thumb">
+                <img
+                  src="images/imgbr.png"
+                  alt="Automation Suite"
+                  loading="lazy" />
+              </div>
+              <div class="project-info">
+                <h3>Automation Suite</h3>
+                <p>Python tools for productivity automation</p>
+                <span class="project-tech">Python • Selenium • Puppeteer</span>
+              </div>
+            </div>
+            <div class="project-card" data-project="portfolio-site">
+              <div class="project-thumb">
+                <img
+                  src="images/astro.png"
+                  alt="Gaming Portfolio Site"
+                  loading="lazy" />
+              </div>
+              <div class="project-info">
+                <h3>Gaming Portfolio Site</h3>
+                <p>
+                  This modern gaming-themed portfolio showcases my projects and
+                  skills.
+                </p>
+                <span class="project-tech">HTML5 • CSS3</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tutorials Section -->
+        <section
+          id="tutorials-section"
+          class="game-section"
+          role="tabpanel"
+          aria-labelledby="tutorials-tab"
+          hidden>
+          <h2 class="section-title">Tutorials & Learning</h2>
+          <div class="tutorials-content">
+            <p>Coming soon: Interactive tutorials and guides!</p>
+          </div>
+        </section>
+      </main>
     </div>
 
     <!-- Project Modal -->
-    <div id="project-modal" class="modal-overlay" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
-        <div class="modal-container">
-            <div class="modal-header">
-                <h2 id="modal-title" class="modal-title"></h2>
-                <button class="modal-close" aria-label="Close modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-content">
-                <div class="modal-image">
-                    <img id="modal-project-image" src="" alt="" />
-                </div>
-                <div class="modal-details">
-                    <div class="modal-description">
-                        <p id="modal-project-description"></p>
-                    </div>
-                    <div class="modal-tech-stack">
-                        <h3>Technologies Used</h3>
-                        <div id="modal-tech-tags" class="tech-tags"></div>
-                    </div>
-                    <div class="modal-features">
-                        <h3>Key Features</h3>
-                        <ul id="modal-features-list"></ul>
-                    </div>
-                    <div class="modal-links">
-                        <a id="modal-demo-link" href="#" class="modal-button demo-button" target="_blank" rel="noopener noreferrer" style="display: none;">
-                            <span class="button-icon">🚀</span>
-                            Live Demo
-                        </a>
-                        <a id="modal-github-link" href="#" class="modal-button github-button" target="_blank" rel="noopener noreferrer" style="display: none;">
-                            <span class="button-icon">📁</span>
-                            View Code
-                        </a>
-                    </div>
-                </div>
-            </div>
+    <div
+      id="project-modal"
+      class="modal-overlay"
+      role="dialog"
+      aria-labelledby="modal-title"
+      aria-hidden="true">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h2 id="modal-title" class="modal-title"></h2>
+          <button class="modal-close" aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
+        <div class="modal-content">
+          <div class="modal-image">
+            <img id="modal-project-image" src="" alt="" />
+          </div>
+          <div class="modal-details">
+            <div class="modal-description">
+              <p id="modal-project-description"></p>
+            </div>
+            <div class="modal-tech-stack">
+              <h3>Technologies Used</h3>
+              <div id="modal-tech-tags" class="tech-tags"></div>
+            </div>
+            <div class="modal-features">
+              <h3>Key Features</h3>
+              <ul id="modal-features-list"></ul>
+            </div>
+            <div class="modal-links">
+              <a
+                id="modal-demo-link"
+                href="#"
+                class="modal-button demo-button"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="display: none">
+                <span class="button-icon">🚀</span>
+                Live Demo
+              </a>
+              <a
+                id="modal-github-link"
+                href="#"
+                class="modal-button github-button"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="display: none">
+                <span class="button-icon">📁</span>
+                View Code
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- JavaScript -->
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

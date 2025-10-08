@@ -57,8 +57,10 @@
     <link rel="manifest" href="manifest.json" />
 
     <!-- Preload critical resources -->
-    <link rel="preload" href="style.css" as="style" />
-    <link rel="preload" href="script.js" as="script" />
+  <link rel="preload" href="style.css" as="style" />
+  <link rel="preload" href="perk-data.js" as="script" />
+  <link rel="preload" href="perk-nodes.js" as="script" />
+  <link rel="preload" href="script.js" as="script" />
     <link rel="preload" href="images/Micr3.png" as="image" />
 
     <!-- Preconnect to external domains -->
@@ -324,7 +326,7 @@
           </div>
         </section>
 
-        <!-- Perks Section (Main SkillTree Layout) -->
+        <!-- My skills (Main SkillTree Layout) -->
         <section
           id="perks-section"
           class="game-section active"
@@ -356,7 +358,6 @@
                 <div class="perk-center-label">Skill Tree</div>
               </div>
 
-              <!-- Nodes go here (built by JS) -->
               <div class="perk-nodes" id="perk-nodes" aria-live="polite"></div>
 
               <!-- Decorative rings -->
@@ -573,19 +574,6 @@
             </div>
           </div>
         </section>
-
-        <!-- Tutorials Section -->
-        <section
-          id="tutorials-section"
-          class="game-section"
-          role="tabpanel"
-          aria-labelledby="tutorials-tab"
-          hidden>
-          <h2 class="section-title">Tutorials & Learning</h2>
-          <div class="tutorials-content">
-            <p>Coming soon: Interactive tutorials and guides!</p>
-          </div>
-        </section>
       </main>
     </div>
 
@@ -647,6 +635,8 @@
     </div>
 
     <!-- JavaScript -->
+    <script src="perk-data.js"></script>
+    <script src="perk-nodes.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

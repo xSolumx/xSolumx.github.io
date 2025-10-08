@@ -115,9 +115,9 @@
     --z-toast: 1080;
 
     /* Perk graph spacing scales (1 = default) */
-    --perk-group-gap-scale: 0.5;
-    --perk-node-sep-scale: 1.5;
-    --perk-margin-scale: 1.5;
+    --perk-group-gap-scale: 1.05;
+    --perk-node-sep-scale: 2.5;
+    --perk-margin-scale: 2.35;
 }
 
 /* Global Reset and Base Styles */
@@ -274,10 +274,10 @@ body {
 /* Main Game Container */
 .game-container {
     min-height: 100vh;
-    height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: visible;
     position: relative;
 }
 
@@ -391,7 +391,7 @@ body {
     position: relative;
     overflow-y: auto;
     overflow-x: hidden;
-    height: calc(100vh - 100px);
+    min-height: 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -411,6 +411,7 @@ body {
     overflow-x: hidden;
     box-sizing: border-box;
     flex: 1;
+    min-height: 0;
     position: relative;
     z-index: 1;
     animation: fadeIn var(--transition-slow) ease-out;
@@ -639,20 +640,52 @@ body {
 }
 
 /* Perks Section - Gaming Skill Tree Style */
+.perks-intro {
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    border: 2px solid rgba(101, 67, 33, 0.35);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, rgba(245, 241, 232, 0.8), rgba(232, 220, 198, 0.6));
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.45), 0 6px 12px rgba(0, 0, 0, 0.2);
+    color: var(--gaming-text);
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.perks-intro__title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-extrabold);
+    letter-spacing: 1px;
+    color: var(--gaming-border-dark);
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+}
+
+.perks-intro__copy {
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-relaxed);
+    color: var(--gaming-text-muted);
+}
+
 .perks-container {
     display: flex;
     gap: var(--spacing-xl);
     height: 100%;
+    flex: 1;
     background: linear-gradient(135deg, var(--gaming-bg) 0%, var(--gaming-bg-dark) 100%);
     border: 3px solid var(--gaming-border);
     border-radius: var(--radius-lg);
     padding: var(--spacing-xl);
-    overflow: hidden;
+    overflow: visible;
     position: relative;
     box-shadow: 
         inset 0 2px 4px rgba(245, 241, 232, 0.4),
         inset 0 -2px 4px rgba(139, 69, 19, 0.3),
         0 4px 8px rgba(0, 0, 0, 0.2);
+    min-height: clamp(680px, 70vh, 880px);
+    align-items: stretch;
 }
 
 .perks-container::before {
@@ -674,11 +707,15 @@ body {
 .perk-graph {
     position: relative;
     flex: 1;
-    min-height: 560px;
+    min-height: 700px;
+    max-height: 880px;
     border: 2px solid var(--gaming-border);
     border-radius: var(--radius-lg);
     background: radial-gradient(circle at center, rgba(245,241,232,0.5), rgba(232,220,198,0.2) 60%, transparent 70%);
-    overflow: hidden;
+    padding: var(--spacing-lg);
+    overflow: visible;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
 }
 
 .perk-links {
@@ -745,8 +782,8 @@ body {
 
 .perk-node {
     position: absolute;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -760,7 +797,7 @@ body {
 }
 
 .perk-node.unlocked {
-    background: linear-gradient(135deg, var(--gaming-bg-light) 0%, var(--gaming-bg) 60%, var(--gaming-bg-dark) 100%);
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(245,241,232,0.85) 65%, rgba(224,200,160,0.9) 100%);
     filter: none;
 }
 
@@ -777,42 +814,44 @@ body {
     z-index: 4;
 }
 
+.perk-node:focus-visible,
 .perk-node.selected {
     outline: 3px solid #00ff88;
-    box-shadow: 0 0 24px rgba(0,255,136,0.6), inset 0 2px 6px rgba(255,255,255,0.5);
+    outline-offset: 4px;
+    box-shadow: 0 0 26px rgba(0,255,136,0.65), inset 0 2px 6px rgba(255,255,255,0.55);
 }
 
 .perk-icon {
     position: relative;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .perk-icon img {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     object-fit: contain;
     filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
 }
 
 .perk-icon .icon-placeholder {
-    font-size: 24px;
+    font-size: 28px;
     filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
 }
 
 .perk-number {
     position: absolute;
-    bottom: -8px;
-    right: -8px;
+    bottom: -10px;
+    right: -10px;
     background: linear-gradient(135deg, var(--gaming-text), #2c1810);
     color: var(--gaming-bg-light);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bold);
-    min-width: 20px;
-    height: 20px;
+    min-width: 24px;
+    height: 24px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -866,7 +905,45 @@ body {
         --perk-node-sep-scale: 0.9;
         --perk-margin-scale: 0.9;
     }
-    .perk-graph { min-height: 420px; }
+    .perks-container {
+        min-height: 540px;
+        padding: var(--spacing-lg);
+    }
+    .perks-intro {
+        padding: var(--spacing-md) var(--spacing-lg);
+        text-align: left;
+    }
+    .perks-intro__title {
+        font-size: var(--font-size-xxl);
+    }
+    .perks-intro__copy {
+        font-size: var(--font-size-sm);
+    }
+    .perk-node {
+        width: 50px;
+        height: 50px;
+    }
+    .perk-icon {
+        width: 34px;
+        height: 34px;
+    }
+    .perk-icon img {
+        width: 28px;
+        height: 28px;
+    }
+    .perk-icon .icon-placeholder {
+        font-size: 24px;
+    }
+    .perk-number {
+        bottom: -8px;
+        right: -8px;
+        min-width: 20px;
+        height: 20px;
+    }
+    .perk-graph {
+        min-height: 520px;
+        aspect-ratio: auto;
+    }
     .graph-ring.ring-5 { display: none; }
 }
 @media (max-width: 480px) {
@@ -875,7 +952,41 @@ body {
         --perk-node-sep-scale: 0.85;
         --perk-margin-scale: 0.85;
     }
-    .perk-graph { min-height: 360px; }
+    .perks-container {
+        min-height: 460px;
+        padding: var(--spacing-md);
+    }
+    .perks-intro {
+        padding: var(--spacing-md);
+    }
+    .perks-intro__title {
+        font-size: var(--font-size-xl);
+    }
+    .perks-intro__copy {
+        font-size: var(--font-size-xs);
+    }
+    .perk-node {
+        width: 46px;
+        height: 46px;
+    }
+    .perk-icon {
+        width: 30px;
+        height: 30px;
+    }
+    .perk-icon img {
+        width: 24px;
+        height: 24px;
+    }
+    .perk-icon .icon-placeholder {
+        font-size: 22px;
+    }
+    .perk-number {
+        bottom: -6px;
+        right: -6px;
+    }
+    .perk-graph {
+        min-height: 420px;
+    }
     .graph-ring.ring-4 { display: none; }
 }
 
@@ -1104,8 +1215,7 @@ body {
 .experience-timeline {
     position: relative;
     padding-left: var(--spacing-lg);
-    max-height: calc(100vh - 180px);
-    overflow-y: auto;
+    overflow-y: visible;
 }
 
 .experience-timeline::before {
@@ -1229,9 +1339,7 @@ body {
     gap: var(--spacing-lg);
     position: relative;
     z-index: 1;
-    height: 100%;
-    max-height: calc(100vh - 190px);
-    overflow-y: auto;
+    overflow: visible;
     overflow-x: hidden;
     padding: var(--spacing-lg);
 }
@@ -1637,7 +1745,7 @@ body {
 @media (max-width: 768px) {
     .game-content {
         padding: var(--spacing-sm) var(--spacing-xs);
-        height: calc(100vh - 60px);
+        min-height: 0;
     }
     
     .nav-tabs {

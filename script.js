@@ -3,14 +3,31 @@
  */
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Hide loading screen after 2 seconds
-    setTimeout(() => {
+    const hideLoadingScreen = () => {
         const loadingScreen = document.getElementById("loading-screen");
-        if (loadingScreen) {
-            loadingScreen.classList.add("hide");
-            setTimeout(() => loadingScreen.remove(), 500);
+        if (!loadingScreen || loadingScreen.dataset.dismissed === "true") {
+            return;
         }
-    }, 2000);
+        loadingScreen.dataset.dismissed = "true";
+        loadingScreen.classList.add("hide");
+        window.setTimeout(() => loadingScreen.remove(), 500);
+    };
+
+    const prefersReducedMotion = typeof window.matchMedia === "function"
+        ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        : false;
+
+    if (prefersReducedMotion) {
+        hideLoadingScreen();
+    } else if (document.readyState === "complete") {
+        window.setTimeout(hideLoadingScreen, 600);
+    } else {
+        window.addEventListener("load", () => {
+            window.setTimeout(hideLoadingScreen, 800);
+        });
+        // Safety timeout in case the load event is delayed
+        window.setTimeout(hideLoadingScreen, 3500);
+    }
 
     // Navigation functionality with deep-link support
     const navTabs = document.querySelectorAll(".nav-tab");
@@ -48,14 +65,46 @@ document.addEventListener("DOMContentLoaded", function () {
                     history.replaceState(null, "", `#${id}`);
                 }
             }
+            if (name === "perks" && typeof redraw === "function") {
+                requestAnimationFrame(() => redraw());
+            }
         }
     }
 
-    navTabs.forEach((tab) => {
+    navTabs.forEach((tab, index) => {
         tab.addEventListener("click", (e) => {
             e.preventDefault();
             const sectionName = tab.dataset.section;
             activateSection(sectionName);
+        });
+
+        tab.addEventListener("keydown", (event) => {
+            let targetIndex = null;
+            switch (event.key) {
+                case "ArrowRight":
+                case "ArrowDown":
+                    targetIndex = (index + 1) % navTabs.length;
+                    break;
+                case "ArrowLeft":
+                case "ArrowUp":
+                    targetIndex = (index - 1 + navTabs.length) % navTabs.length;
+                    break;
+                case "Home":
+                    targetIndex = 0;
+                    break;
+                case "End":
+                    targetIndex = navTabs.length - 1;
+                    break;
+                default:
+                    break;
+            }
+
+            if (targetIndex !== null) {
+                event.preventDefault();
+                const nextTab = navTabs[targetIndex];
+                nextTab.focus();
+                activateSection(nextTab.dataset.section);
+            }
         });
     });
 
@@ -359,293 +408,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Perk interactions: data and radial graph
     // Perk interactions: data and radial graph
-    const perkData = {
-        // Core Languages
-        "languages-1": {
-            title: "Python Fundamentals",
-            category: "Core Languages",
-            description:
-                "Scripting, data handling and automation for AI/ML and tooling.",
-            reward: "Unlocks data wrangling and automation workflows",
-        },
-        "languages-2": {
-            title: "JavaScript Fundamentals",
-            category: "Core Languages",
-            description:
-                "Core JS concepts including ES modules, functions, objects, and async.",
-            reward: "Unlocks modern web interactivity and tooling",
-        },
-        "languages-3": {
-            title: "C# OOP",
-            category: "Core Languages",
-            description:
-                "Object-oriented design, .NET ecosystem, and application architecture.",
-            reward: "Unlocks backend services and tooling in .NET",
-        },
-        "languages-4": {
-            title: "Java OOP",
-            category: "Core Languages",
-            description:
-                "Strongly-typed OOP, JVM ecosystem, and enterprise patterns.",
-            reward: "Unlocks scalable backend systems on the JVM",
-        },
-        "languages-5": {
-            title: "C++ Systems Programming",
-            category: "Core Languages",
-            description:
-                "Memory management, performance tuning, and engine-level development.",
-            reward: "Unlocks engine/game modding and high-performance modules",
-        },
-        'languages-6': {
-            title: 'Bash Scripting',
-            category: 'Core Languages',
-            description: 'Shell scripting, automation, and system management.',
-            reward: 'Unlocks advanced DevOps workflows'
-        },
-        'languages-7': {
-            title: 'TypeScript Advanced',
-            category: 'Core Languages',
-            description: 'Advanced typing, generics, and large-scale application patterns.',
-            reward: 'Unlocks robust and scalable JavaScript development'
-        },
-        'languages-8': {
-            title: 'GraphQL APIs',
-            category: 'Core Languages',
-            description: 'Building and consuming GraphQL endpoints for efficient data querying.',
-            reward: 'Unlocks modern API design and integration'
-        },
-        'languages-9': {
-            title: 'Data Structures & Algorithms',
-            category: 'Core Languages',
-            description: 'Core DS&A concepts: arrays, hashes, trees, graphs, and complexity.',
-            reward: 'Unlocks stronger problem solving and interview readiness'
-        },
-        'languages-10': {
-            title: 'OOP & Design Patterns',
-            category: 'Core Languages',
-            description: 'SOLID, composition, and classic patterns (Factory, Strategy, Observer, etc.).',
-            reward: 'Unlocks maintainable, extensible code architecture'
-        },
-
-
-        // Web & Databases
-        "web-1": {
-            title: "HTML & CSS",
-            category: "Web & Databases",
-            description: "Semantic HTML, responsive design, and modern CSS layouts.",
-            reward: "Unlocks clean, accessible UI foundations",
-        },
-        "web-2": {
-            title: "JavaScript for Web",
-            category: "Web & Databases",
-            description:
-                "DOM APIs, fetch, routing patterns, and client-side performance.",
-            reward: "Unlocks interactive, data-driven UIs",
-        },
-        "web-3": {
-            title: "React",
-            category: "Web & Databases",
-            description:
-                "Component-driven UIs, hooks, state management, and composition.",
-            reward: "Unlocks scalable SPA development",
-        },
-        "web-4": {
-            title: "Progressive Web Apps (PWA)",
-            category: "Web & Databases",
-            description: "Service workers, offline caching, installable experiences.",
-            reward: "Unlocks offline-first and installable apps",
-        },
-        "web-5": {
-            title: "SQL & Databases",
-            category: "Web & Databases",
-            description: "Relational modeling, querying, and performance basics.",
-            reward: "Unlocks robust data persistence and reporting",
-        },
-        "web-6": {
-            title: "TypeScript Basics",
-            category: "Web & Databases",
-            description: "Types, interfaces, generics, and compiling to JavaScript.",
-            reward: "Unlocks safer, scalable JS codebases",
-        },
-        "web-7": {
-            title: "Node.js Fundamentals",
-            category: "Web & Databases",
-            description:
-                "Building APIs, working with filesystem, and async patterns.",
-            reward: "Unlocks full-stack JavaScript development",
-        },
-        "web-8": {
-            title: "GraphQL Basics",
-            category: "Web & Databases",
-            description: "Schema design, resolvers, and API querying with GraphQL.",
-            reward: "Unlocks flexible, client-driven APIs",
-        },
-        "web-9": {
-            title: "NoSQL Databases",
-            category: "Web & Databases",
-            description:
-                "Document, key-value, and graph databases for unstructured data.",
-            reward: "Unlocks scalable, flexible data storage",
-        },
-        "web-10": {
-            title: "Web Security Fundamentals",
-            category: "Web & Databases",
-            description:
-                "XSS, CSRF, SQL injection prevention, and HTTPS best practices.",
-            reward: "Unlocks secure application development",
-        },
-        "web-11": {
-            title: "REST APIs (Express)",
-            category: "Web & Databases",
-            description: "Designing and building RESTful endpoints with Express and middleware.",
-            reward: "Unlocks robust backend services and integrations",
-        },
-        "web-12": {
-            title: "State Management",
-            category: "Web & Databases",
-            description: "Managing complex client state (Redux/Zustand/Context) and side effects.",
-            reward: "Unlocks scalable front-end architectures",
-        },
-        "web-13": {
-            title: "Firebase",
-            category: "Web & Databases",
-            description: "Realtime database, auth, storage, and hosting for web apps.",
-            reward: "Unlocks serverless backends and rapid prototypes",
-        },
-        "web-14": {
-            title: "Next.js",
-            category: "Web & Databases",
-            description: "React framework for SSR/SSG, routing, and performance.",
-            reward: "Unlocks production-grade React apps",
-        },
-        "web-15": {
-            title: "Cloudflare Workers",
-            category: "Web & Databases",
-            description: "Edge compute for serverless functions and web APIs.",
-            reward: "Unlocks low-latency edge deployments",
-        },
-        "web-16": {
-            title: "Puppeteer",
-            category: "Web & Databases",
-            description: "Headless Chrome automation for testing and scraping.",
-            reward: "Unlocks robust browser automation",
-        },
-
-        // Tools & Design
-        "tools-1": {
-            title: "Git & GitHub",
-            category: "Tools & Design",
-            description: "Branching, PR workflows, and collaboration best practices.",
-            reward: "Unlocks reliable versioning and teamwork",
-        },
-        "tools-2": {
-            title: "Linux & Dev Environment",
-            category: "Tools & Design",
-            description: "Shell, package managers, and developer environment setup.",
-            reward: "Unlocks efficient development workflows",
-        },
-        "tools-3": {
-            title: "Photoshop Basics",
-            category: "Tools & Design",
-            description: "Raster editing, asset optimization, and export pipelines.",
-            reward: "Unlocks clean visual assets for apps",
-        },
-        "tools-4": {
-            title: "Blender Basics",
-            category: "Tools & Design",
-            description: "Modeling, materials, and export formats for 3D assets.",
-            reward: "Unlocks 3D assets for games and visuals",
-        },
-        "tools-5": {
-            title: "QA & CI",
-            category: "Tools & Design",
-            description:
-                "Testing fundamentals and CI pipelines for reliable releases.",
-            reward: "Unlocks automated quality gates",
-        },
-        "tools-6": {
-            title: "Docker Basics",
-            category: "Tools & Design",
-            description:
-                "Containerization, images, and local development environments.",
-            reward: "Unlocks reproducible dev and deployments",
-        },
-        "tools-7": {
-            title: "CI/CD Pipelines",
-            category: "Tools & Design",
-            description: "Automated builds, tests, and deployments with pipelines.",
-            reward: "Unlocks rapid, reliable releases",
-        },
-        "tools-8": {
-            title: "Figma Basics",
-            category: "Tools & Design",
-            description: "Collaborative UI/UX design, prototyping, and asset export.",
-            reward: "Unlocks rapid interface design and collaboration",
-        },
-        'tools-9': {
-            title: 'Docker & Containerization',
-            category: 'Tools & Design',
-            description: 'Container-based development, deployment, and orchestration.',
-            reward: 'Unlocks scalable, portable application environments'
-        },
-        "tools-10": {
-            title: "Kubernetes Basics",
-            category: "Tools & Design",
-            description:
-                "Container orchestration, deployments, and scaling services.",
-            reward: "Unlocks scalable, automated service management",
-        },
-        "tools-11": {
-            title: "Unit Testing",
-            category: "Tools & Design",
-            description: "Test frameworks and best practices (Jest, NUnit, PyTest) for reliable code.",
-            reward: "Unlocks safer refactors and higher quality",
-        },
-        "tools-12": {
-            title: "Selenium",
-            category: "Tools & Design",
-            description: "Cross-browser automation for end-to-end testing.",
-            reward: "Unlocks UI regression and E2E coverage",
-        },
-        "tools-13": {
-            title: "Google Cloud Platform (GCP)",
-            category: "Tools & Design",
-            description: "Compute, storage, networking, and managed services on GCP.",
-            reward: "Unlocks scalable cloud deployments",
-        },
-
-        // AI/ML
-        "ai-1": {
-            title: "TensorFlow",
-            category: "AI/ML",
-            description: "Deep learning framework for building and training neural networks.",
-            reward: "Unlocks model training and deployment",
-        },
-        "ai-2": {
-            title: "Flax & JAX",
-            category: "AI/ML",
-            description: "High-performance ML with JAX and neural networks via Flax.",
-            reward: "Unlocks fast, composable research workflows",
-        },
-        "ai-3": {
-            title: "NumPy",
-            category: "AI/ML",
-            description: "Fundamental package for scientific computing in Python.",
-            reward: "Unlocks vectorized numerical computing",
-        },
-        "ai-4": {
-            title: "Ollama",
-            category: "AI/ML",
-            description: "Local LLM runner for fast prototyping and inference.",
-            reward: "Unlocks local LLM experimentation",
-        },
-        "ai-5": {
-            title: "LlamaIndex",
-            category: "AI/ML",
-            description: "Data framework for augmenting LLMs with private or external data.",
-            reward: "Unlocks RAG pipelines and data connectors",
-        },
-    };
+    const perkData = window.perkData || {};
 
     // Graph elements
     const graphEl = document.getElementById("perk-graph");
@@ -660,14 +423,16 @@ document.addEventListener("DOMContentLoaded", function () {
     let nodePositions = {}; // key -> {x, y}
     let nodeMeta = {}; // key -> {unlocked, group, prof, prereqs: string[]}
     let svgLayers = { center: null, related: null, prereqs: null };
+    let orderedGroupNodes = {};
+    let groupAngles = {};
 
     // Spacing configuration: thresholds selected by total node count, then scaled by CSS vars
     const SPACING_THRESHOLDS = [
         // upTo, groupGap (deg), minSep (deg), marginFactor
-        { upTo: 28, groupGap: 25, minSep: 2, marginFactor: 0.5 },
-        { upTo: 40, groupGap: 18, minSep: 14, marginFactor: 0.1 },
-        { upTo: 60, groupGap: 20, minSep: 12, marginFactor: 0.1 },
-        { upTo: Infinity, groupGap: 12, minSep: 6, marginFactor: 0.08 },
+        { upTo: 28, groupGap: 32, minSep: 8, marginFactor: 0.55 },
+        { upTo: 40, groupGap: 26, minSep: 18, marginFactor: 0.25 },
+        { upTo: 60, groupGap: 24, minSep: 16, marginFactor: 0.18 },
+        { upTo: Infinity, groupGap: 22, minSep: 14, marginFactor: 0.12 },
     ];
 
     function cssScale(varName, fallback = 1) {
@@ -779,391 +544,7 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: "ai", label: "AI/ML" },
     ];
 
-    const nodesDef = {
-        languages: [
-            {
-                key: "languages-1",
-                icon: "images/logo-python.png",
-                prof: 3,
-                unlocked: true,
-                alt: "Python Fundamentals",
-            },
-            {
-                key: "languages-2",
-                icon: "images/logo-javascript.png",
-                prof: 4,
-                unlocked: true,
-                alt: "JavaScript Fundamentals",
-            },
-            {
-                key: "languages-3",
-                icon: "images/logo-csharp.png",
-                prof: 3,
-                unlocked: true,
-                alt: "C# OOP",
-                prereqs: ["languages-2"],
-            },
-            {
-                key: "languages-4",
-                icon: "images/logo-java.png",
-                prof: 2,
-                unlocked: true,
-                alt: "Java OOP",
-            },
-            {
-                key: "languages-5",
-                icon: "images/logo-Cplus.png",
-                prof: 1,
-                unlocked: true,
-                alt: "C++ Systems",
-            },
-            {
-                key: "languages-6",
-                icon: null,
-                prof: 4,
-                unlocked: true,
-                emoji: "🐚", // Bash shell
-                alt: "Bash Scripting",
-                prereqs: ["languages-1"],
-            },
-            {
-                key: "languages-7",
-                icon: null,
-                prof: 2,
-                unlocked: true,
-                emoji: "🌀", // Abstract/flow for TypeScript
-                alt: "TypeScript Basics",
-                prereqs: ["web-6"],
-            },
-            {
-                key: "languages-8",
-                icon: null,
-                prof: 0,
-                unlocked: false,
-                emoji: "🔍", // Magnifying glass for querying (GraphQL)
-                alt: "GraphQL APIs",
-                prereqs: ["web-8"],
-            },
-            {
-                key: "languages-9",
-                icon: null,
-                prof: 3,
-                unlocked: true,
-                emoji: "📚",
-                alt: "Data Structures & Algorithms",
-                prereqs: ["languages-2"],
-            },
-            {
-                key: "languages-10",
-                icon: null,
-                prof: 3,
-                unlocked: true,
-                emoji: "📐",
-                alt: "OOP & Design Patterns",
-                prereqs: ["languages-3"],
-            },
-            
-
-        ],
-        web: [
-            {
-                key: "web-1",
-                icon: "images/logo-htmlcss.png",
-                prof: 5,
-                unlocked: true,
-                alt: "HTML & CSS",
-            },
-            {
-                key: "web-2",
-                icon: "images/logo-javascript.png",
-                prof: 4,
-                unlocked: true,
-                alt: "JavaScript for Web",
-                prereqs: ["web-1"],
-            },
-            {
-                key: "web-3",
-                icon: "images/react-1-logo-png-transparent.png",
-                prof: 3,
-                unlocked: true,
-                alt: "React",
-                prereqs: ["web-6"],
-            },
-            {
-                key: "web-4",
-                icon: null,
-                prof: 1,
-                unlocked: true,
-                emoji: "🚀",
-                alt: "PWA",
-                prereqs: ["web-3"],
-            },
-            {
-                key: "web-5",
-                icon: "images/logo-sql.png",
-                prof: 2,
-                unlocked: true,
-                alt: "SQL & Databases",
-            },
-            {
-                key: "web-6",
-                icon: null,
-                prof: 3,
-                unlocked: true,
-                emoji: "🧩",
-                alt: "TypeScript",
-                prereqs: ["web-2"],
-            },
-            {
-                key: "web-7",
-                icon: null,
-                prof: 4,
-                unlocked: true,
-                emoji: "🟩",
-                alt: "Node.js",
-                prereqs: ["web-2"],
-            },
-            {
-                key: "web-8",
-                icon: null,
-                prof: 0,
-                unlocked: false,
-                emoji: "🔺",
-                alt: "GraphQL Basics",
-                prereqs: ["web-7"],
-            },
-            {
-                key: "web-9",
-                icon: null,
-                prof: 1,
-                unlocked: true,
-                emoji: "🗃️",
-                alt: "NoSQL Databases",
-                prereqs: ["web-5"],
-            },
-            {
-                key: "web-10",
-                icon: null,
-                prof: 2,
-                unlocked: true,
-                emoji: "🛡️",
-                alt: "Web Security Fundamentals",
-                prereqs: ["web-2"],
-            },
-            {
-                key: "web-11",
-                icon: null,
-                prof: 4,
-                unlocked: true,
-                emoji: "🧭",
-                alt: "REST APIs (Express)",
-                prereqs: ["web-7"],
-            },
-            {
-                key: "web-12",
-                icon: null,
-                prof: 3,
-                unlocked: true,
-                emoji: "🧠",
-                alt: "State Management",
-                prereqs: ["web-3"],
-            },
-            {
-                key: "web-13",
-                icon: null,
-                prof: 4,
-                unlocked: true,
-                emoji: "🔥",
-                alt: "Firebase",
-                prereqs: ["web-2"],
-            },
-            {
-                key: "web-14",
-                icon: null,
-                prof: 4,
-                unlocked: true,
-                emoji: "⏭️",
-                alt: "Next.js",
-                prereqs: ["web-3", "web-6"],
-            },
-            {
-                key: "web-15",
-                icon: null,
-                prof: 3,
-                unlocked: true,
-                emoji: "☁️",
-                alt: "Cloudflare Workers",
-                prereqs: ["web-2"],
-            },
-            {
-                key: "web-16",
-                icon: null,
-                prof: 3,
-                unlocked: true,
-                emoji: "🤖",
-                alt: "Puppeteer",
-                prereqs: ["web-7"],
-            },
-        ],
-        tools: [
-            {
-                key: "tools-1",
-                icon: "images/logo-github.png",
-                prof: 3,
-                unlocked: true,
-                alt: "Git & GitHub",
-            },
-            {
-                key: "tools-2",
-                icon: null,
-                prof: 2,
-                unlocked: true,
-                emoji: "🐧",
-                alt: "Linux & Dev",
-            },
-            {
-                key: "tools-3",
-                icon: "images/logo-photoshop.png",
-                prof: 5,
-                unlocked: true,
-                alt: "Photoshop",
-            },
-            {
-                key: "tools-4",
-                icon: "images/logo-blender.png",
-                prof: 2,
-                unlocked: true,
-                alt: "Blender",
-            },
-            {
-                key: "tools-5",
-                icon: null,
-                prof: 1,
-                unlocked: true,
-                emoji: "✅",
-                alt: "QA & CI",
-                prereqs: ["tools-1"],
-            },
-            {
-                key: "tools-6",
-                icon: null,
-                prof: 3,
-                unlocked: true,
-                emoji: "🐳",
-                alt: "Docker Basics",
-                prereqs: ["tools-2"],
-            },
-            {
-                key: "tools-7",
-                icon: null,
-                prof: 1,
-                unlocked: true,
-                emoji: "🔁",
-                alt: "CI/CD Pipelines",
-                prereqs: ["tools-5"],
-            },
-            {
-                key: "tools-8",
-                icon: null,
-                prof: 2,
-                unlocked: true,
-                emoji: "🎨",
-                alt: "Figma Basics",
-            },
-            {
-                key: "tools-9",
-                icon: null,
-                prof: 4,
-                unlocked: true,
-                emoji: "🐳", // Docker whale
-                alt: "Docker & Containerization",
-                prereqs: ["tools-6"],
-            },
-            {
-                key: "tools-10",
-                icon: null,
-                prof: 0,
-                unlocked: false,
-                emoji: "☸️",
-                alt: "Kubernetes Basics",
-                prereqs: ["tools-9"],
-            },
-            {
-                key: "tools-11",
-                icon: null,
-                prof: 3,
-                unlocked: true,
-                emoji: "🧪",
-                alt: "Unit Testing",
-                prereqs: ["tools-5"],
-            },
-            {
-                key: "tools-12",
-                icon: null,
-                prof: 3,
-                unlocked: true,
-                emoji: "🧭",
-                alt: "Selenium",
-                prereqs: ["languages-1", "tools-5"],
-            },
-            {
-                key: "tools-13",
-                icon: null,
-                prof: 3,
-                unlocked: true,
-                emoji: "🛰️",
-                alt: "Google Cloud Platform (GCP)",
-                prereqs: ["tools-2", "tools-6"],
-            },
-        ],
-        ai: [
-            {
-                key: "ai-3",
-                icon: null,
-                prof: 4,
-                unlocked: true,
-                emoji: "📊",
-                alt: "NumPy",
-                prereqs: ["languages-1"],
-            },
-            {
-                key: "ai-1",
-                icon: null,
-                prof: 3,
-                unlocked: true,
-                emoji: "🧠",
-                alt: "TensorFlow",
-                prereqs: ["languages-1", "ai-3"],
-            },
-            {
-                key: "ai-2",
-                icon: null,
-                prof: 3,
-                unlocked: true,
-                emoji: "⚡",
-                alt: "Flax & JAX",
-                prereqs: ["languages-1", "ai-3"],
-            },
-            {
-                key: "ai-4",
-                icon: null,
-                prof: 3,
-                unlocked: true,
-                emoji: "🦙",
-                alt: "Ollama",
-                prereqs: ["languages-1"],
-            },
-            {
-                key: "ai-5",
-                icon: null,
-                prof: 3,
-                unlocked: true,
-                emoji: "📚",
-                alt: "LlamaIndex",
-                prereqs: ["languages-1", "ai-1"],
-            },
-        ],
-    };
+    const nodesDef = window.perkNodes || {};
 
     function degToRad(deg) {
         return (deg * Math.PI) / 180;
@@ -1172,19 +553,21 @@ document.addEventListener("DOMContentLoaded", function () {
     function buildNodes() {
         if (!graphEl || !nodesContainer || !linksSvg) return [];
         nodesContainer.innerHTML = "";
-    ensureSvgLayers();
-    nodePositions = {};
-    nodeMeta = {};
+        ensureSvgLayers();
+        nodePositions = {};
+        nodeMeta = {};
+    orderedGroupNodes = {};
+    groupAngles = {};
 
         const rect = graphEl.getBoundingClientRect();
         const cx = rect.width / 2;
         const cy = rect.height / 2;
     const minDim = Math.min(rect.width, rect.height);
     // Compute 5 rings (levels 1..5 from inner to outer). Keep padding so nodes don't clip.
-    const nodeHalf = 32; // approx half of node size after CSS tweak
-    const padding = 24 + nodeHalf; // visual margin + node radius
-    const outerMax = Math.max(140, (minDim / 2) - padding);
-    const innerMin = Math.max(90, minDim * 0.20);
+    const nodeHalf = 34; // approx half of the enlarged node size including border
+    const padding = 32 + nodeHalf; // visual margin + node radius
+    const innerMin = Math.max(120, minDim * 0.28);
+    const outerMax = Math.max(innerMin + 180, (minDim / 2) - padding + 40);
     const ringCount = 5;
     const radii = Array.from({ length: ringCount }, (_, i) =>
         innerMin + ((outerMax - innerMin) * (i / (ringCount - 1)))
@@ -1226,95 +609,155 @@ document.addEventListener("DOMContentLoaded", function () {
             ai: "rgba(60, 90, 140, 0.85)",
         };
 
-        groups.forEach((group) => {
-            const list = nodesDef[group.id] || [];
-            const nCount = list.length;
-            if (nCount === 0) return;
-            const span = available * (nCount / totalNodes);
-            const margin = Math.min(12, span * marginFactor);
-            // Compute evenly spaced angles within the span, honoring a minimum separation when possible
-            let angles = [];
-            if (nCount === 1) {
-                angles = [currentStart + span / 2];
-            } else {
-                const effective = Math.max(0, span - 2 * margin);
-                // desired step between nodes
-                let step = minSep;
-                const maxStepFit = effective / (nCount - 1);
-                if (step > maxStepFit) step = maxStepFit; // can't exceed allocated span
-                const used = step * (nCount - 1);
-                const startA = currentStart + margin + (effective - used) / 2; // center within span
-                for (let i = 0; i < nCount; i++) angles.push(startA + i * step);
+        const groupData = groups.map((group) => {
+            const nodes = nodesDef[group.id] || [];
+            const weight = nodes.length + 6;
+            return { group, nodes, count: nodes.length, weight };
+        });
+        const totalWeight = groupData.reduce((acc, item) => acc + item.weight, 0) || 1;
+
+        groupData.forEach((entry) => {
+            const { group, nodes, count, weight } = entry;
+            if (count === 0) {
+                return;
             }
-            list.forEach((n, idx) => {
-                const angle = angles[idx];
-                const rad = degToRad(angle);
-                // Semantic ring based on proficiency
-                const radius = ringForProf(Number(n.prof) || 0);
-                const x = cx + radius * Math.cos(rad);
-                const y = cy + radius * Math.sin(rad);
 
-                const el = document.createElement("div");
-                el.className = `perk-node ${n.unlocked ? "unlocked" : "locked"}`;
-                el.dataset.perk = n.key;
-                el.style.left = `${x}px`;
-                el.style.top = `${y}px`;
-                el.setAttribute("tabindex", "0");
-                el.setAttribute("role", "button");
-                el.setAttribute("aria-label", perkData[n.key]?.title || n.alt || n.key);
+            const wedgeStart = currentStart;
+            const spanShare = available * (weight / totalWeight);
+            const span = Math.max(50, spanShare);
+            const margin = Math.min(32, span * marginFactor);
+            const baseStart = wedgeStart + margin;
+            let baseEnd = wedgeStart + span - margin;
+            if (baseEnd <= baseStart) {
+                baseEnd = baseStart + 10;
+            }
 
-                const icon = document.createElement("div");
-                icon.className = "perk-icon";
-                if (n.icon) {
-                    const img = document.createElement("img");
-                    img.src = n.icon;
-                    img.alt = n.alt || "";
+            const profBuckets = new Map();
+            nodes.forEach((node) => {
+                const profLevel = Math.max(0, Math.min(5, Math.round(Number(node.prof) || 0)));
+                if (!profBuckets.has(profLevel)) {
+                    profBuckets.set(profLevel, []);
+                }
+                profBuckets.get(profLevel).push(node);
+            });
+            const profLevels = Array.from(profBuckets.keys()).sort((a, b) => a - b);
+            const totalWidth = baseEnd - baseStart;
+            const arranged = [];
+            const minLaneWidth = Math.min(60, totalWidth / Math.max(1, profLevels.length));
+
+            let laneCursor = baseStart;
+            profLevels.forEach((profKey, laneIdx) => {
+                const laneNodes = (profBuckets.get(profKey) || []).slice();
+                if (!laneNodes.length) return;
+                laneNodes.sort((a, b) => {
+                    const aLabel = (a.alt || a.title || a.key || "").toLowerCase();
+                    const bLabel = (b.alt || b.title || b.key || "").toLowerCase();
+                    return aLabel.localeCompare(bLabel);
+                });
+                const remainingLanes = profLevels.length - laneIdx - 1;
+                const remainingWidth = baseEnd - laneCursor;
+                const proportionalWidth = totalWidth * (laneNodes.length / count);
+                let laneWidth = Math.max(minLaneWidth, proportionalWidth);
+                laneWidth = Math.min(laneWidth, remainingWidth - remainingLanes * minLaneWidth);
+                if (laneIdx === profLevels.length - 1) {
+                    laneWidth = Math.max(laneWidth, remainingWidth);
+                }
+                const localStart = laneCursor;
+                const localEnd = laneCursor + laneWidth;
+                laneCursor = localEnd;
+
+                const localWidth = Math.max(0, localEnd - localStart);
+                const pad = Math.min(12, localWidth / 6);
+                const effectiveStart = localStart + pad;
+                const effectiveEnd = localEnd - pad;
+                const usableWidth = Math.max(0, effectiveEnd - effectiveStart);
+                const rawStep = laneNodes.length > 1 ? usableWidth / (laneNodes.length - 1) : 0;
+                const minNodeStep = Math.max(minSep, usableWidth / Math.max(1, laneNodes.length));
+                const step = laneNodes.length > 1 ? Math.max(rawStep, minNodeStep) : 0;
+                const usedWidth = laneNodes.length > 1 ? step * (laneNodes.length - 1) : 0;
+                const startAngle = laneNodes.length > 1
+                    ? effectiveStart + (usableWidth - usedWidth) / 2
+                    : effectiveStart + usableWidth / 2;
+
+                laneNodes.forEach((node, idx) => {
+                    arranged.push(node);
+                    const angle = laneNodes.length === 1 ? startAngle : startAngle + step * idx;
+                    const rad = degToRad(angle);
+                    const profBase = ringForProf(profKey || 1);
+                    const laneOffset = (laneIdx - (profLevels.length - 1) / 2) * 24;
+                    const intraLaneOffset = laneNodes.length > 1
+                        ? (idx - (laneNodes.length - 1) / 2) * Math.min(18, localWidth / Math.max(2, laneNodes.length))
+                        : 0;
+                    let radius = profBase + laneOffset + intraLaneOffset;
+                    radius = Math.max(innerMin * 0.7, Math.min(outerMax, radius));
+                    const x = cx + radius * Math.cos(rad);
+                    const y = cy + radius * Math.sin(rad);
+
+                    const el = document.createElement("div");
+                    el.className = `perk-node ${node.unlocked ? "unlocked" : "locked"}`;
+                    el.dataset.perk = node.key;
+                    el.style.left = `${x}px`;
+                    el.style.top = `${y}px`;
+                    el.setAttribute("tabindex", "0");
+                    el.setAttribute("role", "button");
+                    el.setAttribute("aria-label", perkData[node.key]?.title || node.alt || node.key);
+
+                    const icon = document.createElement("div");
+                    icon.className = "perk-icon";
+                    if (node.icon) {
+                        const img = document.createElement("img");
+                        img.src = node.icon;
+                        img.alt = node.alt || "";
                     // Image fallback to emoji/placeholder on error
                     img.onerror = () => {
                         icon.innerHTML = "";
                         const span = document.createElement("span");
                         span.className = "icon-placeholder";
-                        span.textContent = n.emoji || "★";
+                        span.textContent = node.emoji || "★";
                         icon.appendChild(span);
                     };
                     icon.appendChild(img);
                 } else {
                     const span = document.createElement("span");
                     span.className = "icon-placeholder";
-                    span.textContent = n.emoji || "★";
+                    span.textContent = node.emoji || "★";
                     icon.appendChild(span);
                 }
                 el.appendChild(icon);
 
                 const badge = document.createElement("span");
                 badge.className = "perk-number";
-                badge.textContent = String(n.prof);
+                badge.textContent = String(node.prof);
                 el.appendChild(badge);
 
                 nodesContainer.appendChild(el);
 
-                // Track node positions and meta for inter-node links
-                nodePositions[n.key] = { x, y };
-                nodeMeta[n.key] = {
-                    unlocked: !!n.unlocked,
-                    group: group.id,
-                    prof: Number(n.prof) || 0,
-                    prereqs: Array.isArray(n.prereqs) ? n.prereqs : [],
-                };
+                    // Track node positions and meta for inter-node links
+                    nodePositions[node.key] = { x, y };
+                    nodeMeta[node.key] = {
+                        unlocked: !!node.unlocked,
+                        group: group.id,
+                        prof: Number(node.prof) || 0,
+                        prereqs: Array.isArray(node.prereqs) ? node.prereqs : [],
+                    };
 
-                // draw link
-                const line = document.createElementNS(SVG_NS, "line");
-                line.setAttribute("x1", String(cx));
-                line.setAttribute("y1", String(cy));
-                line.setAttribute("x2", String(x));
-                line.setAttribute("y2", String(y));
-                const linkColor = groupColors[group.id] || "rgba(101, 67, 33, 0.7)";
-                line.setAttribute("stroke", n.unlocked ? linkColor : "rgba(139,139,139,0.6)");
-                line.setAttribute("stroke-width", "1.5");
-                if (svgLayers.center) svgLayers.center.appendChild(line);
+                    // draw link
+                    const line = document.createElementNS(SVG_NS, "line");
+                    line.setAttribute("x1", String(cx));
+                    line.setAttribute("y1", String(cy));
+                    line.setAttribute("x2", String(x));
+                    line.setAttribute("y2", String(y));
+                    const linkColor = groupColors[group.id] || "rgba(101, 67, 33, 0.7)";
+                    line.setAttribute("stroke", node.unlocked ? linkColor : "rgba(139,139,139,0.6)");
+                    line.setAttribute("stroke-width", "1.5");
+                    if (svgLayers.center) svgLayers.center.appendChild(line);
 
-                created.push(el);
+                    created.push(el);
+                });
             });
+
+            orderedGroupNodes[group.id] = arranged;
+            groupAngles[group.id] = { start: wedgeStart, span };
             currentStart += span + groupGap;
         });
 
@@ -1325,7 +768,7 @@ document.addEventListener("DOMContentLoaded", function () {
             while (svgLayers.related.firstChild) svgLayers.related.removeChild(svgLayers.related.firstChild);
             // Subtle adjacency within groups
             groups.forEach((group) => {
-                const list = nodesDef[group.id] || [];
+                const list = orderedGroupNodes[group.id] || nodesDef[group.id] || [];
                 for (let i = 0; i < list.length - 1; i++) {
                     const a = list[i];
                     const b = list[i + 1];
@@ -1407,15 +850,10 @@ document.addEventListener("DOMContentLoaded", function () {
         labelsContainer.innerHTML = '';
 
     // recompute spans similar to placement for consistent label midpoints
-        let startAngle = -90;
-        const totalCount = groups.reduce((acc, g) => acc + ((nodesDef[g.id] || []).length), 0);
-    const gap = groupGap;
-        const avail = 360 - gap * groups.length;
         groups.forEach((g) => {
-            const count = (nodesDef[g.id] || []).length;
-            if (count === 0) return;
-            const span = avail * (count / totalCount);
-            const mid = startAngle + span / 2;
+            const meta = groupAngles[g.id];
+            if (!meta) return;
+            const mid = meta.start + meta.span / 2;
             const rad = (mid * Math.PI) / 180;
             const outerR = radii[radii.length - 1];
             const labelR = Math.max(outerR + 24, (minDim * 0.5) - 10);
@@ -1433,7 +871,6 @@ document.addEventListener("DOMContentLoaded", function () {
             label.style.opacity = '0.8';
             label.style.color = '#ddd';
             labelsContainer.appendChild(label);
-            startAngle += span + gap;
         });
 
         return created;

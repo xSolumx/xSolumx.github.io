@@ -58,8 +58,7 @@
 
     <!-- Preload critical resources -->
   <link rel="preload" href="style.css" as="style" />
-  <link rel="preload" href="perk-data.js" as="script" />
-  <link rel="preload" href="perk-nodes.js" as="script" />
+  <link rel="preload" href="skill-tree-data.js" as="script" />
   <link rel="preload" href="script.js" as="script" />
     <link rel="preload" href="images/Micr3.png" as="image" />
 
@@ -355,7 +354,6 @@
                 <div class="perk-icon">
                   <span class="icon-placeholder" aria-hidden="true">🌐</span>
                 </div>
-                <div class="perk-center-label">Skill Tree</div>
               </div>
 
               <div class="perk-nodes" id="perk-nodes" aria-live="polite"></div>
@@ -475,7 +473,7 @@
           hidden>
           <h2 class="section-title">Featured Projects</h2>
           <div class="projects-grid">
-            <div class="project-card" data-project="ai-nexus">
+            <div class="project-card" data-project="ai-Core-Mind">
               <div class="project-thumb">
                 <img
                   src="images/imgNexus.png"
@@ -485,14 +483,14 @@
               <div class="project-info">
                 <h3>Mind_Core</h3>
                 <p>Personal ML custom LLM build</p>
-                <span class="project-tech">Python • Ollama • Flax • Jax</span>
+                <span class="project-tech">Python • Ollama • Flax • Jax • Tensorflow</span>
               </div>
             </div>
-            <div class="project-card" data-project="brain-simulation">
+            <div class="project-card" data-project="Quicker-Swazi">
               <div class="project-thumb">
                 <img
-                  src="images/imgBrain.png"
-                  alt="Neural Network Simulator"
+                  src="images/website_QS_Screenshot.png"
+                  alt="Quicker-Swazi"
                   loading="lazy" />
               </div>
               <div class="project-info">
@@ -501,11 +499,11 @@
                 <span class="project-tech">React • Firebase</span>
               </div>
             </div>
-            <div class="project-card" data-project="tech-hub">
+            <div class="project-card" data-project="Heron-Copper">
               <div class="project-thumb">
                 <img
-                  src="images/imgTech.png"
-                  alt="Tech Hub Platform"
+                  src="images/Website_HC_Screenshot.png"
+                  alt="Copper"
                   loading="lazy" />
               </div>
               <div class="project-info">
@@ -635,8 +633,7 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="perk-data.js"></script>
-    <script src="perk-nodes.js"></script>
+    <script src="skill-tree-data.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

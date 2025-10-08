@@ -337,7 +337,14 @@
               class="perk-graph"
               id="perk-graph"
               aria-label="Skill tree graph">
-              <!-- SVG for connection lines -->
+              <!-- Decorative rings (bottom layer) -->
+              <div class="graph-ring ring-1" aria-hidden="true"></div>
+              <div class="graph-ring ring-2" aria-hidden="true"></div>
+              <div class="graph-ring ring-3" aria-hidden="true"></div>
+              <div class="graph-ring ring-4" aria-hidden="true"></div>
+              <div class="graph-ring ring-5" aria-hidden="true"></div>
+
+              <!-- SVG for connection lines (above rings, below nodes) -->
               <svg
                 class="perk-links"
                 id="perk-links"
@@ -356,14 +363,8 @@
                 </div>
               </div>
 
+              <!-- Skill nodes (top layer) -->
               <div class="perk-nodes" id="perk-nodes" aria-live="polite"></div>
-
-              <!-- Decorative rings -->
-              <div class="graph-ring ring-1" aria-hidden="true"></div>
-              <div class="graph-ring ring-2" aria-hidden="true"></div>
-              <div class="graph-ring ring-3" aria-hidden="true"></div>
-              <div class="graph-ring ring-4" aria-hidden="true"></div>
-              <div class="graph-ring ring-5" aria-hidden="true"></div>
             </div>
 
             <!-- Progress Panel -->

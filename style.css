@@ -726,7 +726,7 @@ body {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 1;
+    z-index: 1; /* Middle layer - connection lines */
 }
 
 .perk-links line,
@@ -774,7 +774,7 @@ body {
     text-align: center;
     color: var(--gaming-text);
     cursor: pointer;
-    z-index: 3;
+    z-index: 10; /* High layer - center node above everything */
     animation: centerPulse 3s ease-in-out infinite;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -825,6 +825,7 @@ body {
     width: 100%;
     height: 100%;
     contain: layout style;
+    z-index: 5; /* Top layer - skill nodes above lines */
 }
 
 .perk-node {
@@ -1073,7 +1074,7 @@ body {
     border: 1.5px dashed rgba(139,69,19,0.25);
     border-radius: 50%;
     pointer-events: none;
-    z-index: 1;
+    z-index: 0; /* Bottom layer - decorative rings */
     box-shadow: inset 0 0 20px rgba(139,69,19,0.05);
 }
 

@@ -20,13 +20,14 @@
 
   const DEFAULT_LAYOUT_CONSTANTS = Object.freeze({
     RING_COUNT: 5,
-    MIN_INNER_RADIUS_FACTOR: 0.32,
-    MIN_INNER_ABSOLUTE: 120,
-    OUTER_PADDING: 64,
-    GROUP_GAP_DEG: 12,
-    NODE_SIZE: 68,
+    MIN_INNER_RADIUS_FACTOR: 0.18,
+    MIN_INNER_ABSOLUTE: 64,
+    OUTER_PADDING: 56,
+    GROUP_GAP_DEG: 9,
+    NODE_SIZE: 56,
     TOOLTIP_OFFSET: 16,
-    ANGULAR_SPACING_MULTIPLIER: 10,
+    ANGULAR_SPACING_MULTIPLIER: 80,
+    LANE_SPACING_FACTOR: 0.3, // 1/3
   });
 
   let activeController = null;
@@ -69,6 +70,21 @@
     const datasetValidation = options.datasetValidation || null;
     const isDevelopment = Boolean(options.isDevelopment);
 
+    const relatedMap = (() => {
+      const map = new Map();
+      relatedPairs.forEach(([from, to]) => {
+        if (!map.has(from)) {
+          map.set(from, new Set());
+        }
+        if (!map.has(to)) {
+          map.set(to, new Set());
+        }
+        map.get(from).add(to);
+        map.get(to).add(from);
+      });
+      return map;
+    })();
+
     const state = {
       selectors,
       layoutConstants,
@@ -86,11 +102,16 @@
       isDevelopment,
       nodePositions: {},
       nodeMeta: {},
+  prereqMap: {},
+  dependentMap: {},
+  relatedMap,
       groupAngles: {},
       disposeHandlers: [],
       tooltipEl: null,
       lastBounds: { width: 0, height: 0 },
       svgLayers: { related: null, prereqs: null },
+      hoverPerkId: null,
+      activePerkId: null,
     };
 
     const controller = buildController(state);
@@ -114,7 +135,10 @@
       relatedPairs,
     } = state;
 
+    const RELATED_VISIBLE_CLASS = "is-visible";
+
     const ringCount = Math.max(3, Number(layoutConstants.RING_COUNT) || 5);
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
     const detailsTitle = progressPanel?.querySelector(".progress-details h4") || null;
     const detailsDesc = progressPanel?.querySelector(".progress-details p") || null;
@@ -248,26 +272,165 @@
       }
     }
 
-    function drawPrereqLinks(perkId) {
+    function resetNodeHighlights() {
+      nodesContainer
+        .querySelectorAll(
+          ".perk-node.path-node, .perk-node.path-root, .perk-node.path-ancestor, .perk-node.path-descendant, .perk-node.path-related"
+        )
+        .forEach((node) => {
+          node.classList.remove("path-node", "path-root", "path-ancestor", "path-descendant", "path-related");
+          delete node.dataset.pathRole;
+        });
+    }
+
+    function clearSkillPath() {
       clearPrereqLinks();
-      const meta = state.nodeMeta[perkId];
-      const target = state.nodePositions[perkId];
-      if (!meta || !target || !Array.isArray(meta.prereqs)) {
+      resetNodeHighlights();
+    }
+
+    function collectPathData(perkId) {
+      const ancestors = new Set();
+      const descendants = new Set();
+      const related = new Set();
+      const edges = [];
+      const visitedUp = new Set();
+      const visitedDown = new Set();
+      const edgeSet = new Set();
+
+      const addEdge = (from, to, type) => {
+        if (!state.nodePositions[from] || !state.nodePositions[to]) {
+          return;
+        }
+        const key = `${from}->${to}`;
+        if (edgeSet.has(key)) {
+          return;
+        }
+        edgeSet.add(key);
+        edges.push({ from, to, type });
+      };
+
+      const traverseAncestors = (nodeId) => {
+        const prereqs = state.prereqMap[nodeId] || [];
+        prereqs.forEach((reqId) => {
+          if (!state.nodePositions[reqId]) {
+            return;
+          }
+          ancestors.add(reqId);
+          addEdge(reqId, nodeId, "ancestor");
+          if (!visitedUp.has(reqId)) {
+            visitedUp.add(reqId);
+            traverseAncestors(reqId);
+          }
+        });
+      };
+
+      const traverseDescendants = (nodeId) => {
+        const dependents = state.dependentMap[nodeId] || [];
+        dependents.forEach((depId) => {
+          if (!state.nodePositions[depId]) {
+            return;
+          }
+          descendants.add(depId);
+          addEdge(nodeId, depId, "descendant");
+          if (!visitedDown.has(depId)) {
+            visitedDown.add(depId);
+            traverseDescendants(depId);
+          }
+        });
+      };
+
+      traverseAncestors(perkId);
+      traverseDescendants(perkId);
+
+      const relatedEntries = state.relatedMap?.get(perkId);
+      if (relatedEntries && relatedEntries.size) {
+        relatedEntries.forEach((relId) => {
+          if (state.nodePositions[relId]) {
+            related.add(relId);
+          }
+        });
+      }
+
+      return { ancestors, descendants, related, edges };
+    }
+
+    function highlightNodesFromData(rootId, pathData) {
+      if (!rootId || !pathData) {
         return;
       }
-      meta.prereqs.forEach((req) => {
-        const source = state.nodePositions[req];
-        if (!source) return;
+      const { ancestors, descendants, related } = pathData;
+      const getNode = (id) => nodesContainer.querySelector(`.perk-node[data-perk="${id}"]`);
+
+      const rootNode = getNode(rootId);
+      if (rootNode) {
+        rootNode.classList.add("path-node", "path-root");
+        rootNode.dataset.pathRole = "root";
+      }
+
+      ancestors.forEach((id) => {
+        const node = getNode(id);
+        if (node) {
+          node.classList.add("path-node", "path-ancestor");
+          node.dataset.pathRole = "ancestor";
+        }
+      });
+
+      descendants.forEach((id) => {
+        const node = getNode(id);
+        if (node) {
+          node.classList.add("path-node", "path-descendant");
+          node.dataset.pathRole = node.dataset.pathRole
+            ? `${node.dataset.pathRole} descendant`
+            : "descendant";
+        }
+      });
+
+      related.forEach((id) => {
+        if (id === rootId || ancestors.has(id) || descendants.has(id)) {
+          return;
+        }
+        const node = getNode(id);
+        if (node) {
+          node.classList.add("path-node", "path-related");
+          node.dataset.pathRole = node.dataset.pathRole
+            ? `${node.dataset.pathRole} related`
+            : "related";
+        }
+      });
+    }
+
+    function drawPathLines(edges) {
+      clearPrereqLinks();
+      const layer = state.svgLayers.prereqs;
+      if (!layer || !Array.isArray(edges)) {
+        return;
+      }
+      edges.forEach(({ from, to, type }) => {
+        const source = state.nodePositions[from];
+        const target = state.nodePositions[to];
+        if (!source || !target) {
+          return;
+        }
         const line = document.createElementNS(SVG_NS, "line");
         line.setAttribute("x1", String(source.x));
         line.setAttribute("y1", String(source.y));
         line.setAttribute("x2", String(target.x));
         line.setAttribute("y2", String(target.y));
-        line.setAttribute("stroke", "rgba(120, 180, 255, 0.6)");
-        line.setAttribute("stroke-width", "2");
         line.setAttribute("stroke-linecap", "round");
+        line.dataset.path = type;
         state.svgLayers.prereqs.appendChild(line);
       });
+    }
+
+    function drawPrereqLinks(perkId) {
+      resetNodeHighlights();
+      if (!perkId) {
+        clearPrereqLinks();
+        return;
+      }
+      const pathData = collectPathData(perkId);
+      highlightNodesFromData(perkId, pathData);
+      drawPathLines(pathData.edges);
     }
 
     function drawRelatedLinks() {
@@ -287,7 +450,34 @@
         line.setAttribute("y2", String(b.y));
         line.setAttribute("stroke", "rgba(200, 180, 140, 0.35)");
         line.setAttribute("stroke-width", "1.5");
+        line.dataset.from = from;
+        line.dataset.to = to;
         layer.appendChild(line);
+      });
+      if (state.hoverPerkId) {
+        highlightRelatedLinks(state.hoverPerkId);
+      } else if (state.activePerkId) {
+        highlightRelatedLinks(state.activePerkId);
+      } else {
+        hideAllRelatedLinks();
+      }
+    }
+
+    function hideAllRelatedLinks() {
+      const layer = state.svgLayers.related;
+      if (!layer) return;
+      Array.from(layer.children).forEach((line) => {
+        line.classList.remove(RELATED_VISIBLE_CLASS);
+      });
+    }
+
+    function highlightRelatedLinks(perkId) {
+      const layer = state.svgLayers.related;
+      if (!layer) return;
+      const targetId = perkId || "";
+      Array.from(layer.children).forEach((line) => {
+        const isRelated = line.dataset.from === targetId || line.dataset.to === targetId;
+        line.classList.toggle(RELATED_VISIBLE_CLASS, isRelated);
       });
     }
 
@@ -326,6 +516,9 @@
     }
 
     function clearSelection() {
+      state.activePerkId = null;
+      state.hoverPerkId = null;
+      hideAllRelatedLinks();
       nodesContainer.querySelectorAll(".perk-node.selected").forEach((el) => el.classList.remove("selected"));
       if (detailsTitle) {
         detailsTitle.textContent = "Select a perk";
@@ -339,10 +532,16 @@
       setRewardSection("—");
       updateProgressRing(0, 1);
       hideTooltip();
-      clearPrereqLinks();
+      clearSkillPath();
     }
 
     function showPerk(perkId, nodeEl) {
+      if (!perkId) {
+        return;
+      }
+      state.activePerkId = perkId;
+      highlightRelatedLinks(perkId);
+      drawPrereqLinks(perkId);
       const meta = resolveMeta(perkId);
       const info = state.nodeMeta[perkId] || {};
       const title = meta?.title || info.label || perkId;
@@ -391,17 +590,26 @@
       const cx = bounds.width / 2;
       const cy = bounds.height / 2;
       const minDim = Math.min(bounds.width, bounds.height);
-      const innerRadius = Math.max(
-        Number(layoutConstants.MIN_INNER_ABSOLUTE) || 120,
-        minDim * (Number(layoutConstants.MIN_INNER_RADIUS_FACTOR) || 0.32)
+      const innerFactor = clamp(Number(layoutConstants.MIN_INNER_RADIUS_FACTOR) || 0.22, 0.12, 0.32);
+      const minInnerAbsolute = clamp(Number(layoutConstants.MIN_INNER_ABSOLUTE) || 72, 48, 240);
+      const innerRadius = Math.max(minInnerAbsolute, minDim * innerFactor);
+
+      const outerPadding = clamp(
+        Number(layoutConstants.OUTER_PADDING) || 56,
+        24,
+        Math.max(24, minDim / 2 - 48)
       );
-      const outerRadius = Math.max(innerRadius + 160, minDim / 2 - (Number(layoutConstants.OUTER_PADDING) || 64));
+      const maxAvailableRadius = Math.max(innerRadius + 96, minDim / 2 - outerPadding);
+      const preferredBand = clamp(maxAvailableRadius - innerRadius, 120, 240);
+      const outerRadius = Math.min(maxAvailableRadius, innerRadius + preferredBand);
+
       const radii = Array.from({ length: ringCount }, (_, index) => {
         if (ringCount === 1) {
           return innerRadius;
         }
         const t = index / (ringCount - 1);
-        return innerRadius + (outerRadius - innerRadius) * t;
+        const eased = Math.pow(t, 0.85);
+        return innerRadius + (outerRadius - innerRadius) * eased;
       });
 
       const ringEls = graphEl.querySelectorAll(".graph-ring");
@@ -432,6 +640,7 @@
 
   const baseGap = Number(layoutConstants.GROUP_GAP_DEG) || 12;
   const spacingMultiplier = Math.max(1, Number(layoutConstants.ANGULAR_SPACING_MULTIPLIER) || 1.35);
+  const laneSpacingFactor = clamp(Number(layoutConstants.LANE_SPACING_FACTOR) || 0.9, 0.5, 1.5);
 
       const weightedGroups = activeGroups
         .map((entry) => {
@@ -518,17 +727,46 @@
           if (!Number.isFinite(delta) || delta <= 0) {
             delta = innerSpan / Math.max(layouts.length, 1);
           }
-          return { layout, delta };
+          return { layout, delta, desired: desiredSpacings[index] || delta };
         });
 
         const totalUsed = segments.reduce((sum, segment) => sum + segment.delta, 0);
         const availableSlack = Math.max(0, innerSpan - totalUsed);
         let cursor = innerStart + availableSlack / 2;
 
+        const laneCount = scaling < 0.95
+          ? Math.min(4, Math.max(2, Math.ceil(1 / Math.max(scaling, 0.35))))
+          : 1;
+        const laneSpacingPx = (Number(layoutConstants.NODE_SIZE) || 64) * laneSpacingFactor;
+        let lastAngle = null;
+        let lastLane = 0;
+
+        const minAngleForLayout = (layout) => {
+          const radius = Math.max(layout.radius, 36);
+          const size = Number(layoutConstants.NODE_SIZE) || 64;
+          return (size / radius) * (180 / Math.PI);
+        };
+
         segments.forEach(({ layout, delta }) => {
-          const angle = cursor + delta / 2;
-          layout.angle = Math.max(innerStart, Math.min(angle, innerEnd));
+          const rawAngle = cursor + delta / 2;
+          let lane = 0;
+          if (laneCount > 1) {
+            const minSeparation = minAngleForLayout(layout) * 0.9;
+            if (lastAngle !== null && rawAngle - lastAngle < minSeparation) {
+              lastLane = (lastLane + 1) % laneCount;
+            } else if (lastLane !== 0 && (lastAngle === null || rawAngle - lastAngle >= minSeparation * 1.4)) {
+              lastLane = 0;
+            }
+            lane = lastLane;
+          }
+
+          const laneOffset = laneCount > 1 ? laneSpacingPx * (lane - (laneCount - 1) / 2) : 0;
+          layout.laneIndex = lane;
+          layout.laneOffset = laneOffset;
+          layout.angle = Math.max(innerStart, Math.min(rawAngle, innerEnd));
+          layout.radiusWithLane = Math.max(32, layout.radius + laneOffset);
           layoutNodes.push(layout);
+          lastAngle = layout.angle;
           cursor += delta;
         });
 
@@ -536,10 +774,11 @@
       });
 
       layoutNodes.forEach((layout) => {
-        const { id, meta, raw, groupId, ringIndex, radius, angle, unlocked, current, target } = layout;
+        const { id, meta, raw, groupId, ringIndex, radius, radiusWithLane, angle, unlocked, current, target, laneIndex } = layout;
+        const effectiveRadius = Math.max(32, radiusWithLane ?? radius);
         const angleRad = (angle * Math.PI) / 180;
-        const x = cx + radius * Math.cos(angleRad);
-        const y = cy + radius * Math.sin(angleRad);
+        const x = cx + effectiveRadius * Math.cos(angleRad);
+        const y = cy + effectiveRadius * Math.sin(angleRad);
 
         state.nodeMeta[id] = {
           id,
@@ -552,7 +791,7 @@
           prereqs: Array.isArray(meta.prereqs) ? Array.from(meta.prereqs) : [],
           metaSource: meta.metaSource || raw.metaSource || "canonical",
         };
-        state.nodePositions[id] = { x, y, ringIndex, angle };
+  state.nodePositions[id] = { x, y, ringIndex, angle, radius: effectiveRadius, lane: laneIndex || 0 };
 
         const el = document.createElement("div");
         el.className = `perk-node ${unlocked ? "unlocked" : "locked"}`;
@@ -590,8 +829,30 @@
         badge.textContent = unlocked ? String(state.nodeMeta[id].target) : "—";
         el.appendChild(badge);
 
+        if (laneIndex && laneIndex !== 0) {
+          el.dataset.lane = String(laneIndex);
+        }
+
         nodesContainer.appendChild(el);
         created.push(el);
+      });
+
+      state.prereqMap = {};
+      state.dependentMap = {};
+      Object.keys(state.nodeMeta).forEach((id) => {
+        const meta = state.nodeMeta[id];
+        const prereqs = Array.isArray(meta?.prereqs)
+          ? meta.prereqs.filter((reqId) => Boolean(state.nodeMeta[reqId]))
+          : [];
+        state.prereqMap[id] = prereqs;
+        prereqs.forEach((reqId) => {
+          if (!state.dependentMap[reqId]) {
+            state.dependentMap[reqId] = [];
+          }
+          if (!state.dependentMap[reqId].includes(id)) {
+            state.dependentMap[reqId].push(id);
+          }
+        });
       });
 
       drawRelatedLinks();
@@ -604,6 +865,8 @@
         const perkId = el.dataset.perk;
 
         el.addEventListener("mouseenter", () => {
+          state.hoverPerkId = perkId;
+          highlightRelatedLinks(perkId);
           const tooltip = getTooltip();
           const info = resolveMeta(perkId) || state.nodeMeta[perkId];
           tooltip.innerHTML = `
@@ -623,20 +886,25 @@
         });
 
         el.addEventListener("mouseleave", () => {
+          state.hoverPerkId = null;
           hideTooltip();
-          clearPrereqLinks();
+          if (state.activePerkId) {
+            highlightRelatedLinks(state.activePerkId);
+            drawPrereqLinks(state.activePerkId);
+          } else {
+            hideAllRelatedLinks();
+            clearSkillPath();
+          }
         });
 
         el.addEventListener("click", () => {
           showPerk(perkId, el);
-          drawPrereqLinks(perkId);
         });
 
         el.addEventListener("keydown", (event) => {
           if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
             showPerk(perkId, el);
-            drawPrereqLinks(perkId);
           }
         });
       });
@@ -645,6 +913,22 @@
     function redraw() {
       const nodes = buildNodes();
       wireNodes(nodes);
+      if (state.hoverPerkId) {
+        highlightRelatedLinks(state.hoverPerkId);
+        drawPrereqLinks(state.hoverPerkId);
+      } else if (state.activePerkId) {
+        const node = nodesContainer.querySelector(`.perk-node[data-perk="${state.activePerkId}"]`);
+        if (node) {
+          showPerk(state.activePerkId, node);
+        } else {
+          state.activePerkId = null;
+          hideAllRelatedLinks();
+          clearSkillPath();
+        }
+      } else {
+        hideAllRelatedLinks();
+        clearSkillPath();
+      }
     }
 
     function focusSkill(perkId) {
@@ -652,7 +936,6 @@
       const node = nodesContainer.querySelector(`.perk-node[data-perk="${perkId}"]`);
       if (!node) return;
       showPerk(perkId, node);
-      drawPrereqLinks(perkId);
       node.focus({ preventScroll: false });
     }
 
@@ -701,7 +984,7 @@
       layoutConstants,
       dispose() {
         hideTooltip();
-        clearPrereqLinks();
+        clearSkillPath();
         state.disposeHandlers.forEach((fn) => {
           try {
             fn();

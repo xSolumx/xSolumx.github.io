@@ -30,6 +30,8 @@
                 "Product catalog and detail pages",
                 "Realtime data with Firebase",
                 "Responsive and accessible design",
+                "SEO best practices",
+                "Admin panel, with full products and news management"
             ],
             demoLink: "https://swazitrac.com",
         },

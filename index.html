@@ -88,10 +88,6 @@
         "email": "haydaust@gmail.com",
         "telephone": "+27679758624",
         "sameAs": ["https://github.com/xSolumx"],
-        "alumniOf": {
-          "@type": "EducationalOrganization",
-          "name": "Belgium Campus ITversity"
-        },
         "knowsAbout": [
           "C# Programming",
           "Java Development",
@@ -151,7 +147,7 @@
               aria-controls="perks-section"
               data-section="perks"
               id="perks-tab">
-              <span class="nav-text">MORE-SKILLS</span>
+              <span class="nav-text">SKILL TREE</span>
             </button>
             <button
               class="nav-tab"
@@ -171,6 +167,16 @@
               id="projects-tab">
               <span class="nav-text">PROJECTS</span>
             </button>
+            <a
+              href="/CV.pdf"
+              class="nav-tab"
+              role="tab"
+              aria-selected="false"
+              aria-controls="cv-view"
+              id="cv-view"
+              >
+              <span class="nav-text">CV</span>
+            </a>
           </nav>
         </div>
       </header>
@@ -235,21 +241,21 @@
                       <span class="profile-stat-icon" aria-hidden="true">🚀</span>
                       <div>
                         <span class="profile-stat-value" data-profile-stat="projects">7+</span>
-                        <span class="profile-stat-label">Shipped Projects</span>
+                        <span class="profile-stat-label">Completed Projects</span>
                       </div>
                     </div>
                     <div class="profile-stat">
                       <span class="profile-stat-icon" aria-hidden="true">🌐</span>
                       <div>
-                        <span class="profile-stat-value" data-profile-stat="skills">50+</span>
+                        <span class="profile-stat-value">27+</span>
                         <span class="profile-stat-label">Documented Skills</span>
                       </div>
                     </div>
                     <div class="profile-stat">
                       <span class="profile-stat-icon" aria-hidden="true">📚</span>
                       <div>
-                        <span class="profile-stat-value" data-profile-stat="experience">8+</span>
-                        <span class="profile-stat-label">Years of Iteration</span>
+                        <span class="profile-stat-value">8+</span>
+                        <span class="profile-stat-label">Years of Learning</span>
                       </div>
                     </div>
                   </div>
@@ -274,8 +280,9 @@
                   <h3>Current Focus</h3>
                   <ul class="profile-highlight-list">
                     <li>Productizing AI copilots and retrieval workflows that plug into client knowledge bases.</li>
-                    <li>Engineering resilient cloud platforms with TypeScript, C#, and data-first observability.</li>
-                    <li>Elevating developer experience with automation, documentation, and mentorship.</li>
+                    <li>Engineering resilient cloud platforms with React, TypeScript/JS, C#, and data-first observability.</li>
+                    <li>Elevating developer experience with automation, documentation, and creativity.</li>
+                    <li>Elevating client experience through tailored solutions, easy to use interfaces, and automation.</li>
                   </ul>
                 </section>
 
@@ -283,15 +290,16 @@
                   <h3>What Drives Me</h3>
                   <div class="personal-interests">
                     <p>
-                      I'm passionate about building intelligent systems that solve real-world 
-                      problems. From training custom LLMs to architecting scalable web applications, 
+                      I'm passionate about building interesting systems that solve real-world 
+                      problems. From training custom LLMs to creating engaging and easy-to-use web applications, 
                       I thrive on the intersection of AI research and practical software engineering. 
                       Always exploring cutting-edge technologies, optimization techniques, and new 
                       programming paradigms to stay at the forefront of software development.
                     </p>
                     <p>
-                      When I'm not coding, you'll find me diving deep into research papers, experimenting with new frameworks 
-                      and tools, or in the garden tending my plants. I believe in continuous learning and love sharing knowledge with 
+                      When I'm not coding, you'll find me diving deep into literature, experimenting with new frameworks
+                      and tools, or in the garden tending my plants, while my computer is running in the background 24/7 training models (RIP GPU). 
+                      I believe in continuous learning and love sharing knowledge with 
                       the developer community.
                     </p>
                   </div>
@@ -322,6 +330,13 @@
                   <span class="profile-action-text">
                     <span class="profile-action-label">Call</span>
                     <span class="profile-action-detail">+27 67 975 8624</span>
+                  </span>
+                </a>
+                <a href="/CV.pdf" class="contact-link profile-action">
+                  <span class="contact-icon" aria-hidden="true">📄</span>
+                  <span class="profile-action-text">
+                    <span class="profile-action-label">CV</span>
+                    <span class="profile-action-detail">Download my CV</span>
                   </span>
                 </a>
               </div>
@@ -659,7 +674,7 @@
                 <h4>Personal Projects & Open Source</h4>
                 <p class="exp-summary">
                   Dedicated to advancing AI/ML capabilities through personal research projects, 
-                  focusing on efficient training methods and practical deployment of language models.
+                  focusing on efficient training methods and practical personal deployment of language models.
                 </p>
                 
                 <div class="exp-section">
@@ -668,7 +683,7 @@
                     <div class="highlight-item">
                       <span class="highlight-icon">🧠</span>
                       <div>
-                        <strong>Custom LLM Training (Mind_Core)</strong>
+                        <strong>Custom LLM Training [Mind Core]</strong>
                         <p>Building efficient training pipelines with JAX/Flax for local inference</p>
                       </div>
                     </div>
@@ -676,14 +691,14 @@
                       <span class="highlight-icon">⚡</span>
                       <div>
                         <strong>Model Optimization</strong>
-                        <p>Quantization, pruning, and distillation for edge deployment</p>
+                        <p>Quantization, pruning, and distillation for inference speed</p>
                       </div>
                     </div>
                     <div class="highlight-item">
                       <span class="highlight-icon">🔬</span>
                       <div>
                         <strong>Experiment Tracking</strong>
-                        <p>MLOps workflows for reproducible research and model versioning</p>
+                        <p>MLOps workflows for research and model versioning</p>
                       </div>
                     </div>
                   </div>
@@ -796,8 +811,7 @@
               <div class="project-info">
                 <h3>Custom Game Engine Injection</h3>
                 <p>
-                  Lightweight Injection into game engine in C++, for the
-                  creation of mods and adding assets
+                  Lightweight Injection into game engine in C++, for the purpose of adding code mods, and adding assets.
                 </p>
                 <span class="project-tech">C++ • Lua</span>
               </div>
@@ -813,7 +827,7 @@
               </div>
               <div class="project-info">
                 <h3>Automation Suite</h3>
-                <p>Python tools for productivity automation</p>
+                <p>Python tools for productivity automation, data extraction, data processing, data visualization</p>
                 <span class="project-tech">Python • Selenium • Puppeteer</span>
               </div>
             </div>
@@ -827,10 +841,9 @@
                   height="300" />
               </div>
               <div class="project-info">
-                <h3>Gaming Portfolio Site</h3>
+                <h3>Portfolio Site</h3>
                 <p>
-                  This modern gaming-themed portfolio showcases my projects and
-                  skills.
+                  This portfolio is this website.
                 </p>
                 <span class="project-tech">HTML5 • CSS3</span>
               </div>

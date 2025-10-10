@@ -56,7 +56,7 @@
           reward:
             "Unlocks design of maintainable enterprise services, game tooling, and automation within the Microsoft stack",
           icon: "images/logo-csharp.png",
-          prof: 4,
+          prof: 3,
           unlocked: true,
           tags: ["csharp", "oop", ".net"],
           focusAreas: ["Backend", "Enterprise"],
@@ -127,8 +127,8 @@
           unlocked: true,
           tags: ["oop", "patterns", "architecture"],
           focusAreas: ["Architecture"],
-          prereqs: ["languages-3"],
-          related: ["automation-1"],
+          prereqs: ["languages-3" , "languages-9"],
+          related: ["automation-1,", "languages-2", "languages-3", "languages-4"],
         },
         {
           id: "languages-11",
@@ -187,7 +187,7 @@
           tags: ["html", "css", "accessibility"],
           focusAreas: ["UI", "Accessibility"],
           prereqs: [],
-          related: ["web-2", "web-3"],
+          related: ["web-2", "web-3", "web-6", "web-5", "web-7"],
         },
         {
           id: "web-2",
@@ -218,7 +218,7 @@
           unlocked: true,
           tags: ["typescript", "frontend"],
           focusAreas: ["Tooling"],
-          prereqs: ["web-2"],
+          prereqs: ["web-1", "web-2"],
           related: ["web-3", "frontend-4"],
         },
         {
@@ -269,7 +269,7 @@
           tags: ["state", "frontend"],
           focusAreas: ["Architecture"],
           prereqs: ["web-3", "web-6"],
-          related: ["web-14", "web-9"],
+          related: ["web-14", "web-9", "web-3"],
         },
         {
           id: "web-4",

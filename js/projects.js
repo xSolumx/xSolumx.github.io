@@ -9,7 +9,7 @@ export const projects = {
         title: "Mind_Core",
         image: "images/imgNexus.png",
         description:
-            "Personal ML custom LLM build focused on efficient training, fine-tuning and local inference.",
+            "Personal ML custom LLM build focused on efficient training (old gpu, so sad), fine-tuning and local inference.",
         technologies: ["Python", "Ollama", "JAX", "Flax"],
         features: [
             "Custom tokenizer and training pipeline",
@@ -29,6 +29,8 @@ export const projects = {
             "Product catalog and detail pages",
             "Realtime data with Firebase",
             "Responsive and accessible design",
+            "Custom product management Admin Panel with CMS features",
+            "Prebuilt html served on cloudflare workers"
         ],
         demoLink: "https://swazitrac.com",
     },
@@ -43,6 +45,8 @@ export const projects = {
             "SSR/SSG for performance",
             "Product galleries and filtering",
             "Secure auth and data with Firebase",
+            "Custom product management Admin Panel with CMS features",
+            "Easy to use Panels"
         ],
         demoLink: "https://heroncopper.com",
     },
@@ -83,10 +87,10 @@ export const projects = {
     },
     // Gaming Portfolio Site
     "portfolio-site": {
-        title: "Gaming Portfolio Site",
+        title: "Portfolio Site",
         image: "images/astro.png",
         description:
-            "Gaming-themed portfolio focused on performance, accessibility, and UX.",
+            "portfolio focused on performance, accessibility, and UX.",
         technologies: ["HTML5", "CSS3", "JavaScript", "PWA"],
         features: [
             "Responsive layout",

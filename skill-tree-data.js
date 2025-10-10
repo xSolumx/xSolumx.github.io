@@ -18,12 +18,13 @@
           title: "Python Fundamentals",
           summary: "Scripting, data handling and automation for AI/ML and tooling.",
           description:
-            "Scripting, data handling and automation for AI/ML and tooling.",
-          reward: "Unlocks data wrangling and automation workflows",
+            "Write clean Python scripts, manage virtual environments, and leverage the standard library for file, network, and data-heavy tasks. Practice automation patterns that glue together AI tooling, command-line utilities, and quick backend prototypes.",
+          reward:
+            "Unlocks the ability to spin up data pipelines, automation jobs, and ML experiments with minimal friction",
           icon: "images/logo-python.png",
           prof: 3,
           unlocked: true,
-          tags: ["python", "automation", "ai"],
+          tags: ["python", "automation", "scripting", "ai"],
           focusAreas: ["Automation", "AI Tooling"],
           prereqs: [],
           related: ["languages-9", "ai-3"],
@@ -34,12 +35,13 @@
           summary:
             "Core JS concepts including ES modules, functions, objects, and async.",
           description:
-            "Core JS concepts including ES modules, functions, objects, and async.",
-          reward: "Unlocks modern web interactivity and tooling",
+            "Master ES6+ syntax, closures, prototypes, and modules while understanding how the event loop and async patterns shape application behavior. Structure maintainable browser features and Node-powered tooling with modern developer ergonomics.",
+          reward:
+            "Unlocks confident delivery of rich UI behaviors, API integrations, and cross-environment scripts",
           icon: "images/logo-javascript.png",
-          prof: 3,
+          prof: 4,
           unlocked: true,
-          tags: ["javascript", "web"],
+          tags: ["javascript", "web", "runtime"],
           focusAreas: ["Frontend", "Tooling"],
           prereqs: [],
           related: ["web-2", "web-6"],
@@ -50,12 +52,13 @@
           summary:
             "Object-oriented design, .NET ecosystem, and application architecture.",
           description:
-            "Object-oriented design, .NET ecosystem, and application architecture.",
-          reward: "Unlocks backend services and tooling in .NET",
+            "Deepen object-oriented design with interfaces, generics, dependency injection, and async/await across the .NET ecosystem. Work with the CLR, solution organization, and production-ready patterns for desktop, web, and tooling projects.",
+          reward:
+            "Unlocks design of maintainable enterprise services, game tooling, and automation within the Microsoft stack",
           icon: "images/logo-csharp.png",
           prof: 4,
           unlocked: true,
-          tags: ["csharp", "oop"],
+          tags: ["csharp", "oop", ".net"],
           focusAreas: ["Backend", "Enterprise"],
           prereqs: [],
           related: ["languages-10"],
@@ -65,12 +68,13 @@
           title: "Java OOP",
           summary: "Strongly-typed OOP, JVM ecosystem, and enterprise patterns.",
           description:
-            "Strongly-typed OOP, JVM ecosystem, and enterprise patterns.",
-          reward: "Unlocks scalable backend systems on the JVM",
+            "Apply Java's type system, collections, streams, and concurrency utilities to build reliable services on the JVM. Utilize Maven/Gradle, testing frameworks, and performance profiling to keep enterprise applications resilient.",
+          reward:
+            "Unlocks building cross-platform backend APIs, Android services, and scalable enterprise integrations",
           icon: "images/logo-java.png",
           prof: 3,
           unlocked: true,
-          tags: ["java", "oop"],
+          tags: ["java", "oop", "jvm"],
           focusAreas: ["Backend", "Enterprise"],
           prereqs: [],
           related: ["languages-10"],
@@ -81,12 +85,13 @@
           summary:
             "Memory management, performance tuning, and engine-level development.",
           description:
-            "Memory management, performance tuning, and engine-level development.",
-          reward: "Unlocks engine/game modding and high-performance modules",
+            "Explore manual memory management, RAII, templates, and the STL while profiling and optimizing performance-critical code. Practice build tooling, debugging, and interoperability required for engines, embedded systems, and real-time apps.",
+          reward:
+            "Unlocks authoring native modules, game-engine extensions, and high-performance systems components",
           icon: "images/logo-Cplus.png",
-          prof: 4,
+          prof: 1,
           unlocked: true,
-          tags: ["c++", "systems"],
+          tags: ["c++", "systems", "low-level"],
           focusAreas: ["Engines", "Performance"],
           prereqs: [],
           related: ["languages-11"],
@@ -97,12 +102,13 @@
           summary:
             "Core DS&A concepts: arrays, hashes, trees, graphs, and complexity.",
           description:
-            "Core DS&A concepts: arrays, hashes, trees, graphs, and complexity.",
-          reward: "Unlocks stronger problem solving and interview readiness",
+            "Implement arrays, trees, graphs, and hash-based structures while applying algorithmic paradigms such as divide-and-conquer, dynamic programming, and greedy approaches. Analyze time and space complexity to decide the right strategy under real constraints.",
+          reward:
+            "Unlocks designing efficient solutions, excelling in technical interviews, and raising performance awareness across projects",
           emoji: "📚",
           prof: 4,
           unlocked: true,
-          tags: ["algorithms", "dsa"],
+          tags: ["algorithms", "dsa", "problem-solving"],
           focusAreas: ["Problem Solving"],
           prereqs: ["languages-2"],
           related: ["languages-10", "ai-3"],
@@ -113,12 +119,13 @@
           summary:
             "SOLID, composition, and classic patterns (Factory, Strategy, Observer, etc.).",
           description:
-            "SOLID, composition, and classic patterns (Factory, Strategy, Observer, etc.).",
-          reward: "Unlocks maintainable, extensible code architecture",
+            "Apply SOLID principles, composition over inheritance, and patterns like Factory, Strategy, Observer, and CQRS to real-world systems. Focus on refactoring, dependency management, and designing extensible modules that evolve gracefully.",
+          reward:
+            "Unlocks architecting modular codebases so teams can scale features without regressions",
           emoji: "📐",
           prof: 5,
           unlocked: true,
-          tags: ["oop", "patterns"],
+          tags: ["oop", "patterns", "architecture"],
           focusAreas: ["Architecture"],
           prereqs: ["languages-3"],
           related: ["automation-1"],
@@ -128,12 +135,13 @@
           title: "Rust Systems Programming",
           summary: "Ownership, borrowing, and zero-cost abstractions for high safety.",
           description:
-            "Ownership, borrowing, and zero-cost abstractions for building reliable, high-performance services.",
-          reward: "Unlocks memory-safe systems programming",
+            "Dive into ownership, borrowing, lifetimes, and zero-cost abstractions to craft memory-safe systems in Rust. Leverage Cargo, async runtimes, and interoperability patterns for services, CLIs, and embedded tooling.",
+          reward:
+            "Unlocks delivering high-reliability services, embedded tooling, and WebAssembly components with confidence",
           emoji: "🦀",
-          prof: 5,
+          prof: 0,
           unlocked: false,
-          tags: ["rust", "systems"],
+          tags: ["rust", "systems", "safety"],
           focusAreas: ["Safety", "Performance"],
           prereqs: ["languages-5"],
           related: ["devops-4"],
@@ -143,12 +151,13 @@
           title: "Go Concurrency",
           summary: "Goroutines, channels, and structured concurrency for services.",
           description:
-            "Goroutines, channels, and structured concurrency for modern cloud services.",
-          reward: "Unlocks scalable service backends",
+            "Structure concurrent services with goroutines, channels, and context cancellation while modeling clean interfaces and packages. Cover testing, observability, and deployment practices that make Go shine in cloud-native workloads.",
+          reward:
+            "Unlocks building low-latency APIs, streaming workers, and distributed systems that scale horizontally",
           emoji: "🐹",
-          prof: 4,
+          prof: 0,
           unlocked: false,
-          tags: ["golang", "concurrency"],
+          tags: ["golang", "concurrency", "cloud"],
           focusAreas: ["Cloud", "Services"],
           prereqs: ["languages-4"],
           related: ["backend-2", "devops-8"],
@@ -169,12 +178,13 @@
           title: "HTML & CSS",
           summary: "Semantic HTML, responsive design, and modern CSS layouts.",
           description:
-            "Semantic HTML, responsive design, and modern CSS layouts.",
-          reward: "Unlocks clean, accessible UI foundations",
+            "Craft semantic HTML landmarks, responsive layouts with Flexbox/Grid, and modern CSS capabilities like custom properties and clamp(). Apply accessibility heuristics and cross-browser troubleshooting to ship resilient interfaces.",
+          reward:
+            "Unlocks shipping accessible UI foundations, prototypes, and marketing pages quickly",
           icon: "images/logo-htmlcss.png",
-          prof: 2,
+          prof: 5,
           unlocked: true,
-          tags: ["html", "css"],
+          tags: ["html", "css", "accessibility"],
           focusAreas: ["UI", "Accessibility"],
           prereqs: [],
           related: ["web-2", "web-3"],
@@ -183,12 +193,14 @@
           id: "web-2",
           title: "JavaScript for Web",
           summary: "DOM APIs, fetch, routing patterns, and client-side performance.",
-          description: "DOM APIs, fetch, routing patterns, and client-side performance.",
-          reward: "Unlocks interactive, data-driven UIs",
+          description:
+            "Use DOM APIs, event delegation, fetch, and routing patterns to deliver dynamic web experiences. Tune performance, manage state, and integrate third-party services while staying mindful of progressive enhancement.",
+          reward:
+            "Unlocks interactive, data-driven UIs, API-driven dashboards, and progressive enhancements",
           icon: "images/logo-javascript.png",
           prof: 4,
           unlocked: true,
-          tags: ["javascript", "frontend"],
+          tags: ["javascript", "frontend", "dom"],
           focusAreas: ["Interactivity"],
           prereqs: ["web-1"],
           related: ["web-6", "backend-1"],
@@ -197,10 +209,12 @@
           id: "web-6",
           title: "TypeScript Basics",
           summary: "Types, interfaces, generics, and compiling to JavaScript.",
-          description: "Types, interfaces, generics, and compiling to JavaScript.",
-          reward: "Unlocks safer, scalable JS codebases",
+          description:
+            "Introduce TypeScript's type system, interfaces, generics, enums, and compiler configuration to harden JavaScript projects. Practice incremental adoption, type guards, and library interop for smoother developer workflows.",
+          reward:
+            "Unlocks safer refactors, richer tooling, and confidence shipping complex JavaScript code",
           emoji: "🧩",
-          prof: 4,
+          prof: 3,
           unlocked: true,
           tags: ["typescript", "frontend"],
           focusAreas: ["Tooling"],
@@ -213,10 +227,11 @@
           summary:
             "Advanced typing, generics, and large-scale application patterns.",
           description:
-            "Advanced typing, generics, and large-scale application patterns.",
-          reward: "Unlocks robust and scalable JavaScript development",
+            "Develop mastery with mapped and conditional types, utility helpers, type-level programming, and monorepo patterns. Shape domain models, API clients, and large application architectures that stay maintainable over time.",
+          reward:
+            "Unlocks creation of large-scale, type-safe architectures and reusable design systems",
           emoji: "🌀",
-          prof: 5,
+          prof: 2,
           unlocked: true,
           tags: ["typescript", "web"],
           focusAreas: ["Frontend", "Tooling"],
@@ -228,8 +243,9 @@
           title: "React",
           summary: "Component-driven UIs, hooks, state management, and composition.",
           description:
-            "Component-driven UIs, hooks, state management, and composition.",
-          reward: "Unlocks scalable SPA development",
+            "Design component-driven UIs with hooks, composition, context, and Suspense-driven data fetching. Cover accessibility, testing strategies, and performance profiling to keep production SPAs fast and maintainable.",
+          reward:
+            "Unlocks the ability to deliver maintainable React apps, reusable component libraries, and cross-platform experiences",
           icon: "images/react-1-logo-png-transparent.png",
           prof: 4,
           unlocked: true,
@@ -244,8 +260,9 @@
           summary:
             "Managing complex client state (Redux/Zustand/Context) and side effects.",
           description:
-            "Managing complex client state (Redux/Zustand/Context) and side effects.",
-          reward: "Unlocks scalable front-end architectures",
+            "Evaluate Redux, Zustand, Context, and query libraries to orchestrate complex client state, caching, and asynchronous effects. Normalize data, craft selectors, and debug flows that keep teams aligned across surfaces.",
+          reward:
+            "Unlocks predictable data flows, offline support, and scalable front-end architectures",
           emoji: "🗃️",
           prof: 4,
           unlocked: true,
@@ -258,10 +275,12 @@
           id: "web-4",
           title: "Progressive Web Apps (PWA)",
           summary: "Service workers, offline caching, installable experiences.",
-          description: "Service workers, offline caching, installable experiences.",
-          reward: "Unlocks offline-first and installable apps",
+          description:
+            "Implement service workers, caching strategies, background sync, and push notifications to create resilient web experiences. Design app shell architectures, update strategies, and install prompts that feel native.",
+          reward:
+            "Unlocks shipping offline-first, installable web apps with native-like polish",
           emoji: "🚀",
-          prof: 4,
+          prof: 3,
           unlocked: true,
           tags: ["pwa", "frontend"],
           focusAreas: ["Offline", "UX"],
@@ -273,10 +292,11 @@
           title: "Tailwind CSS",
           summary: "Utility-first CSS framework for rapid UI development.",
           description:
-            "Responsive design with utility classes, custom themes, and plugins.",
-          reward: "Unlocks fast, consistent styling workflows",
+            "Leverage utility classes, responsive variants, and design tokens to build consistent interfaces at speed. Customize themes, compose reusable components, and integrate Tailwind with design systems.",
+          reward:
+            "Unlocks accelerated styling workflows with built-in consistency and minimal CSS debt",
           emoji: "🎨",
-          prof: 4,
+          prof: 3,
           unlocked: true,
           tags: ["tailwind", "css"],
           focusAreas: ["Styling", "UI"],
@@ -289,8 +309,9 @@
           summary:
             "Modern bundlers for fast development and optimized production builds.",
           description:
-            "Module bundling, HMR, code splitting, and asset optimization.",
-          reward: "Unlocks optimized build pipelines",
+            "Configure Vite/Webpack for bundling, hot module replacement, code splitting, and asset optimization across environments. Manage aliases, environment variables, and diagnostics to keep builds fast and reliable.",
+          reward:
+            "Unlocks fast developer feedback loops and lean production bundles",
           emoji: "⚡",
           prof: 4,
           unlocked: true,
@@ -304,10 +325,11 @@
           title: "Vue.js",
           summary: "Progressive JavaScript framework for building UIs.",
           description:
-            "Components, Composition API, and reactive state management.",
-          reward: "Unlocks alternative SPA development path",
+            "Explore Single File Components, the Composition API, and Vue's reactivity system to craft maintainable applications. Utilize routing, state patterns, and tooling to deliver production-ready Vue experiences.",
+          reward:
+            "Unlocks delivering SPAs with Vue's approachable yet scalable architecture",
           emoji: "💚",
-          prof: 3,
+          prof: 0,
           unlocked: false,
           tags: ["vue", "frontend"],
           focusAreas: ["SPA", "Components"],
@@ -318,11 +340,13 @@
           id: "web-10",
           title: "React Native",
           summary: "Cross-platform mobile development with React.",
-          description: "Native mobile apps using React patterns and components.",
-          reward: "Unlocks iOS and Android development",
+          description:
+            "Build cross-platform mobile apps using React primitives, navigation stacks, and native modules while tailoring styling per platform. Debug, profile, and ship to app stores with confidence in performance and accessibility.",
+          reward:
+            "Unlocks shipping production mobile apps backed by a shared React codebase",
           emoji: "📱",
-          prof: 4,
-          unlocked: false,
+          prof: 3,
+          unlocked: true,
           tags: ["react-native", "mobile"],
           focusAreas: ["Mobile", "Cross-platform"],
           prereqs: ["web-3"],
@@ -333,11 +357,12 @@
           title: "Mobile UI/UX Patterns",
           summary: "Platform-specific design patterns and native interactions.",
           description:
-            "iOS and Android design guidelines, gestures, and navigation.",
-          reward: "Unlocks native-feeling mobile experiences",
+            "Study platform heuristics, human interface guidelines, gestures, and accessibility expectations on iOS and Android. Prototype flows, animations, and micro-interactions that make mobile products feel intuitive and native.",
+          reward:
+            "Unlocks designing delightful, intuitive mobile journeys that complement mobile tech stacks",
           emoji: "📲",
-          prof: 3,
-          unlocked: false,
+          prof: 5,
+          unlocked: true,
           tags: ["mobile", "ux"],
           focusAreas: ["Mobile", "Design"],
           prereqs: ["web-1", "web-10"],
@@ -347,10 +372,12 @@
           id: "web-14",
           title: "Next.js",
           summary: "React framework for SSR/SSG, routing, and performance.",
-          description: "React framework for SSR/SSG, routing, and performance.",
-          reward: "Unlocks production-grade React apps",
+          description:
+            "Apply file-based routing, data fetching modes, server actions, and image/font optimizations to build performant React apps. Master incremental static regeneration, middleware, and deployment best practices.",
+          reward:
+            "Unlocks production-ready full-stack React apps with SEO, performance, and DX optimized",
           emoji: "⏭️",
-          prof: 5,
+          prof: 3,
           unlocked: true,
           tags: ["nextjs", "frontend"],
           focusAreas: ["SSR", "Performance"],
@@ -362,11 +389,12 @@
           title: "Edge Rendering",
           summary: "Streaming SSR and edge rendering strategies for modern apps.",
           description:
-            "Streaming SSR pipelines, middleware, and edge rendering for low-latency experiences.",
-          reward: "Unlocks near-instant global delivery",
+            "Architect streaming SSR pipelines, middleware, and edge caching strategies that serve content close to users. Monitor cold starts, personalize per locale, and integrate with observability to keep latency low worldwide.",
+          reward:
+            "Unlocks blazingly fast global delivery and personalized experiences at the network edge",
           emoji: "🌍",
-          prof: 5,
-          unlocked: false,
+          prof: 2,
+          unlocked: true,
           tags: ["edge", "performance"],
           focusAreas: ["Performance", "Deployment"],
           prereqs: ["web-14", "devops-6"],
@@ -387,12 +415,14 @@
           id: "backend-1",
           title: "Node.js Fundamentals",
           summary: "Building APIs, working with filesystem, and async patterns.",
-          description: "Building APIs, working with filesystem, and async patterns.",
-          reward: "Unlocks full-stack JavaScript development",
+          description:
+            "Cover core Node runtime concepts, async I/O, module systems, and building HTTP servers with Express and native APIs. Work with the filesystem, streams, npm scripts, and debugging techniques for asynchronous code.",
+          reward:
+            "Unlocks the ability to deliver production-ready services, CLIs, and tooling on the Node runtime",
           emoji: "🟩",
           prof: 4,
           unlocked: true,
-          tags: ["node", "backend"],
+          tags: ["node", "backend", "nodejs"],
           focusAreas: ["APIs", "Runtime"],
           prereqs: ["web-2"],
           related: ["backend-2", "automation-2"],
@@ -403,12 +433,13 @@
           summary:
             "Designing and building RESTful endpoints with Express and middleware.",
           description:
-            "Designing and building RESTful endpoints with Express and middleware.",
-          reward: "Unlocks robust backend services and integrations",
+            "Design RESTful resources, middleware pipelines, validation layers, and error handling with Express. Implement pagination, versioning, logging, and documentation so clients can depend on your APIs.",
+          reward:
+            "Unlocks building dependable API surfaces that integrate with frontends, mobile apps, and partners",
           emoji: "🧭",
-          prof: 5,
+          prof: 4,
           unlocked: true,
-          tags: ["rest", "backend"],
+          tags: ["rest", "backend", "express"],
           focusAreas: ["APIs"],
           prereqs: ["backend-1"],
           related: ["backend-1", "backend-6"],
@@ -417,11 +448,13 @@
           id: "backend-3",
           title: "GraphQL Basics",
           summary: "Schema design, resolvers, and API querying with GraphQL.",
-          description: "Schema design, resolvers, and API querying with GraphQL.",
-          reward: "Unlocks flexible, client-driven APIs",
+          description:
+            "Introduce GraphQL schemas, types, queries, mutations, and resolver design with tooling like Apollo. Compare against REST, address performance considerations, and evolve schemas safely as products grow.",
+          reward:
+            "Unlocks the ability to prototype flexible, client-driven APIs",
           emoji: "🔺",
-          prof: 4,
-          unlocked: false,
+          prof: 1,
+          unlocked: true,
           tags: ["graphql", "api"],
           focusAreas: ["APIs"],
           prereqs: ["backend-1", "web-6"],
@@ -433,11 +466,12 @@
           summary:
             "Building and consuming GraphQL endpoints for efficient data querying.",
           description:
-            "Building and consuming GraphQL endpoints for efficient data querying.",
-          reward: "Unlocks modern API design and integration",
+            "Architect production GraphQL servers with schema stitching, federation, caching, and authorization patterns. Instrument resolvers, batch requests with DataLoader, and integrate clients for reliable GraphQL ecosystems.",
+          reward:
+            "Unlocks shipping scalable, observable GraphQL platforms across teams",
           emoji: "🔍",
-          prof: 4,
-          unlocked: false,
+          prof: 1,
+          unlocked: true,
           tags: ["graphql", "api"],
           focusAreas: ["APIs"],
           prereqs: ["backend-3", "backend-5"],
@@ -449,10 +483,11 @@
           summary:
             "XSS, CSRF, SQL injection prevention, and HTTPS best practices.",
           description:
-            "XSS, CSRF, SQL injection prevention, and HTTPS best practices.",
-          reward: "Unlocks secure application development",
+            "Identify vulnerabilities such as XSS, CSRF, SQL injection, and clickjacking while implementing practical mitigations. Embrace HTTPS, security headers, dependency scanning, and secure coding habits.",
+          reward:
+            "Unlocks building products with defense-in-depth and fewer critical vulnerabilities",
           emoji: "🛡️",
-          prof: 4,
+          prof: 3,
           unlocked: true,
           tags: ["security", "web"],
           focusAreas: ["Security"],
@@ -464,12 +499,13 @@
           title: "Authentication & Authorization",
           summary: "JWT, OAuth2, session management, and identity providers.",
           description:
-            "Secure user authentication, role-based access control, and SSO integration.",
-          reward: "Unlocks secure user management",
+            "Implement identity workflows using JWTs, OAuth 2.0, sessions, and external identity providers. Cover RBAC/ABAC, password hygiene, MFA, and secure session management from signup through logout.",
+          reward:
+            "Unlocks confident delivery of secure login flows, partner integrations, and enterprise access controls",
           emoji: "🔐",
-          prof: 5,
+          prof: 4,
           unlocked: true,
-          tags: ["auth", "security"],
+          tags: ["auth", "security", "identity"],
           focusAreas: ["Security", "Backend"],
           prereqs: ["backend-2", "backend-8"],
           related: ["backend-10"],
@@ -480,8 +516,9 @@
           summary:
             "Rate limiting, API keys, token management, and threat prevention.",
           description:
-            "Securing APIs with authentication, authorization, and input validation.",
-          reward: "Unlocks production-grade API protection",
+            "Establish API hardening strategies including rate limiting, token lifecycles, schema validation, and threat modeling. Emphasize least privilege, secrets management, and monitoring to detect abuse early.",
+          reward:
+            "Unlocks production API resilience against abuse, data leaks, and compliance issues",
           emoji: "🛡️",
           prof: 4,
           unlocked: true,
@@ -495,10 +532,11 @@
           title: "Message Queues",
           summary: "Asynchronous processing with RabbitMQ, Kafka, and Redis.",
           description:
-            "Event-driven architectures, pub/sub patterns, and job queues.",
-          reward: "Unlocks scalable async workflows",
+            "Explore RabbitMQ, Kafka, and Redis streams to decouple services with pub/sub and work queues. Design for exactly-once semantics, dead-letter handling, and resilient event-driven microservices.",
+          reward:
+            "Unlocks the ability to scale workloads, smooth spikes, and design reactive systems",
           emoji: "📮",
-          prof: 4,
+          prof: 0,
           unlocked: false,
           tags: ["queues", "async"],
           focusAreas: ["Architecture", "Scalability"],
@@ -510,11 +548,12 @@
           title: "Microservices Architecture",
           summary: "Service decomposition, API gateways, and distributed systems.",
           description:
-            "Building and orchestrating microservices with proper patterns.",
-          reward: "Unlocks scalable system design",
+            "Define service boundaries with domain-driven design, communication patterns, API gateways, and data consistency strategies. Address deployment, resilience patterns, and organizational considerations for distributed teams.",
+          reward:
+            "Unlocks designing distributed systems that evolve independently while staying operable",
           emoji: "🧩",
-          prof: 5,
-          unlocked: false,
+          prof: 1,
+          unlocked: true,
           tags: ["microservices", "architecture"],
           focusAreas: ["Architecture", "Scalability"],
           prereqs: ["backend-2", "backend-11", "languages-10"],
@@ -535,12 +574,14 @@
           id: "backend-5",
           title: "SQL & Databases",
           summary: "Relational modeling, querying, and performance basics.",
-          description: "Relational modeling, querying, and performance basics.",
-          reward: "Unlocks robust data persistence and reporting",
+          description:
+            "Design relational schemas, enforce normalization, and optimize queries with indexes across engines like Postgres or MySQL. Understand ACID transactions, stored procedures, and reporting fundamentals for critical systems.",
+          reward:
+            "Unlocks reliable data persistence, analytics, and integration with business systems",
           icon: "images/logo-sql.png",
           prof: 3,
           unlocked: true,
-          tags: ["sql", "database"],
+          tags: ["sql", "database", "relational"],
           focusAreas: ["Data"],
           prereqs: ["backend-1"],
           related: ["backend-6", "backend-2"],
@@ -551,12 +592,13 @@
           summary:
             "Document, key-value, and graph databases for unstructured data.",
           description:
-            "Document, key-value, and graph databases for unstructured data.",
-          reward: "Unlocks scalable, flexible data storage",
+            "Evaluate document, key-value, wide-column, and graph databases with modeling techniques tailored to unstructured data. Balance consistency trade-offs, sharding, and operational tooling for scalable workloads.",
+          reward:
+            "Unlocks flexible data storage that grows with varied workloads and real-time apps",
           emoji: "�️",
           prof: 4,
           unlocked: true,
-          tags: ["nosql", "database"],
+          tags: ["nosql", "database", "scalability"],
           focusAreas: ["Data"],
           prereqs: ["backend-5"],
           related: ["backend-5", "backend-7"],
@@ -566,8 +608,9 @@
           title: "Firebase",
           summary: "Realtime database, auth, storage, and hosting for web apps.",
           description:
-            "Realtime database, auth, storage, and hosting for web apps.",
-          reward: "Unlocks serverless backends and rapid prototypes",
+            "Leverage Firebase's realtime database, Firestore, authentication, storage, and hosting to prototype full-stack apps quickly. Configure security rules, Cloud Functions, and deployment automation for production readiness.",
+          reward:
+            "Unlocks shipping real-time experiences and MVPs without managing servers",
           emoji: "�",
           prof: 4,
           unlocked: true,
@@ -581,11 +624,12 @@
           title: "Data Pipelines",
           summary: "ETL workflows, data validation, and orchestration.",
           description:
-            "Building reliable data pipelines with Airflow or similar tools.",
-          reward: "Unlocks automated data workflows",
+            "Design ETL/ELT workflows with Airflow or similar orchestrators to ingest, validate, transform, and load data reliably. Manage scheduling, monitoring, schema evolution, and lineage to keep stakeholders confident in their data.",
+          reward:
+            "Unlocks trustworthy data flows powering analytics dashboards, ML training, and compliance reporting",
           emoji: "🔄",
-          prof: 4,
-          unlocked: false,
+          prof: 2,
+          unlocked: true,
           tags: ["etl", "data-engineering"],
           focusAreas: ["Data", "Engineering"],
           prereqs: ["backend-5", "languages-1"],
@@ -596,11 +640,12 @@
           title: "Vector Databases",
           summary: "Embedding storage and similarity search for AI applications.",
           description:
-            "Pinecone, Weaviate, and vector search for RAG systems.",
-          reward: "Unlocks semantic search capabilities",
+            "Implement embedding storage, similarity search, and hybrid retrieval strategies with systems such as Pinecone or Weaviate. Tune indexing, filtering, and scaling considerations to power retrieval-augmented generation.",
+          reward:
+            "Unlocks semantic search, personalized assistants, and context-aware AI experiences",
           emoji: "🎯",
-          prof: 4,
-          unlocked: false,
+          prof: 2,
+          unlocked: true,
           tags: ["vector-db", "ai"],
           focusAreas: ["AI", "Data"],
           prereqs: ["backend-6", "ai-3"],
@@ -622,8 +667,9 @@
           title: "Git & GitHub",
           summary: "Branching, PR workflows, and collaboration best practices.",
           description:
-            "Branching, PR workflows, and collaboration best practices.",
-          reward: "Unlocks reliable versioning and teamwork",
+            "Practice branching strategies, pull requests, code review etiquette, and conflict resolution. Explore Git internals, hooks, and GitHub features that keep collaboration smooth across teams.",
+          reward:
+            "Unlocks reliable version control, project history stewardship, and effective team collaboration",
           icon: "images/logo-github.png",
           prof: 3,
           unlocked: true,
@@ -636,10 +682,12 @@
           id: "devops-2",
           title: "Linux & Dev Environment",
           summary: "Shell, package managers, and developer environment setup.",
-          description: "Shell, package managers, and developer environment setup.",
-          reward: "Unlocks efficient development workflows",
+          description:
+            "Build fluency with shell navigation, package managers, processes, and environment configuration on Linux systems. Tune dotfiles, editors, containers, and troubleshooting techniques for consistent development setups.",
+          reward:
+            "Unlocks efficient, repeatable development workflows across machines and servers",
           emoji: "🐧",
-          prof: 3,
+          prof: 4,
           unlocked: true,
           tags: ["linux", "environment"],
           focusAreas: ["Tooling"],
@@ -650,8 +698,10 @@
           id: "languages-6",
           title: "Bash Scripting",
           summary: "Shell scripting, automation, and system management.",
-          description: "Shell scripting, automation, and system management.",
-          reward: "Unlocks advanced DevOps workflows",
+          description:
+            "Write portable shell scripts using pipes, conditionals, loops, and tools like sed and awk. Automate environment provisioning, CI steps, and operational runbooks with robust error handling and logging.",
+          reward:
+            "Unlocks automation of repetitive tasks, server orchestration, and glue code for DevOps pipelines",
           emoji: "🐚",
           prof: 4,
           unlocked: true,
@@ -664,8 +714,10 @@
           id: "devops-3",
           title: "CI/CD Pipelines",
           summary: "Automated builds, tests, and deployments with pipelines.",
-          description: "Automated builds, tests, and deployments with pipelines.",
-          reward: "Unlocks rapid, reliable releases",
+          description:
+            "Automate builds, tests, and deployments using platforms like GitHub Actions, GitLab CI, or Jenkins. Design pipelines with artifact management, gating strategies, and rollback safety nets for resilient releases.",
+          reward:
+            "Unlocks faster shipping with confidence through repeatable, auditable delivery pipelines",
           emoji: "🔁",
           prof: 4,
           unlocked: true,
@@ -679,10 +731,11 @@
           title: "Docker Basics",
           summary: "Containerization, images, and local development environments.",
           description:
-            "Containerization, images, and local development environments.",
-          reward: "Unlocks reproducible dev and deployments",
+            "Create Dockerfiles, manage images, networks, and volumes to containerize applications and dependencies. Leverage multi-stage builds, layer caching, and local workflow parity to ship confidently.",
+          reward:
+            "Unlocks reproducible environments and simplified deployments across machines and clouds",
           emoji: "🐳",
-          prof: 4,
+          prof: 2,
           unlocked: true,
           tags: ["docker", "containers"],
           focusAreas: ["DevOps"],
@@ -694,11 +747,12 @@
           title: "Kubernetes Basics",
           summary: "Container orchestration, deployments, and scaling services.",
           description:
-            "Container orchestration, deployments, and scaling services.",
-          reward: "Unlocks scalable, automated service management",
+            "Introduce cluster architecture, pods, deployments, services, and scaling workloads with Kubernetes. Work with manifests, Helm, and operational concerns like health checks, rolling updates, and secrets management.",
+          reward:
+            "Unlocks orchestrating containerized services with resilience, autoscaling, and self-healing",
           emoji: "☸️",
-          prof: 5,
-          unlocked: false,
+          prof: 1,
+          unlocked: true,
           tags: ["kubernetes", "ops"],
           focusAreas: ["DevOps"],
           prereqs: ["devops-4", "devops-3"],
@@ -708,10 +762,12 @@
           id: "devops-6",
           title: "Cloudflare Workers",
           summary: "Edge compute for serverless functions and web APIs.",
-          description: "Edge compute for serverless functions and web APIs.",
-          reward: "Unlocks low-latency edge deployments",
+          description:
+            "Deploy serverless functions at the edge with Cloudflare Workers, KV, and Durable Objects. Craft caching strategies, routing, and secure integrations with downstream APIs for responsive applications.",
+          reward:
+            "Unlocks low-latency edge experiences, request customization, and serverless microservices",
           emoji: "☁️",
-          prof: 4,
+          prof: 2,
           unlocked: true,
           tags: ["edge", "serverless"],
           focusAreas: ["Performance", "Deployment"],
@@ -723,10 +779,11 @@
           title: "Serverless Functions",
           summary: "API routes and background jobs on serverless platforms.",
           description:
-            "API routes, jobs, and workflows deployed on serverless providers (Vercel, AWS Lambda).",
-          reward: "Unlocks elastic backend scaling",
+            "Design event-driven APIs and background jobs on platforms like Firebase, AWS Lambda, and Cloud Functions. Address cold starts, observability, and integrations with queues or schedulers to keep systems responsive.",
+          reward:
+            "Unlocks elastic scaling without managing servers, enabling quick feature delivery",
           emoji: "⚙️",
-          prof: 5,
+          prof: 3,
           unlocked: true,
           tags: ["serverless", "backend"],
           focusAreas: ["Scalability"],
@@ -738,10 +795,11 @@
           title: "Google Cloud Platform (GCP)",
           summary: "Compute, storage, networking, and managed services on GCP.",
           description:
-            "Compute, storage, networking, and managed services on GCP.",
-          reward: "Unlocks scalable cloud deployments",
+            "Navigate GCP compute, storage, networking, IAM, and managed services to deploy secure workloads. Implement billing controls, infrastructure design, and monitoring practices across projects.",
+          reward:
+            "Unlocks architecting scalable cloud environments while leveraging managed services efficiently",
           emoji: "🛰️",
-          prof: 4,
+          prof: 3,
           unlocked: true,
           tags: ["gcp", "cloud"],
           focusAreas: ["Cloud", "Infrastructure"],
@@ -753,10 +811,11 @@
           title: "Terraform & IaC",
           summary: "Infrastructure as code for repeatable cloud architecture.",
           description:
-            "Infrastructure as code workflows to provision, version, and audit cloud infrastructure.",
-          reward: "Unlocks reproducible infrastructure automation",
+            "Author infrastructure-as-code modules with Terraform to provision, version, and audit cloud resources. Manage state, enforce policies, and automate plan/apply workflows for safe, repeatable deployments.",
+          reward:
+            "Unlocks repeatable, reviewable infrastructure automation across environments",
           emoji: "🏗️",
-          prof: 5,
+          prof: 0,
           unlocked: false,
           tags: ["iac", "terraform"],
           focusAreas: ["DevOps", "Cloud"],
@@ -779,8 +838,9 @@
           title: "Observability (Grafana)",
           summary: "Dashboards, metrics, and alerting for production systems.",
           description:
-            "Dashboards, metrics, tracing, and alerting to maintain healthy production systems.",
-          reward: "Unlocks proactive monitoring and SLO tracking",
+            "Build dashboards, metrics, logs, and traces using Grafana, Prometheus, and OpenTelemetry to watch production health. Design alerting strategies, SLOs, and incident workflows grounded in actionable signals.",
+          reward:
+            "Unlocks proactive detection of issues and informed decision-making during on-call events",
           emoji: "📈",
           prof: 4,
           unlocked: true,
@@ -794,8 +854,9 @@
           title: "QA & CI",
           summary: "Testing fundamentals and CI pipelines for reliable releases.",
           description:
-            "Testing fundamentals and CI pipelines for reliable releases.",
-          reward: "Unlocks automated quality gates",
+            "Establish testing strategies, branching policies, and continuous integration checks that guard every release. Tackle flaky tests, environment parity, and reporting so teams maintain quality at speed.",
+          reward:
+            "Unlocks automation that enforces quality gates before code reaches users",
           emoji: "✅",
           prof: 4,
           unlocked: true,
@@ -810,8 +871,9 @@
           summary:
             "Test frameworks and best practices (Jest, NUnit, PyTest) for reliable code.",
           description:
-            "Test frameworks and best practices (Jest, NUnit, PyTest) for reliable code.",
-          reward: "Unlocks safer refactors and higher quality",
+            "Implement unit tests with frameworks like Jest, NUnit, and PyTest using mocks, spies, and coverage analysis. Focus on fast feedback, naming, and maintainability to keep suites trustworthy.",
+          reward:
+            "Unlocks fearless refactoring and higher confidence in code behavior",
           emoji: "🧪",
           prof: 4,
           unlocked: true,
@@ -824,10 +886,12 @@
           id: "automation-3",
           title: "Puppeteer",
           summary: "Headless Chrome automation for testing and scraping.",
-          description: "Headless Chrome automation for testing and scraping.",
-          reward: "Unlocks robust browser automation",
+          description:
+            "Use headless Chrome automation for end-to-end testing, scraping, and synthetic monitoring. Master selectors, waits, screenshots, and CI integration to keep web experiences stable.",
+          reward:
+            "Unlocks repeatable browser automation for QA, data collection, and regression catching",
           emoji: "🤖",
-          prof: 4,
+          prof: 3,
           unlocked: true,
           tags: ["automation", "testing"],
           focusAreas: ["Testing", "Tooling"],
@@ -838,8 +902,10 @@
           id: "automation-4",
           title: "Selenium",
           summary: "Cross-browser automation for end-to-end testing.",
-          description: "Cross-browser automation for end-to-end testing.",
-          reward: "Unlocks UI regression and E2E coverage",
+          description:
+            "Build cross-browser test suites targeting Chrome, Firefox, Safari, and Edge with Selenium WebDriver. Scale via Selenium Grid, craft resilient selectors, and orchestrate suites through CI/CD.",
+          reward:
+            "Unlocks comprehensive UI regression coverage across browsers and devices",
           emoji: "🚗",
           prof: 4,
           unlocked: true,
@@ -853,11 +919,12 @@
           title: "Integration Testing",
           summary: "Testing component interactions and API contracts.",
           description:
-            "End-to-end flows, database integration, and service mocking.",
-          reward: "Unlocks comprehensive test coverage",
+            "Design tests that exercise APIs, databases, and message queues together using contract and system-level checks. Manage fixtures, test data, and boundary validation to ensure workflows behave in concert.",
+          reward:
+            "Unlocks confidence that complex workflows function end-to-end before release",
           emoji: "🔗",
-          prof: 4,
-          unlocked: false,
+          prof: 1,
+          unlocked: true,
           tags: ["testing", "integration"],
           focusAreas: ["Quality", "Testing"],
           prereqs: ["automation-2"],
@@ -868,11 +935,12 @@
           title: "Performance Testing",
           summary: "Load testing, stress testing, and performance profiling.",
           description:
-            "JMeter, k6, and Lighthouse for performance validation.",
-          reward: "Unlocks scalability assurance",
+            "Apply load, stress, and soak testing with tools like k6, JMeter, and Lighthouse to measure latency, throughput, and stability. Surface bottlenecks, guide capacity planning, and maintain responsive user experiences.",
+          reward:
+            "Unlocks insight to tune systems for scale while keeping performance promises",
           emoji: "⚡",
-          prof: 3,
-          unlocked: false,
+          prof: 1,
+          unlocked: true,
           tags: ["testing", "performance"],
           focusAreas: ["Performance", "Quality"],
           prereqs: ["automation-1"],
@@ -894,10 +962,11 @@
           title: "Photoshop Basics",
           summary: "Raster editing, asset optimization, and export pipelines.",
           description:
-            "Raster editing, asset optimization, and export pipelines.",
-          reward: "Unlocks clean visual assets for apps",
+            "Cover non-destructive editing, masking, typography, and exporting optimized assets for web or apps. Manage color, automate actions, and organize files for collaboration with developers and designers.",
+          reward:
+            "Unlocks creation of polished UI assets, marketing visuals, and production-ready imagery",
           icon: "images/logo-photoshop.png",
-          prof: 4,
+          prof: 5,
           unlocked: true,
           tags: ["design", "photoshop"],
           focusAreas: ["Design"],
@@ -908,8 +977,10 @@
           id: "design-2",
           title: "Blender Basics",
           summary: "Modeling, materials, and export formats for 3D assets.",
-          description: "Modeling, materials, and export formats for 3D assets.",
-          reward: "Unlocks 3D assets for games and visuals",
+          description:
+            "Introduce modeling, sculpting, materials, lighting, and animation fundamentals for 3D asset creation. Learn to export to game engines, render efficiently, and streamline creative workflows.",
+          reward:
+            "Unlocks delivering bespoke 3D elements for games, motion graphics, and immersive visuals",
           icon: "images/logo-blender.png",
           prof: 3,
           unlocked: true,
@@ -923,8 +994,9 @@
           title: "Figma Basics",
           summary: "Collaborative UI/UX design, prototyping, and asset export.",
           description:
-            "Collaborative UI/UX design, prototyping, and asset export.",
-          reward: "Unlocks rapid interface design and collaboration",
+            "Teach component libraries, auto layout, prototyping, and design systems within Figma's collaborative canvas. Facilitate feedback loops, accessibility considerations, and developer handoff with precision.",
+          reward:
+            "Unlocks rapid UX iteration, stakeholder alignment, and precise developer handoff",
           emoji: "🎨",
           prof: 3,
           unlocked: true,
@@ -948,8 +1020,10 @@
           id: "ai-3",
           title: "NumPy",
           summary: "Fundamental package for scientific computing in Python.",
-          description: "Fundamental package for scientific computing in Python.",
-          reward: "Unlocks vectorized numerical computing",
+          description:
+            "Manipulate multi-dimensional arrays, broadcasting, vectorized operations, and numerical routines using NumPy. Understand memory layout, performance considerations, and interoperability with SciPy and Pandas.",
+          reward:
+            "Unlocks fast numerical computation and a foundation for scientific Python ecosystems",
           emoji: "📊",
           prof: 4,
           unlocked: true,
@@ -963,10 +1037,11 @@
           title: "TensorFlow",
           summary: "Deep learning framework for building and training neural networks.",
           description:
-            "Deep learning framework for building and training neural networks.",
-          reward: "Unlocks model training and deployment",
+            "Build neural networks using TensorFlow's eager and graph execution, crafting data pipelines, training loops, and deployment targets like TFLite or TF Serving. Monitor metrics, run distributed training, and track experiments end-to-end.",
+          reward:
+            "Unlocks end-to-end deep learning projects from research to production",
           emoji: "🧠",
-          prof: 5,
+          prof: 2,
           unlocked: true,
           tags: ["tensorflow", "deep-learning"],
           focusAreas: ["Modeling"],
@@ -978,10 +1053,11 @@
           title: "Flax & JAX",
           summary: "High-performance ML with JAX and neural networks via Flax.",
           description:
-            "High-performance ML with JAX and neural networks via Flax.",
-          reward: "Unlocks fast, composable research workflows",
+            "Harness JAX's composable transformations (jit, vmap, pmap) and Flax's module system to create high-performance ML experiments. Focus on reproducibility, mixed precision, and scaling across accelerators with minimal boilerplate.",
+          reward:
+            "Unlocks cutting-edge research workflows with speed and composability",
           emoji: "⚡",
-          prof: 5,
+          prof: 2,
           unlocked: true,
           tags: ["jax", "flax"],
           focusAreas: ["Research", "Modeling"],
@@ -992,8 +1068,10 @@
           id: "ai-4",
           title: "Ollama",
           summary: "Local LLM runner for fast prototyping and inference.",
-          description: "Local LLM runner for fast prototyping and inference.",
-          reward: "Unlocks local LLM experimentation",
+          description:
+            "Run large language models locally with Ollama, managing model downloads, prompt templates, and integration with downstream tools. Explore fine-tuning, quantization, and orchestration for rapid, private prototyping.",
+          reward:
+            "Unlocks offline experimentation, secure demos, and fast iteration with LLMs",
           emoji: "🦙",
           prof: 4,
           unlocked: true,
@@ -1008,10 +1086,11 @@
           summary:
             "Data framework for augmenting LLMs with private or external data.",
           description:
-            "Data framework for augmenting LLMs with private or external data.",
-          reward: "Unlocks RAG pipelines and data connectors",
+            "Connect language models to structured and unstructured data sources using LlamaIndex indexes, retrievers, and query engines. Evaluate quality, add observability, and deploy retrieval-augmented generation pipelines.",
+          reward:
+            "Unlocks building data-aware assistants, copilots, and knowledge retrieval workflows",
           emoji: "📚",
-          prof: 5,
+          prof: 4,
           unlocked: true,
           tags: ["llamaindex", "rag"],
           focusAreas: ["RAG", "Data"],
@@ -1023,10 +1102,11 @@
           title: "MLOps Pipelines",
           summary: "Model packaging, deployment, and continuous retraining workflows.",
           description:
-            "Model packaging, deployment, monitoring, and continuous retraining workflows.",
-          reward: "Unlocks production-grade ML services",
+            "Package models, manage experiment tracking, automate deployment, and monitor drift with modern MLOps platforms. Implement CI/CD for ML, feature stores, and feedback loops that keep models accurate in production.",
+          reward:
+            "Unlocks dependable ML services that stay accurate after launch",
           emoji: "🧬",
-          prof: 5,
+          prof: 3,
           unlocked: true,
           tags: ["mlops", "deployment"],
           focusAreas: ["Operations", "Automation"],
@@ -1038,8 +1118,9 @@
           title: "Pandas & Data Analysis",
           summary: "Data manipulation, cleaning, and analysis with Pandas DataFrames.",
           description:
-            "DataFrame operations, data cleaning, transformation, and exploratory data analysis.",
-          reward: "Unlocks efficient data wrangling workflows",
+            "Perform data cleaning, transformation, aggregation, and reshaping with Pandas DataFrames. Tackle time-series, joins, vectorized operations, and exporting insights for dashboards or downstream ML tasks.",
+          reward:
+            "Unlocks efficient exploration and preparation of datasets for analysis and modeling",
           emoji: "🐼",
           prof: 4,
           unlocked: true,
@@ -1054,8 +1135,9 @@
           summary:
             "Creating insights through Matplotlib, Seaborn, and Plotly visualizations.",
           description:
-            "Statistical plots, interactive dashboards, and data storytelling.",
-          reward: "Unlocks visual data communication",
+            "Create compelling charts with Matplotlib, Seaborn, and Plotly while applying storytelling, annotations, and interactivity. Use design principles to surface trends, outliers, and comparisons that drive decisions.",
+          reward:
+            "Unlocks communicating insights to stakeholders with clarity and visual impact",
           emoji: "📊",
           prof: 3,
           unlocked: true,
@@ -1069,10 +1151,11 @@
           title: "Scikit-learn",
           summary: "Classical ML algorithms, preprocessing, and model evaluation.",
           description:
-            "Supervised/unsupervised learning, pipelines, and cross-validation.",
-          reward: "Unlocks traditional ML workflows",
+            "Apply preprocessing pipelines, feature engineering, and classical algorithms like regression, classification, and clustering with scikit-learn. Evaluate with cross-validation, tune hyperparameters, and plan deployments.",
+          reward:
+            "Unlocks rapid prototyping of predictive models and production-ready baselines",
           emoji: "🔬",
-          prof: 4,
+          prof: 2,
           unlocked: true,
           tags: ["scikit-learn", "ml"],
           focusAreas: ["ML", "Modeling"],
@@ -1084,10 +1167,11 @@
           title: "PyTorch",
           summary: "Dynamic neural networks and deep learning research framework.",
           description:
-            "Tensors, autograd, and flexible model architectures for research.",
-          reward: "Unlocks research-grade deep learning",
+            "Construct neural networks with PyTorch's dynamic computation graphs, autograd, and modular APIs. Customize training loops, experiment with distributed training, and export models for inference.",
+          reward:
+            "Unlocks research flexibility, rapid experimentation, and deployment-ready deep learning solutions",
           emoji: "🔥",
-          prof: 5,
+          prof: 3,
           unlocked: true,
           tags: ["pytorch", "deep-learning"],
           focusAreas: ["Deep Learning", "Research"],
@@ -1099,10 +1183,11 @@
           title: "LLM Ops & Evaluation",
           summary: "Prompt pipelines, evaluation loops, and guardrails for LLMs.",
           description:
-            "Prompt pipelines, evaluation loops, guardrails, and observability for production LLM systems.",
-          reward: "Unlocks reliable LLM-backed products",
+            "Design prompt pipelines, evaluation harnesses, guardrails, and observability for LLM-powered products. Address safety reviews, automated regression testing, and feedback loops to iterate on prompts and models.",
+          reward:
+            "Unlocks trustworthy, measurable LLM experiences ready for real users",
           emoji: "🛡️",
-          prof: 5,
+          prof: 0,
           unlocked: false,
           tags: ["llm", "evaluation"],
           focusAreas: ["LLM", "Operations"],

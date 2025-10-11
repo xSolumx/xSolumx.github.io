@@ -812,10 +812,19 @@
           img.alt = "";
           iconWrapper.appendChild(img);
         } else if (meta.emoji) {
-          const span = document.createElement("span");
-          span.className = "icon-placeholder";
-          span.textContent = meta.emoji;
-          iconWrapper.appendChild(span);
+          const emojiValue = String(meta.emoji).trim();
+          const looksLikeIconClass = /\bfa[bsrl]?\b/.test(emojiValue) || emojiValue.includes("fa-");
+          if (looksLikeIconClass) {
+            const i = document.createElement("i");
+            i.className = emojiValue;
+            i.setAttribute("aria-hidden", "true");
+            iconWrapper.appendChild(i);
+          } else {
+            const span = document.createElement("span");
+            span.className = "emoji-icon";
+            span.textContent = emojiValue;
+            iconWrapper.appendChild(span);
+          }
         } else {
           const span = document.createElement("span");
           span.className = "icon-placeholder";
@@ -823,11 +832,6 @@
           iconWrapper.appendChild(span);
         }
         el.appendChild(iconWrapper);
-
-        const badge = document.createElement("span");
-        badge.className = "perk-number";
-        badge.textContent = unlocked ? String(state.nodeMeta[id].target) : "—";
-        el.appendChild(badge);
 
         if (laneIndex && laneIndex !== 0) {
           el.dataset.lane = String(laneIndex);

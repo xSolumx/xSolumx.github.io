@@ -164,7 +164,7 @@ export function initProjects(openModalFn) {
             a.rel = "noopener noreferrer";
             a.className = "badge demo";
             a.setAttribute("aria-label", `Open live demo for ${project.title}`);
-            a.innerHTML = `<span class="badge-icon">🚀</span><span class="badge-text">Demo</span>`;
+            a.innerHTML = `<span class="badge-icon"><i class="fas fa-rocket"></i></span><span class="badge-text">Demo</span>`;
             a.addEventListener("click", (ev) => ev.stopPropagation());
             badges.appendChild(a);
         }

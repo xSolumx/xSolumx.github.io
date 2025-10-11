@@ -732,7 +732,7 @@
                     demo.className = "badge demo";
                     demo.target = "_blank";
                     demo.rel = "noopener noreferrer";
-                    demo.innerHTML = '<span class="badge-icon">🚀</span><span class="badge-text">Demo</span>';
+                    demo.innerHTML = '<span class="badge-icon"><i class="fas fa-rocket"></i></span><span class="badge-text">Demo</span>';
                     demo.addEventListener("click", (event) => event.stopPropagation());
                     badges.appendChild(demo);
                 }

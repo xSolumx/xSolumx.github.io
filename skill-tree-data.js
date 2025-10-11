@@ -122,7 +122,7 @@
             "Apply SOLID principles, composition over inheritance, and patterns like Factory, Strategy, Observer, and CQRS to real-world systems. Focus on refactoring, dependency management, and designing extensible modules that evolve gracefully.",
           reward:
             "Unlocks architecting modular codebases so teams can scale features without regressions",
-          emoji: "📐",
+          icon: "images/icons8-object-oriented-programming-64.png",
           prof: 5,
           unlocked: true,
           tags: ["oop", "patterns", "architecture"],
@@ -213,7 +213,7 @@
             "Introduce TypeScript's type system, interfaces, generics, enums, and compiler configuration to harden JavaScript projects. Practice incremental adoption, type guards, and library interop for smoother developer workflows.",
           reward:
             "Unlocks safer refactors, richer tooling, and confidence shipping complex JavaScript code",
-          emoji: "🧩",
+          icon: "images/icons8-typescript-480.png",
           prof: 3,
           unlocked: true,
           tags: ["typescript", "frontend"],
@@ -230,7 +230,7 @@
             "Develop mastery with mapped and conditional types, utility helpers, type-level programming, and monorepo patterns. Shape domain models, API clients, and large application architectures that stay maintainable over time.",
           reward:
             "Unlocks creation of large-scale, type-safe architectures and reusable design systems",
-          emoji: "🌀",
+          icon: "images/icons8-typescript-480.png",
           prof: 2,
           unlocked: true,
           tags: ["typescript", "web"],
@@ -295,7 +295,7 @@
             "Leverage utility classes, responsive variants, and design tokens to build consistent interfaces at speed. Customize themes, compose reusable components, and integrate Tailwind with design systems.",
           reward:
             "Unlocks accelerated styling workflows with built-in consistency and minimal CSS debt",
-          emoji: "🎨",
+          icon: "images/icons8-tailwind-css-480.png",
           prof: 3,
           unlocked: true,
           tags: ["tailwind", "css"],
@@ -344,7 +344,7 @@
             "Build cross-platform mobile apps using React primitives, navigation stacks, and native modules while tailoring styling per platform. Debug, profile, and ship to app stores with confidence in performance and accessibility.",
           reward:
             "Unlocks shipping production mobile apps backed by a shared React codebase",
-          emoji: "📱",
+          icon: "images/icons8-react-native-500.png",
           prof: 3,
           unlocked: true,
           tags: ["react-native", "mobile"],
@@ -376,7 +376,7 @@
             "Apply file-based routing, data fetching modes, server actions, and image/font optimizations to build performant React apps. Master incremental static regeneration, middleware, and deployment best practices.",
           reward:
             "Unlocks production-ready full-stack React apps with SEO, performance, and DX optimized",
-          emoji: "⏭️",
+          icon: "images/icons8-next.js-480.png",
           prof: 3,
           unlocked: true,
           tags: ["nextjs", "frontend"],
@@ -419,7 +419,7 @@
             "Cover core Node runtime concepts, async I/O, module systems, and building HTTP servers with Express and native APIs. Work with the filesystem, streams, npm scripts, and debugging techniques for asynchronous code.",
           reward:
             "Unlocks the ability to deliver production-ready services, CLIs, and tooling on the Node runtime",
-          emoji: "🟩",
+          icon: "images/nodejs.png",
           prof: 4,
           unlocked: true,
           tags: ["node", "backend", "nodejs"],
@@ -452,7 +452,7 @@
             "Introduce GraphQL schemas, types, queries, mutations, and resolver design with tooling like Apollo. Compare against REST, address performance considerations, and evolve schemas safely as products grow.",
           reward:
             "Unlocks the ability to prototype flexible, client-driven APIs",
-          emoji: "🔺",
+          icon: "images/icons8-graphql-480.png",
           prof: 1,
           unlocked: true,
           tags: ["graphql", "api"],
@@ -469,7 +469,7 @@
             "Architect production GraphQL servers with schema stitching, federation, caching, and authorization patterns. Instrument resolvers, batch requests with DataLoader, and integrate clients for reliable GraphQL ecosystems.",
           reward:
             "Unlocks shipping scalable, observable GraphQL platforms across teams",
-          emoji: "🔍",
+          icon: "images/icons8-graphql-480.png",
           prof: 1,
           unlocked: true,
           tags: ["graphql", "api"],
@@ -611,7 +611,7 @@
             "Leverage Firebase's realtime database, Firestore, authentication, storage, and hosting to prototype full-stack apps quickly. Configure security rules, Cloud Functions, and deployment automation for production readiness.",
           reward:
             "Unlocks shipping real-time experiences and MVPs without managing servers",
-          emoji: "�",
+          icon: "images/firebase.png",
           prof: 4,
           unlocked: true,
           tags: ["firebase", "serverless"],
@@ -686,7 +686,7 @@
             "Build fluency with shell navigation, package managers, processes, and environment configuration on Linux systems. Tune dotfiles, editors, containers, and troubleshooting techniques for consistent development setups.",
           reward:
             "Unlocks efficient, repeatable development workflows across machines and servers",
-          emoji: "🐧",
+          icon: "images/icons8-linux-96.png",
           prof: 4,
           unlocked: true,
           tags: ["linux", "environment"],
@@ -702,7 +702,7 @@
             "Write portable shell scripts using pipes, conditionals, loops, and tools like sed and awk. Automate environment provisioning, CI steps, and operational runbooks with robust error handling and logging.",
           reward:
             "Unlocks automation of repetitive tasks, server orchestration, and glue code for DevOps pipelines",
-          emoji: "🐚",
+          icon: "images/icons8-bash-96.png",
           prof: 4,
           unlocked: true,
           tags: ["bash", "automation", "scripting"],
@@ -734,7 +734,7 @@
             "Create Dockerfiles, manage images, networks, and volumes to containerize applications and dependencies. Leverage multi-stage builds, layer caching, and local workflow parity to ship confidently.",
           reward:
             "Unlocks reproducible environments and simplified deployments across machines and clouds",
-          emoji: "🐳",
+          icon: "images/imgComp.png",
           prof: 2,
           unlocked: true,
           tags: ["docker", "containers"],
@@ -1024,7 +1024,7 @@
             "Manipulate multi-dimensional arrays, broadcasting, vectorized operations, and numerical routines using NumPy. Understand memory layout, performance considerations, and interoperability with SciPy and Pandas.",
           reward:
             "Unlocks fast numerical computation and a foundation for scientific Python ecosystems",
-          emoji: "📊",
+          icon: "images/icons8-numpy-480.png",
           prof: 4,
           unlocked: true,
           tags: ["numpy", "python"],
@@ -1040,7 +1040,7 @@
             "Build neural networks using TensorFlow's eager and graph execution, crafting data pipelines, training loops, and deployment targets like TFLite or TF Serving. Monitor metrics, run distributed training, and track experiments end-to-end.",
           reward:
             "Unlocks end-to-end deep learning projects from research to production",
-          emoji: "🧠",
+          icon: "images/imgBrain.png",
           prof: 2,
           unlocked: true,
           tags: ["tensorflow", "deep-learning"],
@@ -1170,7 +1170,7 @@
             "Construct neural networks with PyTorch's dynamic computation graphs, autograd, and modular APIs. Customize training loops, experiment with distributed training, and export models for inference.",
           reward:
             "Unlocks research flexibility, rapid experimentation, and deployment-ready deep learning solutions",
-          emoji: "🔥",
+          icon: "images/icons8-pytorch-96.png",
           prof: 3,
           unlocked: true,
           tags: ["pytorch", "deep-learning"],

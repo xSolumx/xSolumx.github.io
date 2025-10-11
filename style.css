@@ -551,12 +551,12 @@ a:focus {
 }
 
 .profile-image {
-    width: 200px;
-    height: 200px;
+    width: 350px;
+    height: 350px;
     border-radius: var(--radius-full);
     border: 4px solid var(--primary-color);
     box-shadow: var(--shadow-glow);
-    object-fit: cover;
+    object-fit: contain;
     transition: all var(--transition-normal);
     position: relative;
     z-index: 1;
@@ -1319,6 +1319,14 @@ a:focus {
     height: 80px;
 }
 
+.group-label {
+    color: var(--background-light);
+    z-index: 15;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.632);
+    font-weight: 600;
+    font-size: x-large;
+}
+
 .perk-center-label {
     position: absolute;
     bottom: -28px;
@@ -1346,8 +1354,8 @@ a:focus {
 
 .perk-node {
     position: absolute;
-    width: 68px;
-    height: 68px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1438,8 +1446,8 @@ a:focus {
 }
 
 .perk-node.path-related {
-    --path-glow: rgba(220, 190, 140, 0.6);
-    --path-outline: rgba(220, 190, 140, 0.45);
+    --path-glow: rgba(167, 75, 75, 0.6);
+    --path-outline: rgba(255, 162, 0, 0.45);
 }
 
 .perk-node.path-root {
@@ -1528,7 +1536,19 @@ a:focus {
     transition: transform 0.2s ease;
 }
 
+.perk-icon .emoji-icon {
+    font-size: 44px;
+    line-height: 1;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
+    transition: transform 0.2s ease;
+}
+
 .perk-node:hover .perk-icon .icon-placeholder {
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+.perk-node:hover .perk-icon .emoji-icon {
     transform: scale(1.1);
     z-index: 10;
 }
@@ -1538,7 +1558,6 @@ a:focus {
     bottom: -10px;
     right: -10px;
     background: linear-gradient(135deg, var(--gaming-text), #2c1810);
-    color: var(--gaming-bg-light);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bold);
     min-width: 24px;

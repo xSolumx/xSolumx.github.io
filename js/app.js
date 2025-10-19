@@ -48,7 +48,9 @@ document.addEventListener("DOMContentLoaded", function () {
         // Will be refactored in a future update
         
     } catch (error) {
-        console.error('Error initializing application:', error);
+        if (isDevelopment) {
+            console.error('Error initializing application:', error);
+        }
         hideLoadingScreen();
         
         // Show error message to user

@@ -105,6 +105,7 @@
             "Implement arrays, trees, graphs, and hash-based structures while applying algorithmic paradigms such as divide-and-conquer, dynamic programming, and greedy approaches. Analyze time and space complexity to decide the right strategy under real constraints.",
           reward:
             "Unlocks designing efficient solutions, excelling in technical interviews, and raising performance awareness across projects",
+          icon: "images/icons8-data-structures-100.png",
           emoji: "📚",
           prof: 4,
           unlocked: true,
@@ -128,7 +129,7 @@
           tags: ["oop", "patterns", "architecture"],
           focusAreas: ["Architecture"],
           prereqs: ["languages-3" , "languages-9"],
-          related: ["automation-1,", "languages-2", "languages-3", "languages-4"],
+          related: ["automation-1", "languages-2", "languages-3", "languages-4"],
         },
       ],
     },
@@ -231,6 +232,7 @@
             "Evaluate Redux, Zustand, Context, and query libraries to orchestrate complex client state, caching, and asynchronous effects. Normalize data, craft selectors, and debug flows that keep teams aligned across surfaces.",
           reward:
             "Unlocks predictable data flows, offline support, and scalable front-end architectures",
+          icon: "images/icons8-cloud-firestore-480.png",
           emoji: "🗃️",
           prof: 4,
           unlocked: true,
@@ -247,12 +249,13 @@
             "Implement service workers, caching strategies, background sync, and push notifications to create resilient web experiences. Design app shell architectures, update strategies, and install prompts that feel native.",
           reward:
             "Unlocks shipping offline-first, installable web apps with native-like polish",
+          icon: "images/pwa-progressive-web-app-logo-transparent.png",
           emoji: "🚀",
           prof: 3,
           unlocked: true,
           tags: ["pwa", "frontend"],
           focusAreas: ["Offline", "UX"],
-          prereqs: ["web-1", "web-3"],
+          prereqs: ["web-2", "web-3"],
           related: ["web-14"],
         },
         {
@@ -280,6 +283,7 @@
             "Configure Vite/Webpack for bundling, hot module replacement, code splitting, and asset optimization across environments. Manage aliases, environment variables, and diagnostics to keep builds fast and reliable.",
           reward:
             "Unlocks fast developer feedback loops and lean production bundles",
+          icon: "images/icons8-webpack-100.png",
           emoji: "⚡",
           prof: 4,
           unlocked: true,
@@ -312,12 +316,13 @@
             "Study platform heuristics, human interface guidelines, gestures, and accessibility expectations on iOS and Android. Prototype flows, animations, and micro-interactions that make mobile products feel intuitive and native.",
           reward:
             "Unlocks designing delightful, intuitive mobile journeys that complement mobile tech stacks",
+          icon: "images/icons8-details-100.png",
           emoji: "📲",
           prof: 5,
           unlocked: true,
           tags: ["mobile", "ux"],
           focusAreas: ["Mobile", "Design"],
-          prereqs: ["web-1", "web-10"],
+          prereqs: ["web-10", "design-3"],
           related: ["design-3"],
         },
         {
@@ -344,6 +349,7 @@
             "Architect streaming SSR pipelines, middleware, and edge caching strategies that serve content close to users. Monitor cold starts, personalize per locale, and integrate with observability to keep latency low worldwide.",
           reward:
             "Unlocks blazingly fast global delivery and personalized experiences at the network edge",
+          icon: "images/icons8-cloudflare-96(1).png",
           emoji: "🌍",
           prof: 2,
           unlocked: true,
@@ -388,6 +394,7 @@
             "Design RESTful resources, middleware pipelines, validation layers, and error handling with Express. Implement pagination, versioning, logging, and documentation so clients can depend on your APIs.",
           reward:
             "Unlocks building dependable API surfaces that integrate with frontends, mobile apps, and partners",
+          icon: "images/api.png",
           emoji: "🧭",
           prof: 4,
           unlocked: true,
@@ -409,7 +416,7 @@
           unlocked: true,
           tags: ["graphql", "api"],
           focusAreas: ["APIs"],
-          prereqs: ["backend-1", "web-6"],
+          prereqs: ["backend-1", "backend-2"],
           related: ["backend-4", "backend-2"],
         },
         {
@@ -421,6 +428,7 @@
             "Identify vulnerabilities such as XSS, CSRF, SQL injection, and clickjacking while implementing practical mitigations. Embrace HTTPS, security headers, dependency scanning, and secure coding habits.",
           reward:
             "Unlocks building products with defense-in-depth and fewer critical vulnerabilities",
+          icon: "images/icons8-cyber-security-96.png",
           emoji: "🛡️",
           prof: 3,
           unlocked: true,
@@ -437,6 +445,7 @@
             "Implement identity workflows using JWTs, OAuth 2.0, sessions, and external identity providers. Cover RBAC/ABAC, password hygiene, MFA, and secure session management from signup through logout.",
           reward:
             "Unlocks confident delivery of secure login flows, partner integrations, and enterprise access controls",
+          icon: "images/icons8-authentication-96.png",
           emoji: "🔐",
           prof: 4,
           unlocked: true,
@@ -454,6 +463,7 @@
             "Establish API hardening strategies including rate limiting, token lifecycles, schema validation, and threat modeling. Emphasize least privilege, secrets management, and monitoring to detect abuse early.",
           reward:
             "Unlocks production API resilience against abuse, data leaks, and compliance issues",
+          icon: "images/icons8-key-480.png",
           emoji: "🛡️",
           prof: 4,
           unlocked: true,
@@ -498,6 +508,7 @@
             "Evaluate document, key-value, wide-column, and graph databases with modeling techniques tailored to unstructured data. Balance consistency trade-offs, sharding, and operational tooling for scalable workloads.",
           reward:
             "Unlocks flexible data storage that grows with varied workloads and real-time apps",
+          icon: "images/icons8-mongodb-480.png",
           emoji: "�️",
           prof: 4,
           unlocked: true,
@@ -530,6 +541,7 @@
             "Design ETL/ELT workflows with Airflow or similar orchestrators to ingest, validate, transform, and load data reliably. Manage scheduling, monitoring, schema evolution, and lineage to keep stakeholders confident in their data.",
           reward:
             "Unlocks trustworthy data flows powering analytics dashboards, ML training, and compliance reporting",
+          icon: "images/ai-workflow.svg",
           emoji: "🔄",
           prof: 2,
           unlocked: true,
@@ -546,6 +558,7 @@
             "Implement embedding storage, similarity search, and hybrid retrieval strategies with systems such as Pinecone or Weaviate. Tune indexing, filtering, and scaling considerations to power retrieval-augmented generation.",
           reward:
             "Unlocks semantic search, personalized assistants, and context-aware AI experiences",
+          icon: "images/icons8-vector-100.png",
           emoji: "🎯",
           prof: 2,
           unlocked: true,
@@ -621,6 +634,7 @@
             "Automate builds, tests, and deployments using platforms like GitHub Actions, GitLab CI, or Jenkins. Design pipelines with artifact management, gating strategies, and rollback safety nets for resilient releases.",
           reward:
             "Unlocks faster shipping with confidence through repeatable, auditable delivery pipelines",
+          icon: "images/icons8-continuous-integration-100.png",
           emoji: "🔁",
           prof: 4,
           unlocked: true,
@@ -637,7 +651,7 @@
             "Create Dockerfiles, manage images, networks, and volumes to containerize applications and dependencies. Leverage multi-stage builds, layer caching, and local workflow parity to ship confidently.",
           reward:
             "Unlocks reproducible environments and simplified deployments across machines and clouds",
-          icon: "images/imgComp.png",
+          icon: "images/icons8-docker-480.png",
           prof: 2,
           unlocked: true,
           tags: ["docker", "containers"],
@@ -653,6 +667,7 @@
             "Introduce cluster architecture, pods, deployments, services, and scaling workloads with Kubernetes. Work with manifests, Helm, and operational concerns like health checks, rolling updates, and secrets management.",
           reward:
             "Unlocks orchestrating containerized services with resilience, autoscaling, and self-healing",
+          icon: "images/icons8-kubernetes-480.png",
           emoji: "☸️",
           prof: 1,
           unlocked: true,
@@ -669,6 +684,7 @@
             "Deploy serverless functions at the edge with Cloudflare Workers, KV, and Durable Objects. Craft caching strategies, routing, and secure integrations with downstream APIs for responsive applications.",
           reward:
             "Unlocks low-latency edge experiences, request customization, and serverless microservices",
+          icon: "images/icons8-cloudflare-96(1).png",
           emoji: "☁️",
           prof: 2,
           unlocked: true,
@@ -685,6 +701,7 @@
             "Design event-driven APIs and background jobs on platforms like Firebase, AWS Lambda, and Cloud Functions. Address cold starts, observability, and integrations with queues or schedulers to keep systems responsive.",
           reward:
             "Unlocks elastic scaling without managing servers, enabling quick feature delivery",
+          icon: "images/firebase.png",
           emoji: "⚙️",
           prof: 3,
           unlocked: true,
@@ -701,6 +718,7 @@
             "Navigate GCP compute, storage, networking, IAM, and managed services to deploy secure workloads. Implement billing controls, infrastructure design, and monitoring practices across projects.",
           reward:
             "Unlocks architecting scalable cloud environments while leveraging managed services efficiently",
+          icon: "images/icons8-google-cloud-platform-480.png",
           emoji: "🛰️",
           prof: 3,
           unlocked: true,
@@ -728,6 +746,7 @@
             "Build dashboards, metrics, logs, and traces using Grafana, Prometheus, and OpenTelemetry to watch production health. Design alerting strategies, SLOs, and incident workflows grounded in actionable signals.",
           reward:
             "Unlocks proactive detection of issues and informed decision-making during on-call events",
+          icon: "images/icons8-grafana-480.png",
           emoji: "📈",
           prof: 4,
           unlocked: true,
@@ -744,6 +763,7 @@
             "Establish testing strategies, branching policies, and continuous integration checks that guard every release. Tackle flaky tests, environment parity, and reporting so teams maintain quality at speed.",
           reward:
             "Unlocks automation that enforces quality gates before code reaches users",
+          icon: "images/icons8-continuous-integration-100.png",
           emoji: "✅",
           prof: 4,
           unlocked: true,
@@ -761,6 +781,7 @@
             "Implement unit tests with frameworks like Jest, NUnit, and PyTest using mocks, spies, and coverage analysis. Focus on fast feedback, naming, and maintainability to keep suites trustworthy.",
           reward:
             "Unlocks fearless refactoring and higher confidence in code behavior",
+          icon: "images/icons8-python-480.png",
           emoji: "🧪",
           prof: 4,
           unlocked: true,
@@ -777,6 +798,7 @@
             "Use headless Chrome automation for end-to-end testing, scraping, and synthetic monitoring. Master selectors, waits, screenshots, and CI integration to keep web experiences stable.",
           reward:
             "Unlocks repeatable browser automation for QA, data collection, and regression catching",
+          icon: "images/puppeteer-seeklogo.png",
           emoji: "🤖",
           prof: 3,
           unlocked: true,
@@ -793,6 +815,7 @@
             "Build cross-browser test suites targeting Chrome, Firefox, Safari, and Edge with Selenium WebDriver. Scale via Selenium Grid, craft resilient selectors, and orchestrate suites through CI/CD.",
           reward:
             "Unlocks comprehensive UI regression coverage across browsers and devices",
+          icon: "images/icons8-selenium-480.png",
           emoji: "🚗",
           prof: 4,
           unlocked: true,
@@ -809,6 +832,7 @@
             "Design tests that exercise APIs, databases, and message queues together using contract and system-level checks. Manage fixtures, test data, and boundary validation to ensure workflows behave in concert.",
           reward:
             "Unlocks confidence that complex workflows function end-to-end before release",
+          icon: "images/integration.svg",
           emoji: "🔗",
           prof: 1,
           unlocked: true,
@@ -825,6 +849,7 @@
             "Apply load, stress, and soak testing with tools like k6, JMeter, and Lighthouse to measure latency, throughput, and stability. Surface bottlenecks, guide capacity planning, and maintain responsive user experiences.",
           reward:
             "Unlocks insight to tune systems for scale while keeping performance promises",
+          icon: "images/icons8-lighthouse-100.png",
           emoji: "⚡",
           prof: 1,
           unlocked: true,
@@ -884,6 +909,7 @@
             "Teach component libraries, auto layout, prototyping, and design systems within Figma's collaborative canvas. Facilitate feedback loops, accessibility considerations, and developer handoff with precision.",
           reward:
             "Unlocks rapid UX iteration, stakeholder alignment, and precise developer handoff",
+          icon: "images/icons8-figma-480.png",
           emoji: "🎨",
           prof: 3,
           unlocked: true,
@@ -927,7 +953,7 @@
             "Build neural networks using TensorFlow's eager and graph execution, crafting data pipelines, training loops, and deployment targets like TFLite or TF Serving. Monitor metrics, run distributed training, and track experiments end-to-end.",
           reward:
             "Unlocks end-to-end deep learning projects from research to production",
-          icon: "images/imgBrain.png",
+          icon: "images/icons8-tensorflow-480.png",
           prof: 2,
           unlocked: true,
           tags: ["tensorflow", "deep-learning"],
@@ -943,6 +969,7 @@
             "Harness JAX's composable transformations (jit, vmap, pmap) and Flax's module system to create high-performance ML experiments. Focus on reproducibility, mixed precision, and scaling across accelerators with minimal boilerplate.",
           reward:
             "Unlocks cutting-edge research workflows with speed and composability",
+          icon: "images/flax_logo_250px.png",
           emoji: "⚡",
           prof: 2,
           unlocked: true,
@@ -959,6 +986,7 @@
             "Run large language models locally with Ollama, managing model downloads, prompt templates, and integration with downstream tools. Explore fine-tuning, quantization, and orchestration for rapid, private prototyping.",
           reward:
             "Unlocks offline experimentation, secure demos, and fast iteration with LLMs",
+          icon: "images/ollama-logo.png",
           emoji: "🦙",
           prof: 4,
           unlocked: true,
@@ -976,6 +1004,7 @@
             "Connect language models to structured and unstructured data sources using LlamaIndex indexes, retrievers, and query engines. Evaluate quality, add observability, and deploy retrieval-augmented generation pipelines.",
           reward:
             "Unlocks building data-aware assistants, copilots, and knowledge retrieval workflows",
+          icon: "images/ollama-logo.png",
           emoji: "📚",
           prof: 4,
           unlocked: true,
@@ -992,6 +1021,7 @@
             "Perform data cleaning, transformation, aggregation, and reshaping with Pandas DataFrames. Tackle time-series, joins, vectorized operations, and exporting insights for dashboards or downstream ML tasks.",
           reward:
             "Unlocks efficient exploration and preparation of datasets for analysis and modeling",
+          icon: "images/icons8-python-480.png",
           emoji: "🐼",
           prof: 4,
           unlocked: true,
@@ -1009,6 +1039,7 @@
             "Create compelling charts with Matplotlib, Seaborn, and Plotly while applying storytelling, annotations, and interactivity. Use design principles to surface trends, outliers, and comparisons that drive decisions.",
           reward:
             "Unlocks communicating insights to stakeholders with clarity and visual impact",
+          icon: "images/icons8-data-visualization-100.png",
           emoji: "📊",
           prof: 3,
           unlocked: true,
@@ -1038,385 +1069,296 @@
   ];
 
   const curatedConnections = [
-    // Web progression and specialization
-    { from: "web-1", to: "web-2", type: "progression" },
-    { from: "web-2", to: "web-6", type: "progression" },
-    { from: "web-6", to: "web-3", type: "progression" },
-    { from: "web-6", to: "web-5", type: "expansion" },
+    // ===== WEB BUILD TOOLING =====
+    { from: "web-2", to: "web-8", type: "tooling" },
+    { from: "web-8", to: "web-3", type: "build" },
+    { from: "web-8", to: "web-14", type: "build" },
+    { from: "web-8", to: "backend-1", type: "tooling" },
+
+    // ===== WEB FRAMEWORKS & ARCHITECTURE =====
     { from: "web-3", to: "web-12", type: "architecture" },
     { from: "web-3", to: "web-14", type: "expansion" },
-    { from: "web-4", to: "web-14", type: "experience" },
-    { from: "web-5", to: "web-14", type: "synergy" },
-    { from: "web-14", to: "web-18", type: "performance" },
-    { from: "web-1", to: "web-4", type: "styling" },
-    { from: "web-2", to: "web-7", type: "framework" },
-    { from: "web-7", to: "web-8", type: "framework" },
-    { from: "web-6", to: "web-7", type: "related" },
     { from: "web-3", to: "web-10", type: "mobile" },
+    { from: "web-3", to: "web-4", type: "experience" },
+    { from: "web-3", to: "backend-2", type: "fullstack" },
+    { from: "web-3", to: "backend-3", type: "fullstack" },
+    { from: "web-3", to: "languages-9", type: "optimization" },
+    { from: "web-12", to: "web-14", type: "architecture" },
+    { from: "web-12", to: "web-4", type: "state" },
+    { from: "web-12", to: "web-10", type: "state" },
+    { from: "web-5", to: "web-12", type: "architecture" },
+    { from: "web-5", to: "web-14", type: "synergy" },
+    { from: "web-5", to: "backend-2", type: "type-safety" },
+    { from: "web-5", to: "backend-3", type: "type-safety" },
+    { from: "web-5", to: "design-3", type: "design-system" },
 
-    // Backend & API progression
-    { from: "web-2", to: "backend-1", type: "progression" },
-    { from: "backend-1", to: "backend-2", type: "progression" },
-    { from: "backend-1", to: "backend-3", type: "branch" },
-    { from: "backend-3", to: "backend-4", type: "progression" },
-    { from: "backend-2", to: "backend-8", type: "security" },
-    { from: "web-2", to: "backend-8", type: "foundation" },
-    { from: "backend-2", to: "web-3", type: "fullstack" },
-    { from: "backend-4", to: "backend-9", type: "pattern" },
-    { from: "languages-1", to: "backend-1", type: "runtime" },
-    { from: "languages-1", to: "backend-3", type: "runtime" },
-
-    // Data & Databases cluster
-    { from: "backend-5", to: "backend-6", type: "branch" },
-    { from: "backend-6", to: "backend-7", type: "expansion" },
-    { from: "web-2", to: "backend-7", type: "progression" },
-    { from: "backend-1", to: "database-1", type: "persistence" },
-    { from: "backend-1", to: "database-2", type: "persistence" },
-    { from: "database-1", to: "database-2", type: "paradigm" },
-    { from: "database-2", to: "database-3", type: "cloud" },
-    { from: "database-3", to: "database-5", type: "integration" },
-    { from: "database-5", to: "web-3", type: "integration" },
-    { from: "database-2", to: "ai-5", type: "vectordb" },
-
-    // Language foundations and crossovers
-    { from: "languages-1", to: "ai-3", type: "progression" },
-    { from: "languages-1", to: "automation-4", type: "automation" },
+    // ===== LANGUAGE FUNDAMENTALS =====
     { from: "languages-2", to: "web-2", type: "foundation" },
+    { from: "languages-2", to: "backend-1", type: "runtime" },
+    { from: "languages-2", to: "backend-2", type: "runtime" },
     { from: "languages-2", to: "languages-9", type: "synergy" },
+    { from: "languages-2", to: "devops-6", type: "runtime" },
+    { from: "languages-2", to: "languages-9", type: "algorithms" },
+    { from: "languages-1", to: "ai-3", type: "progression" },
+    { from: "languages-1", to: "ai-4", type: "tooling" },
+    { from: "languages-1", to: "ai-8", type: "data" },
+    { from: "languages-1", to: "backend-1", type: "runtime" },
+    { from: "languages-1", to: "database-4", type: "etl" },
+    { from: "languages-1", to: "automation-4", type: "automation" },
+    { from: "languages-1", to: "languages-9", type: "foundation" },
     { from: "languages-3", to: "languages-10", type: "architecture" },
     { from: "languages-4", to: "languages-10", type: "architecture" },
-    { from: "languages-4", to: "languages-12", type: "expansion" },
-    { from: "languages-5", to: "languages-11", type: "expansion" },
-    { from: "languages-9", to: "ai-3", type: "analysis" },
-    { from: "languages-9", to: "languages-10", type: "architecture" },
+    { from: "languages-4", to: "devops-4", type: "containerization" },
+    { from: "languages-4", to: "devops-5", type: "deployment" },
     { from: "languages-3", to: "languages-4", type: "related" },
-    { from: "languages-5", to: "languages-7", type: "related" },
-    { from: "languages-1", to: "web-2", type: "ecosystem" },
+    { from: "languages-5", to: "languages-10", type: "architecture" },
+    { from: "languages-5", to: "devops-4", type: "containerization" },
+    { from: "languages-9", to: "languages-10", type: "foundation" },
+    { from: "languages-9", to: "backend-2", type: "optimization" },
+    { from: "languages-9", to: "backend-6", type: "indexing" },
+    { from: "languages-9", to: "web-3", type: "performance" },
+    { from: "languages-9", to: "automation-5", type: "testing" },
+    { from: "languages-9", to: "automation-6", type: "performance" },
+    { from: "languages-9", to: "devops-5", type: "scheduling" },
+    { from: "languages-9", to: "database-4", type: "optimization" },
+    { from: "languages-9", to: "web-18", type: "optimization" },
+    { from: "languages-10", to: "backend-2", type: "architecture" },
+    { from: "languages-10", to: "backend-3", type: "architecture" },
+    { from: "languages-10", to: "backend-5", type: "modeling" },
+    { from: "languages-10", to: "backend-6", type: "modeling" },
+    { from: "languages-10", to: "backend-10", type: "architecture" },
+    { from: "languages-10", to: "devops-5", type: "architecture" },
+    { from: "languages-10", to: "web-3", type: "architecture" },
+    { from: "languages-10", to: "web-14", type: "architecture" },
+    { from: "languages-10", to: "database-5", type: "design" },
+    { from: "languages-10", to: "design-3", type: "patterns" },
 
-    // DevOps & Infrastructure evolution
+    // ===== BACKEND PROGRESSION =====
+    { from: "web-2", to: "backend-1", type: "progression" },
+    { from: "backend-2", to: "backend-1", type: "runtime" },
+    { from: "backend-2", to: "backend-3", type: "api-design" },
+    { from: "backend-2", to: "backend-6", type: "persistence" },
+    { from: "backend-2", to: "backend-9", type: "security" },
+    { from: "backend-2", to: "backend-10", type: "security" },
+    { from: "backend-2", to: "web-3", type: "integration" },
+    { from: "backend-2", to: "web-6", type: "type-safety" },
+    { from: "backend-2", to: "automation-5", type: "api-testing" },
+    { from: "backend-2", to: "automation-6", type: "performance-testing" },
+    { from: "backend-2", to: "devops-10", type: "monitoring" },
+    { from: "backend-2", to: "languages-9", type: "query-optimization" },
+    { from: "backend-2", to: "languages-10", type: "api-design" },
+    { from: "backend-2", to: "database-5", type: "semantic-search" },
+    { from: "backend-2", to: "ai-4", type: "llm-serving" },
+    { from: "backend-2", to: "ai-5", type: "rag-api" },
+    { from: "backend-2", to: "backend-5", type: "persistence" },
+    { from: "backend-3", to: "backend-5", type: "persistence" },
+    { from: "backend-3", to: "backend-6", type: "persistence" },
+    { from: "backend-3", to: "web-5", type: "type-safety" },
+    { from: "backend-3", to: "backend-9", type: "security" },
+    { from: "backend-3", to: "backend-10", type: "security" },
+    { from: "backend-3", to: "database-4", type: "subscriptions" },
+    { from: "backend-3", to: "languages-10", type: "architecture" },
+
+    // ===== SECURITY LAYER =====
+    { from: "backend-8", to: "backend-9", type: "progression" },
+    { from: "backend-8", to: "backend-2", type: "foundation" },
+    { from: "backend-8", to: "backend-3", type: "security" },
+    { from: "backend-8", to: "backend-10", type: "progression" },
+    { from: "backend-8", to: "backend-5", type: "sql-injection" },
+    { from: "backend-8", to: "backend-6", type: "nosql-injection" },
+    { from: "backend-8", to: "web-2", type: "xss-prevention" },
+    { from: "backend-8", to: "web-14", type: "fullstack-security" },
+    { from: "backend-8", to: "devops-6", type: "edge-security" },
+
+    // ===== PERSISTENCE & DATA =====
+    { from: "backend-1", to: "backend-5", type: "progression" },
+    { from: "backend-5", to: "backend-6", type: "branch" },
+    { from: "backend-6", to: "backend-7", type: "expansion" },
+    { from: "backend-6", to: "database-5", type: "vector-search" },
+    { from: "backend-5", to: "backend-2", type: "persistence" },
+    { from: "backend-6", to: "backend-2", type: "persistence" },
+    { from: "backend-6", to: "backend-3", type: "persistence" },
+    { from: "backend-5", to: "backend-3", type: "persistence" },
+    { from: "backend-7", to: "web-3", type: "backend" },
+    { from: "backend-7", to: "web-14", type: "backend" },
+    { from: "backend-7", to: "devops-7", type: "synergy" },
+    { from: "web-2", to: "backend-7", type: "progression" },
+
+    // ===== VECTOR & DATA PIPELINES =====
+    { from: "database-5", to: "ai-5", type: "rag" },
+    { from: "database-5", to: "ai-4", type: "embeddings" },
+    { from: "database-5", to: "backend-2", type: "search" },
+    { from: "database-5", to: "web-3", type: "integration" },
+    { from: "database-4", to: "database-5", type: "pipeline" },
+    { from: "database-4", to: "devops-3", type: "orchestration" },
+    { from: "database-4", to: "devops-8", type: "deployment" },
+
+    // ===== DESIGN SYSTEMS =====
+    { from: "design-3", to: "web-1", type: "workflow" },
+    { from: "design-3", to: "web-7", type: "tooling" },
+    { from: "design-3", to: "web-3", type: "design" },
+    { from: "design-3", to: "web-14", type: "design" },
+    { from: "design-3", to: "web-4", type: "design" },
+    { from: "design-3", to: "web-11", type: "design" },
+    { from: "design-1", to: "web-1", type: "assets" },
+    { from: "design-1", to: "web-3", type: "assets" },
+    { from: "design-1", to: "design-3", type: "collaboration" },
+    { from: "design-2", to: "web-3", type: "assets" },
+    { from: "design-2", to: "design-1", type: "related" },
+    { from: "web-11", to: "design-3", type: "feedback" },
+
+    // ===== VERSION CONTROL & CI/CD =====
     { from: "devops-1", to: "devops-3", type: "progression" },
+    { from: "devops-1", to: "automation-1", type: "quality" },
+    { from: "devops-3", to: "web-14", type: "deployment" },
+    { from: "devops-3", to: "backend-2", type: "deployment" },
+    { from: "devops-3", to: "web-18", type: "deployment" },
+    { from: "devops-3", to: "backend-10", type: "orchestration" },
+    { from: "devops-3", to: "devops-10", type: "observability" },
+    { from: "automation-1", to: "devops-3", type: "delivery" },
+    { from: "automation-1", to: "devops-10", type: "observability" },
+    { from: "automation-1", to: "automation-2", type: "progression" },
+    { from: "automation-1", to: "automation-6", type: "performance" },
+
+    // ===== LINUX & BASH AUTOMATION =====
     { from: "devops-2", to: "languages-6", type: "tooling" },
+    { from: "devops-2", to: "devops-4", type: "platform" },
     { from: "languages-6", to: "devops-4", type: "automation" },
+    { from: "languages-6", to: "database-4", type: "etl" },
+    { from: "languages-6", to: "automation-1", type: "automation" },
+    { from: "languages-6", to: "devops-3", type: "ci" },
+    { from: "languages-6", to: "devops-5", type: "automation" },
+    { from: "languages-6", to: "database-4", type: "etl" },
+    { from: "languages-6", to: "devops-8", type: "gcp-cli" },
+    { from: "languages-6", to: "automation-1", type: "automation" },
+
+    // ===== CONTAINERIZATION & ORCHESTRATION =====
     { from: "devops-2", to: "devops-4", type: "platform" },
     { from: "devops-4", to: "devops-5", type: "progression" },
     { from: "devops-4", to: "devops-8", type: "platform" },
-    { from: "devops-5", to: "devops-9", type: "expansion" },
-    { from: "devops-8", to: "devops-9", type: "synergy" },
-    { from: "devops-1", to: "backend-6", type: "containerization" },
-    { from: "devops-3", to: "backend-10", type: "orchestration" },
+    { from: "devops-4", to: "backend-2", type: "containerization" },
+    { from: "devops-4", to: "web-14", type: "containerization" },
+    { from: "devops-4", to: "ai-4", type: "containerization" },
     { from: "devops-5", to: "devops-7", type: "related" },
-    { from: "languages-6", to: "devops-9", type: "scripting" },
-    { from: "tools-6", to: "devops-1", type: "vcs" },
+    { from: "devops-5", to: "devops-8", type: "platform" },
+    { from: "devops-5", to: "backend-2", type: "orchestration" },
+    { from: "devops-5", to: "devops-10", type: "monitoring" },
 
-    // Cloud & Serverless cluster
+    // ===== SERVERLESS & EDGE =====
     { from: "web-2", to: "devops-6", type: "expansion" },
     { from: "devops-6", to: "web-18", type: "synergy" },
     { from: "devops-6", to: "devops-7", type: "branch" },
     { from: "backend-2", to: "devops-7", type: "expansion" },
-    { from: "backend-7", to: "devops-7", type: "synergy" },
     { from: "devops-7", to: "devops-8", type: "platform" },
-    { from: "devops-8", to: "devops-9", type: "expansion" },
-    { from: "cloud-1", to: "cloud-2", type: "platform" },
-    { from: "cloud-2", to: "backend-3", type: "deployment" },
-    { from: "cloud-3", to: "cloud-4", type: "infrastructure" },
-    { from: "cloud-4", to: "devops-3", type: "automation" },
-    { from: "backend-6", to: "cloud-1", type: "edge" },
-    { from: "cloud-3", to: "backend-3", type: "platform" },
-    { from: "devops-5", to: "cloud-4", type: "iac" },
-    { from: "cloud-2", to: "ai-6", type: "deployment" },
-
-    // Monitoring & Testing cluster
-    { from: "devops-1", to: "automation-1", type: "quality" },
-    { from: "automation-1", to: "devops-3", type: "delivery" },
-    { from: "automation-1", to: "automation-2", type: "quality" },
-    { from: "automation-1", to: "devops-10", type: "observability" },
-    { from: "automation-2", to: "automation-3", type: "tooling" },
-    { from: "automation-2", to: "automation-4", type: "tooling" },
-    { from: "automation-3", to: "automation-4", type: "synergy" },
-    { from: "backend-1", to: "automation-3", type: "tooling" },
-    { from: "devops-3", to: "devops-10", type: "observability" },
-    { from: "devops-10", to: "automation-2", type: "quality" },
-    { from: "languages-10", to: "automation-1", type: "quality" },
-    { from: "web-2", to: "automation-1", type: "testing" },
-    { from: "backend-2", to: "automation-2", type: "testing" },
-    { from: "devops-2", to: "automation-1", type: "observability" },
-
-    // Tools & Design connections
-    { from: "tools-1", to: "tools-2", type: "related" },
-    { from: "tools-3", to: "tools-4", type: "related" },
-    { from: "tools-8", to: "web-1", type: "tooling" },
-    { from: "tools-9", to: "web-6", type: "workflow" },
-
-    // AI & ML workflows
-    { from: "ai-3", to: "ai-1", type: "progression" },
-    { from: "ai-3", to: "ai-2", type: "progression" },
-    { from: "ai-1", to: "ai-5", type: "application" },
-    { from: "ai-1", to: "ai-6", type: "deployment" },
-    { from: "languages-1", to: "ai-4", type: "tooling" },
-    { from: "ai-4", to: "ai-7", type: "expansion" },
-    { from: "ai-5", to: "ai-7", type: "synergy" },
-    { from: "ai-6", to: "ai-7", type: "progression" },
-    { from: "devops-4", to: "ai-6", type: "platform" },
-    { from: "devops-10", to: "ai-6", type: "observability" },
-    { from: "ai-3", to: "ai-4", type: "related" },
-    { from: "backend-4", to: "ai-5", type: "architecture" },
-
-    // === NEW CONNECTIONS ===
-    
-    // Design → Frontend workflows
-    { from: "design-3", to: "web-1", type: "workflow" },
-    { from: "design-3", to: "web-7", type: "tooling" },
-    { from: "design-1", to: "web-1", type: "assets" },
-
-    // AI → Backend (ML Serving)
-    { from: "ai-1", to: "backend-2", type: "deployment" },
-    { from: "ai-6", to: "backend-2", type: "serving" },
-    { from: "ai-6", to: "devops-7", type: "serverless-ml" },
-
-    // Data Science Pipeline
-    { from: "ai-3", to: "ai-8", type: "progression" },
-    { from: "ai-8", to: "ai-9", type: "visualization" },
-    { from: "ai-8", to: "ai-10", type: "modeling" },
-    { from: "ai-10", to: "ai-1", type: "deep-learning" },
-    { from: "ai-10", to: "ai-11", type: "alternative" },
-    { from: "ai-11", to: "ai-1", type: "related" },
-    { from: "languages-1", to: "ai-8", type: "data" },
-
-    // Frontend Tooling
-    { from: "web-1", to: "web-7", type: "styling" },
-    { from: "web-2", to: "web-8", type: "tooling" },
-    { from: "web-7", to: "web-3", type: "integration" },
-    { from: "web-7", to: "web-14", type: "integration" },
-    { from: "web-8", to: "web-3", type: "build" },
-    { from: "web-8", to: "web-14", type: "build" },
-
-    // Mobile Development
-    { from: "web-3", to: "web-10", type: "expansion" },
-    { from: "web-10", to: "web-11", type: "progression" },
-    { from: "design-3", to: "web-11", type: "design" },
-
-    // Alternative Frameworks
-    { from: "web-2", to: "web-9", type: "alternative" },
-    { from: "web-9", to: "web-12", type: "state" },
-    { from: "web-3", to: "web-9", type: "comparison" },
-
-    // Backend Security & Auth
-    { from: "backend-2", to: "backend-9", type: "security" },
-    { from: "backend-8", to: "backend-9", type: "progression" },
-    { from: "backend-9", to: "backend-10", type: "api-security" },
-    { from: "backend-2", to: "backend-10", type: "security" },
-
-    // Microservices & Messaging
-    { from: "backend-2", to: "backend-11", type: "async" },
-    { from: "backend-11", to: "backend-12", type: "architecture" },
-    { from: "backend-12", to: "devops-5", type: "orchestration" },
-    { from: "backend-12", to: "backend-4", type: "api-gateway" },
-
-    // Advanced Testing
-    { from: "automation-2", to: "automation-5", type: "progression" },
-    { from: "automation-5", to: "backend-2", type: "api-testing" },
-    { from: "automation-1", to: "automation-6", type: "performance" },
-    { from: "automation-6", to: "devops-10", type: "monitoring" },
-
-    // Data Engineering
-    { from: "backend-5", to: "database-4", type: "pipelines" },
-    { from: "database-4", to: "ai-8", type: "data-prep" },
-    { from: "database-4", to: "backend-11", type: "orchestration" },
-    { from: "backend-6", to: "database-5", type: "vector-search" },
-    { from: "database-5", to: "ai-5", type: "rag" },
-    { from: "database-5", to: "ai-7", type: "llm-data" },
-    { from: "languages-1", to: "database-4", type: "automation" },
-
-    // === REINFORCED CONNECTIONS - More Bidirectional & Cross-Domain ===
-    
-    // TypeScript → Backend & Frameworks
-    { from: "web-6", to: "backend-1", type: "type-safety" },
-    { from: "web-5", to: "backend-2", type: "type-safety" },
-    { from: "web-5", to: "backend-3", type: "type-safety" },
-    { from: "web-5", to: "web-12", type: "architecture" },
-    
-    // Build Tools → All Frameworks
-    { from: "web-8", to: "web-9", type: "build" },
-    { from: "web-8", to: "web-4", type: "build" },
-    { from: "web-8", to: "web-10", type: "build" },
-    
-    // Databases → Backend APIs (bidirectional awareness)
-    { from: "backend-5", to: "backend-2", type: "persistence" },
-    { from: "backend-6", to: "backend-2", type: "persistence" },
-    { from: "backend-6", to: "backend-3", type: "persistence" },
-    { from: "backend-6", to: "backend-4", type: "persistence" },
-    { from: "backend-5", to: "backend-3", type: "persistence" },
-    { from: "backend-7", to: "web-3", type: "backend" },
-    { from: "backend-7", to: "web-14", type: "backend" },
-    
-    // Testing → Domain Applications
-    { from: "automation-3", to: "web-3", type: "testing" },
-    { from: "automation-3", to: "web-14", type: "testing" },
-    { from: "automation-4", to: "web-3", type: "testing" },
-    { from: "automation-5", to: "web-14", type: "testing" },
-    { from: "automation-5", to: "backend-12", type: "testing" },
-    { from: "automation-6", to: "backend-2", type: "testing" },
-    { from: "automation-6", to: "web-18", type: "testing" },
-    
-    // Security → All API Types
-    { from: "backend-8", to: "backend-2", type: "security" },
-    { from: "backend-8", to: "backend-3", type: "security" },
-    { from: "backend-8", to: "backend-4", type: "security" },
-    { from: "backend-10", to: "backend-3", type: "security" },
-    { from: "backend-10", to: "backend-4", type: "security" },
-    { from: "backend-10", to: "devops-6", type: "security" },
+    { from: "devops-7", to: "web-18", type: "edge" },
+    { from: "devops-7", to: "backend-3", type: "deployment" },
     { from: "backend-10", to: "devops-7", type: "security" },
-    
-    // Languages → Backend Frameworks (runtime awareness)
-    { from: "languages-2", to: "backend-1", type: "runtime" },
-    { from: "languages-2", to: "backend-2", type: "runtime" },
-    { from: "languages-2", to: "devops-6", type: "runtime" },
-    { from: "languages-3", to: "backend-2", type: "alternative" },
-    { from: "languages-4", to: "backend-2", type: "alternative" },
-    { from: "languages-11", to: "backend-2", type: "alternative" },
-    { from: "languages-12", to: "backend-2", type: "alternative" },
-    
-    // Design Tools → Implementation
-    { from: "design-2", to: "web-3", type: "assets" },
-    { from: "design-1", to: "web-3", type: "assets" },
-    { from: "design-3", to: "web-3", type: "design" },
-    { from: "design-3", to: "web-14", type: "design" },
-    { from: "design-3", to: "web-4", type: "design" },
-    
-    // State Management → Frameworks
-    { from: "web-12", to: "web-14", type: "architecture" },
-    { from: "web-12", to: "web-4", type: "state" },
-    { from: "web-12", to: "web-10", type: "state" },
-    
-    // Mobile → Design Patterns
-    { from: "web-10", to: "web-4", type: "offline" },
-    { from: "web-11", to: "web-1", type: "foundation" },
-    { from: "web-11", to: "design-3", type: "feedback" },
-    
-    // DevOps → Deployment Targets
-    { from: "devops-3", to: "web-14", type: "deployment" },
-    { from: "devops-3", to: "backend-2", type: "deployment" },
-    { from: "devops-3", to: "web-18", type: "deployment" },
-    { from: "devops-4", to: "backend-2", type: "containerization" },
-    { from: "devops-4", to: "web-14", type: "containerization" },
-    { from: "devops-5", to: "backend-2", type: "orchestration" },
-    { from: "devops-5", to: "backend-12", type: "orchestration" },
-    
-    // Cloud Platforms → Services
+    { from: "devops-6", to: "backend-10", type: "security" },
+    { from: "ai-4", to: "devops-8", type: "deployment" },
+
+    // ===== CLOUD PLATFORM =====
     { from: "devops-8", to: "backend-2", type: "hosting" },
     { from: "devops-8", to: "web-14", type: "hosting" },
     { from: "devops-8", to: "backend-5", type: "managed-db" },
     { from: "devops-8", to: "backend-6", type: "managed-db" },
-    { from: "devops-8", to: "ai-6", type: "ml-platform" },
-    
-    // Serverless → Edge Computing
-    { from: "devops-7", to: "web-18", type: "edge" },
-    { from: "devops-7", to: "devops-6", type: "edge" },
-    { from: "devops-7", to: "backend-3", type: "deployment" },
-    { from: "devops-7", to: "backend-4", type: "deployment" },
-    
-    // Monitoring → All Production Systems
+    { from: "devops-8", to: "devops-10", type: "monitoring" },
+    { from: "languages-6", to: "devops-8", type: "automation" },
+
+    // ===== MONITORING & OBSERVABILITY =====
     { from: "devops-10", to: "backend-2", type: "monitoring" },
-    { from: "devops-10", to: "backend-12", type: "monitoring" },
     { from: "devops-10", to: "web-14", type: "monitoring" },
     { from: "devops-10", to: "web-18", type: "monitoring" },
-    { from: "devops-10", to: "devops-5", type: "monitoring" },
-    { from: "devops-10", to: "devops-8", type: "monitoring" },
-    
-    // Advanced Languages → Systems
-    { from: "languages-11", to: "devops-4", type: "tooling" },
-    { from: "languages-11", to: "devops-5", type: "tooling" },
-    { from: "languages-12", to: "devops-5", type: "tooling" },
-    { from: "languages-12", to: "backend-11", type: "messaging" },
-    { from: "languages-12", to: "backend-12", type: "services" },
-    
-    // Data Science → Visualization
+    { from: "devops-10", to: "automation-2", type: "quality" },
+    { from: "automation-6", to: "devops-10", type: "monitoring" },
+    { from: "devops-2", to: "automation-1", type: "observability" },
+
+    // ===== TESTING & QUALITY =====
+    { from: "web-2", to: "automation-1", type: "testing" },
+    { from: "automation-2", to: "automation-3", type: "tooling" },
+    { from: "automation-2", to: "automation-4", type: "tooling" },
+    { from: "automation-2", to: "automation-5", type: "progression" },
+    { from: "automation-3", to: "automation-4", type: "synergy" },
+    { from: "automation-3", to: "web-3", type: "testing" },
+    { from: "automation-3", to: "web-14", type: "testing" },
+    { from: "automation-4", to: "web-3", type: "testing" },
+    { from: "automation-5", to: "backend-2", type: "api-testing" },
+    { from: "automation-5", to: "web-14", type: "testing" },
+    { from: "automation-5", to: "backend-9", type: "testing" },
+    { from: "automation-6", to: "backend-2", type: "testing" },
+    { from: "automation-6", to: "web-18", type: "testing" },
+    { from: "automation-6", to: "web-3", type: "load-testing" },
+    { from: "backend-2", to: "automation-2", type: "testing" },
+    { from: "languages-10", to: "automation-1", type: "quality" },
+
+    // ===== AI/ML FUNDAMENTALS =====
+    { from: "ai-3", to: "ai-1", type: "progression" },
+    { from: "ai-3", to: "ai-2", type: "progression" },
+    { from: "ai-3", to: "ai-8", type: "progression" },
+    { from: "ai-3", to: "ai-4", type: "related" },
+    { from: "ai-8", to: "ai-9", type: "visualization" },
+    { from: "ai-8", to: "ai-1", type: "preprocessing" },
+
+    // ===== AI/ML DEPLOYMENT & APPLICATION =====
+    { from: "ai-1", to: "ai-5", type: "application" },
+    { from: "ai-1", to: "backend-2", type: "deployment" },
+    { from: "ai-1", to: "ai-11", type: "related" },
+    { from: "ai-2", to: "backend-2", type: "deployment" },
+    { from: "ai-11", to: "ai-8", type: "related" },
+    { from: "ai-11", to: "database-5", type: "embeddings" },
+    { from: "ai-11", to: "backend-2", type: "deployment" },
+
+    // ===== AI/ML TOOLS & INFRASTRUCTURE =====
+    { from: "ai-4", to: "devops-4", type: "containerization" },
+    { from: "ai-4", to: "database-5", type: "embeddings" },
+    { from: "ai-4", to: "ai-5", type: "synergy" },
+    { from: "ai-4", to: "backend-2", type: "api" },
+    { from: "ai-4", to: "web-3", type: "frontend-integration" },
+    { from: "ai-4", to: "web-14", type: "fullstack-integration" },
+    { from: "ai-4", to: "devops-8", type: "gcp-deployment" },
+    { from: "ai-5", to: "backend-2", type: "api" },
+    { from: "ai-5", to: "database-5", type: "retrieval" },
+    { from: "ai-5", to: "web-3", type: "rag-ui" },
+    { from: "ai-5", to: "web-14", type: "rag-fullstack" },
+    { from: "database-4", to: "ai-1", type: "training" },
+    { from: "database-4", to: "ai-11", type: "training" },
+    { from: "database-4", to: "ai-8", type: "data-prep" },
+    { from: "database-4", to: "backend-2", type: "data-service" },
+    { from: "database-4", to: "devops-5", type: "k8s-jobs" },
+
+    // ===== DATA VISUALIZATION & BI =====
     { from: "ai-9", to: "web-3", type: "visualization" },
     { from: "ai-9", to: "backend-2", type: "api" },
-    
-    // ML Frameworks → Deployment
-    { from: "ai-11", to: "ai-6", type: "deployment" },
-    { from: "ai-10", to: "ai-6", type: "deployment" },
-    { from: "ai-2", to: "ai-6", type: "deployment" },
-    
-    // LLM Tools → Infrastructure
-    { from: "ai-4", to: "devops-4", type: "containerization" },
-    { from: "ai-4", to: "devops-8", type: "deployment" },
-    { from: "ai-7", to: "backend-2", type: "api" },
-    { from: "ai-7", to: "backend-10", type: "security" },
-    { from: "ai-7", to: "devops-10", type: "monitoring" },
-    
-    // Auth → All Application Types
+
+    // ===== TYPE SAFETY & ARCHITECTURE =====
+    { from: "web-6", to: "backend-1", type: "type-safety" },
+    { from: "web-6", to: "backend-3", type: "type-safety" },
+    { from: "web-5", to: "backend-2", type: "type-safety" },
+    { from: "web-5", to: "backend-3", type: "type-safety" },
+    { from: "languages-10", to: "backend-2", type: "architecture" },
+    { from: "languages-10", to: "web-3", type: "architecture" },
+    { from: "languages-10", to: "backend-10", type: "architecture" },
+    { from: "languages-10", to: "devops-5", type: "architecture" },
+    { from: "web-14", to: "backend-5", type: "fullstack" },
+    { from: "web-14", to: "backend-6", type: "fullstack" },
+    { from: "web-14", to: "backend-2", type: "api-routes" },
+    { from: "web-14", to: "backend-3", type: "graphql-support" },
+    { from: "web-14", to: "database-5", type: "semantic-search" },
+    { from: "web-14", to: "web-6", type: "type-safety" },
+    { from: "web-14", to: "web-5", type: "advanced-typing" },
+    { from: "web-14", to: "devops-7", type: "deployment" },
+    { from: "web-14", to: "devops-6", type: "edge-deployment" },
+    { from: "web-14", to: "backend-1", type: "api-integration" },
+    { from: "web-14", to: "ai-4", type: "llm-integration" },
+    { from: "web-14", to: "ai-5", type: "rag-integration" },
+
+    // ===== FRONTEND INTEGRATION =====
     { from: "backend-9", to: "web-3", type: "integration" },
     { from: "backend-9", to: "web-14", type: "integration" },
     { from: "backend-9", to: "web-10", type: "integration" },
-    { from: "backend-9", to: "backend-7", type: "integration" },
-    
-    // Microservices → Testing & Monitoring
-    { from: "backend-12", to: "automation-5", type: "testing" },
-    { from: "backend-12", to: "automation-6", type: "testing" },
-    { from: "backend-12", to: "devops-10", type: "observability" },
-    
-    // Message Queues → Use Cases
-    { from: "backend-11", to: "backend-2", type: "async" },
-    { from: "backend-11", to: "ai-6", type: "async" },
-    { from: "backend-11", to: "database-4", type: "streaming" },
-    
-    // Data Pipelines → ML Training
-    { from: "database-4", to: "ai-1", type: "training-data" },
-    { from: "database-4", to: "ai-10", type: "training-data" },
-    { from: "database-4", to: "ai-11", type: "training-data" },
-    
-    // Vector DBs → AI Applications
-    { from: "database-5", to: "ai-4", type: "embeddings" },
-    { from: "database-5", to: "backend-2", type: "search" },
-    
-    // Performance Testing → Critical Paths
-    { from: "automation-6", to: "backend-12", type: "load-testing" },
-    { from: "automation-6", to: "database-4", type: "load-testing" },
-    { from: "automation-6", to: "web-3", type: "load-testing" },
-    
-    // Integration Testing → System Boundaries
-    { from: "automation-5", to: "backend-9", type: "testing" },
-    { from: "automation-5", to: "backend-11", type: "testing" },
-    { from: "automation-5", to: "database-4", type: "testing" },
-    
-    // IaC → All Infrastructure
-    { from: "devops-9", to: "backend-2", type: "provisioning" },
-    { from: "devops-9", to: "backend-5", type: "provisioning" },
-    { from: "devops-9", to: "backend-6", type: "provisioning" },
-    { from: "devops-9", to: "devops-10", type: "provisioning" },
-    
-    // Bash Scripting → Automation Everywhere
-    { from: "languages-6", to: "automation-1", type: "automation" },
-    { from: "languages-6", to: "devops-3", type: "automation" },
-    { from: "languages-6", to: "devops-8", type: "automation" },
-    { from: "languages-6", to: "database-4", type: "automation" },
-    
-    // OOP/Patterns → Framework Understanding
-    { from: "languages-10", to: "web-3", type: "architecture" },
-    { from: "languages-10", to: "backend-2", type: "architecture" },
-    { from: "languages-10", to: "backend-12", type: "architecture" },
-    
-    // DSA → Performance Critical Code
-    { from: "languages-9", to: "backend-2", type: "optimization" },
-    { from: "languages-9", to: "database-4", type: "optimization" },
-    { from: "languages-9", to: "ai-10", type: "algorithms" },
-    
-    // Progressive Enhancement
-    { from: "web-4", to: "web-18", type: "performance" },
-    { from: "web-4", to: "web-10", type: "offline" },
-    
-    // Alternative Stacks
-    { from: "web-9", to: "web-14", type: "comparison" },
-    { from: "languages-11", to: "languages-5", type: "modernization" },
-    { from: "languages-12", to: "languages-4", type: "modernization" },
-    
-    // Full-Stack Connections
-    { from: "web-14", to: "backend-5", type: "fullstack" },
-    { from: "web-14", to: "backend-6", type: "fullstack" },
-    { from: "web-3", to: "backend-3", type: "fullstack" },
-    { from: "web-3", to: "backend-4", type: "fullstack" },
+
+    // ===== MOBILE DEVELOPMENT =====
+    { from: "web-11", to: "web-1", type: "foundation" },
+    { from: "design-3", to: "web-10", type: "feedback" },
   ];
 
   const groupIndex = {};

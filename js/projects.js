@@ -9,7 +9,7 @@ export const projects = {
         title: "Mind_Core",
         image: "images/imgNexus.png",
         description:
-            "Personal ML custom LLM build focused on efficient training (old gpu, so sad), fine-tuning and local inference.",
+            "Personal ML custom LLM build focused on efficient training, fine-tuning and local inference.",
         technologies: ["Python", "Ollama", "JAX", "Flax"],
         features: [
             "Custom tokenizer and training pipeline",

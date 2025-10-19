@@ -22,12 +22,12 @@
     RING_COUNT: 5,
     MIN_INNER_RADIUS_FACTOR: 0.18,
     MIN_INNER_ABSOLUTE: 64,
-    OUTER_PADDING: 56,
-    GROUP_GAP_DEG: 9,
+    OUTER_PADDING: 70,
+    GROUP_GAP_DEG: 13,
     NODE_SIZE: 56,
     TOOLTIP_OFFSET: 16,
-    ANGULAR_SPACING_MULTIPLIER: 80,
-    LANE_SPACING_FACTOR: 0.3, // 1/3
+    ANGULAR_SPACING_MULTIPLIER: 66,
+    LANE_SPACING_FACTOR: 0.8, // 1/3
   });
 
   let activeController = null;
@@ -153,7 +153,20 @@
       }
       const active = Boolean(isActive);
       progressPanel.classList.toggle("is-active", active);
-      progressPanel.setAttribute("aria-hidden", "false");
+      progressPanel.setAttribute("aria-hidden", active ? "false" : "true");
+      if (active) {
+        progressPanel.removeAttribute("inert");
+        progressPanel.style.opacity = "1";
+        progressPanel.style.visibility = "visible";
+        progressPanel.style.transform = "translateY(0)";
+        progressPanel.style.pointerEvents = "auto";
+      } else {
+        progressPanel.setAttribute("inert", "");
+        progressPanel.style.opacity = "0";
+        progressPanel.style.visibility = "hidden";
+        progressPanel.style.transform = "translateY(24px)";
+        progressPanel.style.pointerEvents = "none";
+      }
     };
 
     applyPanelState(Boolean(state.activePerkId));
@@ -194,6 +207,7 @@
       tooltip.className = "perk-tooltip";
       tooltip.style.display = "none";
       tooltip.setAttribute("role", "dialog");
+      tooltip.setAttribute("aria-hidden", "true");
       document.body.appendChild(tooltip);
       state.tooltipEl = tooltip;
       return tooltip;
@@ -202,7 +216,46 @@
     function hideTooltip() {
       if (state.tooltipEl) {
         state.tooltipEl.style.display = "none";
+        state.tooltipEl.setAttribute("aria-hidden", "true");
       }
+    }
+
+    function renderTooltip(perkId) {
+      if (!perkId) {
+        return null;
+      }
+      const tooltip = getTooltip();
+      tooltip.replaceChildren();
+
+      const info = resolveMeta(perkId) || state.nodeMeta[perkId] || {};
+      const title = document.createElement("div");
+      title.className = "tt-title";
+      title.textContent = info.title || state.nodeMeta[perkId]?.label || perkId;
+
+      const subtitle = document.createElement("div");
+      subtitle.className = "tt-sub";
+      const groupLabel = groups.find((g) => g.id === state.nodeMeta[perkId]?.group)?.label;
+      if (groupLabel) {
+        subtitle.textContent = groupLabel;
+      }
+
+      const body = document.createElement("div");
+      body.className = "tt-body";
+      const bodyText = info.summary || info.description || "";
+      if (bodyText) {
+        body.textContent = bodyText;
+      }
+
+      tooltip.appendChild(title);
+      if (subtitle.textContent) {
+        tooltip.appendChild(subtitle);
+      }
+      if (body.textContent) {
+        tooltip.appendChild(body);
+      }
+
+      tooltip.setAttribute("aria-hidden", tooltip.childElementCount ? "false" : "true");
+      return tooltip;
     }
 
     function resolveMeta(perkId) {
@@ -902,14 +955,10 @@
         el.addEventListener("mouseenter", () => {
           state.hoverPerkId = perkId;
           highlightRelatedLinks(perkId);
-          const tooltip = getTooltip();
-          const info = resolveMeta(perkId) || state.nodeMeta[perkId];
-          tooltip.innerHTML = `
-            <div class="tt-title">${info?.title || state.nodeMeta[perkId]?.label || perkId}</div>
-            <div class="tt-sub">${groups.find((g) => g.id === state.nodeMeta[perkId]?.group)?.label || ""}</div>
-            <div class="tt-body">${info?.summary || info?.description || ""}</div>
-          `;
-          tooltip.style.display = "block";
+          const tooltip = renderTooltip(perkId);
+          if (tooltip) {
+            tooltip.style.display = "block";
+          }
           drawPrereqLinks(perkId);
         });
 

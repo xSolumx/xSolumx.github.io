@@ -209,10 +209,19 @@
                 navToggleLabel.textContent = open ? "Close" : "Menu";
             }
             if (navList) {
-                if (mobileQuery && mobileQuery.matches) {
-                    navList.setAttribute("aria-hidden", open ? "false" : "true");
+                const isMobileMenu = Boolean(mobileQuery && mobileQuery.matches);
+                const shouldHide = isMobileMenu && !open;
+                if (isMobileMenu) {
+                    navList.setAttribute("aria-hidden", shouldHide ? "true" : "false");
                 } else {
                     navList.removeAttribute("aria-hidden");
+                }
+                if (typeof navList.toggleAttribute === "function") {
+                    navList.toggleAttribute("inert", shouldHide);
+                } else if (shouldHide) {
+                    navList.setAttribute("inert", "");
+                } else {
+                    navList.removeAttribute("inert");
                 }
             }
         };
@@ -287,8 +296,10 @@
                 section.classList.toggle("active", isActive);
                 if (isActive) {
                     section.removeAttribute("hidden");
+                    section.setAttribute("aria-hidden", "false");
                 } else {
                     section.setAttribute("hidden", "");
+                    section.setAttribute("aria-hidden", "true");
                 }
             });
 
@@ -520,16 +531,25 @@
                 },
             ];
 
-            statsContainer.innerHTML = cards
-                .map((card) => {
-                    return `
-                        <div class="skills-stat">
-                            <span class="stat-number">${card.value}</span>
-                            <span class="stat-label">${card.label}</span>
-                        </div>
-                    `;
-                })
-                .join("");
+            const fragment = document.createDocumentFragment();
+            cards.forEach((card) => {
+                const stat = document.createElement("div");
+                stat.className = "skills-stat";
+
+                const valueEl = document.createElement("span");
+                valueEl.className = "stat-number";
+                valueEl.textContent = `${card.value}`;
+
+                const labelEl = document.createElement("span");
+                labelEl.className = "stat-label";
+                labelEl.textContent = card.label;
+
+                stat.appendChild(valueEl);
+                stat.appendChild(labelEl);
+                fragment.appendChild(stat);
+            });
+
+            statsContainer.replaceChildren(fragment);
             statsContainer.setAttribute("aria-busy", "false");
         }
 
@@ -557,12 +577,17 @@
         }
 
         const groups = Array.isArray(skillTree.groups) ? skillTree.groups : [];
+        container.replaceChildren();
+
         if (!groups.length) {
-            container.innerHTML = '<div class="skills-placeholder">Skill data is syncing...</div>';
+            const placeholder = document.createElement("div");
+            placeholder.className = "skills-placeholder";
+            placeholder.textContent = "Skill data is syncing...";
+            container.appendChild(placeholder);
+            container.setAttribute("aria-busy", "false");
             return;
         }
 
-        container.innerHTML = "";
         const fragment = document.createDocumentFragment();
 
         groups.forEach((group, index) => {
@@ -598,11 +623,23 @@
                     const button = document.createElement("button");
                     button.type = "button";
                     button.className = "skill-chip";
-                    button.dataset.skillId = node.id;
-                    button.innerHTML = `
-                        <span class="chip-label">${node.title}</span>
-                        <span class="chip-tier" aria-hidden="true">Tier ${node.prof}/5</span>
-                    `;
+                    if (node?.id) {
+                        button.dataset.skillId = node.id;
+                    }
+
+                    const label = document.createElement("span");
+                    label.className = "chip-label";
+                    label.textContent = node.title || node.id || "Untitled Skill";
+
+                    const tier = document.createElement("span");
+                    tier.className = "chip-tier";
+                    tier.setAttribute("aria-hidden", "true");
+                    const tierScore = Number(node.prof);
+                    const tierValue = Number.isFinite(tierScore) ? tierScore : 0;
+                    tier.textContent = `Tier ${tierValue}/5`;
+
+                    button.appendChild(label);
+                    button.appendChild(tier);
                     button.addEventListener("click", () => focusSkill(node.id));
                     button.addEventListener("keydown", (event) => {
                         if (event.key === "Enter" || event.key === " ") {
@@ -1345,19 +1382,24 @@
 
             lastFocusedElement = document.activeElement;
 
+            const projectTitle = project.title || "Project";
+            const projectImage = project.image || "images/astro.png";
+            const technologies = Array.isArray(project.technologies) ? project.technologies : [];
+            const features = Array.isArray(project.features) ? project.features : [];
+
             if (modalTitle) {
-                modalTitle.textContent = project.title;
+                modalTitle.textContent = projectTitle;
             }
             if (modalImage) {
-                modalImage.src = project.image;
-                modalImage.alt = `${project.title} Screenshot`;
+                modalImage.src = projectImage;
+                modalImage.alt = `${projectTitle} Screenshot`;
             }
             if (modalDescription) {
-                modalDescription.textContent = project.description;
+                modalDescription.textContent = project.description || "Details coming soon.";
             }
             if (modalTechTags) {
                 modalTechTags.innerHTML = "";
-                project.technologies.forEach((tech) => {
+                technologies.forEach((tech) => {
                     const tag = document.createElement("span");
                     tag.className = "tech-tag";
                     tag.textContent = tech;
@@ -1366,7 +1408,7 @@
             }
             if (modalFeaturesList) {
                 modalFeaturesList.innerHTML = "";
-                project.features.forEach((feature) => {
+                features.forEach((feature) => {
                     const li = document.createElement("li");
                     li.textContent = feature;
                     modalFeaturesList.appendChild(li);
@@ -1435,6 +1477,9 @@
     }
 
     function initProjects(projectMap, openModal) {
+        if (typeof openModal !== "function") {
+            return;
+        }
         const projectCards = document.querySelectorAll(".project-card");
         if (!projectCards.length) {
             return;
@@ -1456,7 +1501,7 @@
             card.style.cursor = "pointer";
             card.setAttribute("tabindex", "0");
             card.setAttribute("role", "button");
-            card.setAttribute("aria-label", `Open details for ${project.title}`);
+            card.setAttribute("aria-label", `Open details for ${project.title || projectKey}`);
             card.addEventListener("keydown", (event) => {
                 if (event.key === "Enter" || event.key === " ") {
                     event.preventDefault();
@@ -1474,7 +1519,18 @@
                     demo.className = "badge demo";
                     demo.target = "_blank";
                     demo.rel = "noopener noreferrer";
-                    demo.innerHTML = '<span class="badge-icon"><i class="fas fa-rocket"></i></span><span class="badge-text">Demo</span>';
+                    const demoIcon = document.createElement("span");
+                    demoIcon.className = "badge-icon";
+                    demoIcon.setAttribute("aria-hidden", "true");
+                    const rocket = document.createElement("i");
+                    rocket.classList.add("fas", "fa-rocket");
+                    rocket.setAttribute("aria-hidden", "true");
+                    demoIcon.appendChild(rocket);
+                    const demoLabel = document.createElement("span");
+                    demoLabel.className = "badge-text";
+                    demoLabel.textContent = "Demo";
+                    demo.appendChild(demoIcon);
+                    demo.appendChild(demoLabel);
                     demo.addEventListener("click", (event) => event.stopPropagation());
                     badges.appendChild(demo);
                 }
@@ -1485,7 +1541,15 @@
                     code.className = "badge code";
                     code.target = "_blank";
                     code.rel = "noopener noreferrer";
-                    code.innerHTML = '<span class="badge-icon">📁</span><span class="badge-text">Code</span>';
+                    const codeIcon = document.createElement("span");
+                    codeIcon.className = "badge-icon";
+                    codeIcon.setAttribute("aria-hidden", "true");
+                    codeIcon.textContent = "📁";
+                    const codeLabel = document.createElement("span");
+                    codeLabel.className = "badge-text";
+                    codeLabel.textContent = "Code";
+                    code.appendChild(codeIcon);
+                    code.appendChild(codeLabel);
                     code.addEventListener("click", (event) => event.stopPropagation());
                     badges.appendChild(code);
                 }

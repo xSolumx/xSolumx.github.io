@@ -116,6 +116,9 @@
 
     const controller = buildController(state);
     controller.redraw();
+    if (typeof controller.clearSelection === "function") {
+      controller.clearSelection();
+    }
     controller.enableResizeHandling();
     return controller;
   }
@@ -139,6 +142,32 @@
 
     const ringCount = Math.max(3, Number(layoutConstants.RING_COUNT) || 5);
     const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+    const floatingPanelQuery = typeof window.matchMedia === "function"
+      ? window.matchMedia("(max-width: 768px)")
+      : null;
+
+    const applyPanelState = (isActive) => {
+      if (!progressPanel) {
+        return;
+      }
+      const active = Boolean(isActive);
+      progressPanel.classList.toggle("is-active", active);
+      progressPanel.setAttribute("aria-hidden", "false");
+    };
+
+    applyPanelState(Boolean(state.activePerkId));
+
+    if (floatingPanelQuery) {
+      const handlePanelQueryChange = () => applyPanelState(Boolean(state.activePerkId));
+      if (typeof floatingPanelQuery.addEventListener === "function") {
+        floatingPanelQuery.addEventListener("change", handlePanelQueryChange);
+        state.disposeHandlers.push(() => floatingPanelQuery.removeEventListener("change", handlePanelQueryChange));
+      } else if (typeof floatingPanelQuery.addListener === "function") {
+        floatingPanelQuery.addListener(handlePanelQueryChange);
+        state.disposeHandlers.push(() => floatingPanelQuery.removeListener(handlePanelQueryChange));
+      }
+    }
 
     const detailsTitle = progressPanel?.querySelector(".progress-details h4") || null;
     const detailsDesc = progressPanel?.querySelector(".progress-details p") || null;
@@ -533,6 +562,7 @@
       updateProgressRing(0, 1);
       hideTooltip();
       clearSkillPath();
+      applyPanelState(false);
     }
 
     function showPerk(perkId, nodeEl) {
@@ -571,6 +601,7 @@
       if (nodeEl) {
         nodeEl.classList.add("selected");
       }
+      applyPanelState(true);
     }
 
     function buildNodes() {

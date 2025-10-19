@@ -9,7 +9,7 @@ export function initNavigation() {
 
     function activateSectionById(sectionId) {
         // expects full id like 'skills-section'
-        const name = sectionId?.replace(/-section$/, "") || "perks";
+    const name = sectionId?.replace(/-section$/, "") || "profile";
         activateSection(name, false);
     }
 
@@ -48,13 +48,19 @@ export function initNavigation() {
     // Tab click handlers
     navTabs.forEach((tab, index) => {
         tab.addEventListener("click", (e) => {
-            e.preventDefault();
             const sectionName = tab.dataset.section;
+            if (!sectionName) {
+                return;
+            }
+            e.preventDefault();
             activateSection(sectionName);
         });
 
         // Keyboard navigation
         tab.addEventListener("keydown", (event) => {
+            if (!tab.dataset.section) {
+                return;
+            }
             let targetIndex = null;
             switch (event.key) {
                 case "ArrowRight":

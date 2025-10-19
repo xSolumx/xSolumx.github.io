@@ -130,38 +130,6 @@
           prereqs: ["languages-3" , "languages-9"],
           related: ["automation-1,", "languages-2", "languages-3", "languages-4"],
         },
-        {
-          id: "languages-11",
-          title: "Rust Systems Programming",
-          summary: "Ownership, borrowing, and zero-cost abstractions for high safety.",
-          description:
-            "Dive into ownership, borrowing, lifetimes, and zero-cost abstractions to craft memory-safe systems in Rust. Leverage Cargo, async runtimes, and interoperability patterns for services, CLIs, and embedded tooling.",
-          reward:
-            "Unlocks delivering high-reliability services, embedded tooling, and WebAssembly components with confidence",
-          emoji: "🦀",
-          prof: 0,
-          unlocked: false,
-          tags: ["rust", "systems", "safety"],
-          focusAreas: ["Safety", "Performance"],
-          prereqs: ["languages-5"],
-          related: ["devops-4"],
-        },
-        {
-          id: "languages-12",
-          title: "Go Concurrency",
-          summary: "Goroutines, channels, and structured concurrency for services.",
-          description:
-            "Structure concurrent services with goroutines, channels, and context cancellation while modeling clean interfaces and packages. Cover testing, observability, and deployment practices that make Go shine in cloud-native workloads.",
-          reward:
-            "Unlocks building low-latency APIs, streaming workers, and distributed systems that scale horizontally",
-          emoji: "🐹",
-          prof: 0,
-          unlocked: false,
-          tags: ["golang", "concurrency", "cloud"],
-          focusAreas: ["Cloud", "Services"],
-          prereqs: ["languages-4"],
-          related: ["backend-2", "devops-8"],
-        },
       ],
     },
     {
@@ -321,22 +289,6 @@
           related: ["web-14", "backend-1"],
         },
         {
-          id: "web-9",
-          title: "Vue.js",
-          summary: "Progressive JavaScript framework for building UIs.",
-          description:
-            "Explore Single File Components, the Composition API, and Vue's reactivity system to craft maintainable applications. Utilize routing, state patterns, and tooling to deliver production-ready Vue experiences.",
-          reward:
-            "Unlocks delivering SPAs with Vue's approachable yet scalable architecture",
-          emoji: "💚",
-          prof: 0,
-          unlocked: false,
-          tags: ["vue", "frontend"],
-          focusAreas: ["SPA", "Components"],
-          prereqs: ["web-2"],
-          related: ["web-3", "web-12"],
-        },
-        {
           id: "web-10",
           title: "React Native",
           summary: "Cross-platform mobile development with React.",
@@ -354,7 +306,7 @@
         },
         {
           id: "web-11",
-          title: "Mobile UI/UX Patterns",
+          title: "Mobile UI/UX",
           summary: "Platform-specific design patterns and native interactions.",
           description:
             "Study platform heuristics, human interface guidelines, gestures, and accessibility expectations on iOS and Android. Prototype flows, animations, and micro-interactions that make mobile products feel intuitive and native.",
@@ -461,23 +413,6 @@
           related: ["backend-4", "backend-2"],
         },
         {
-          id: "backend-4",
-          title: "GraphQL APIs",
-          summary:
-            "Building and consuming GraphQL endpoints for efficient data querying.",
-          description:
-            "Architect production GraphQL servers with schema stitching, federation, caching, and authorization patterns. Instrument resolvers, batch requests with DataLoader, and integrate clients for reliable GraphQL ecosystems.",
-          reward:
-            "Unlocks shipping scalable, observable GraphQL platforms across teams",
-          icon: "images/icons8-graphql-480.png",
-          prof: 1,
-          unlocked: true,
-          tags: ["graphql", "api"],
-          focusAreas: ["APIs"],
-          prereqs: ["backend-3", "backend-5"],
-          related: ["backend-1", "backend-6"],
-        },
-        {
           id: "backend-8",
           title: "Web Security Fundamentals",
           summary:
@@ -526,38 +461,6 @@
           focusAreas: ["Security", "APIs"],
           prereqs: ["backend-2", "backend-8"],
           related: ["backend-9"],
-        },
-        {
-          id: "backend-11",
-          title: "Message Queues",
-          summary: "Asynchronous processing with RabbitMQ, Kafka, and Redis.",
-          description:
-            "Explore RabbitMQ, Kafka, and Redis streams to decouple services with pub/sub and work queues. Design for exactly-once semantics, dead-letter handling, and resilient event-driven microservices.",
-          reward:
-            "Unlocks the ability to scale workloads, smooth spikes, and design reactive systems",
-          emoji: "📮",
-          prof: 0,
-          unlocked: false,
-          tags: ["queues", "async"],
-          focusAreas: ["Architecture", "Scalability"],
-          prereqs: ["backend-2", "backend-6"],
-          related: ["backend-12", "database-4"],
-        },
-        {
-          id: "backend-12",
-          title: "Microservices Architecture",
-          summary: "Service decomposition, API gateways, and distributed systems.",
-          description:
-            "Define service boundaries with domain-driven design, communication patterns, API gateways, and data consistency strategies. Address deployment, resilience patterns, and organizational considerations for distributed teams.",
-          reward:
-            "Unlocks designing distributed systems that evolve independently while staying operable",
-          emoji: "🧩",
-          prof: 1,
-          unlocked: true,
-          tags: ["microservices", "architecture"],
-          focusAreas: ["Architecture", "Scalability"],
-          prereqs: ["backend-2", "backend-11", "languages-10"],
-          related: ["devops-5", "backend-4", "backend-9"],
         },
       ],
     },
@@ -805,22 +708,6 @@
           focusAreas: ["Cloud", "Infrastructure"],
           prereqs: ["devops-2", "devops-4"],
           related: ["devops-7", "devops-9"],
-        },
-        {
-          id: "devops-9",
-          title: "Terraform & IaC",
-          summary: "Infrastructure as code for repeatable cloud architecture.",
-          description:
-            "Author infrastructure-as-code modules with Terraform to provision, version, and audit cloud resources. Manage state, enforce policies, and automate plan/apply workflows for safe, repeatable deployments.",
-          reward:
-            "Unlocks repeatable, reviewable infrastructure automation across environments",
-          emoji: "🏗️",
-          prof: 0,
-          unlocked: false,
-          tags: ["iac", "terraform"],
-          focusAreas: ["DevOps", "Cloud"],
-          prereqs: ["devops-5", "devops-8", "languages-6"],
-          related: ["devops-5", "backend-5"],
         },
       ],
     },
@@ -1098,22 +985,6 @@
           related: ["ai-7"],
         },
         {
-          id: "ai-6",
-          title: "MLOps Pipelines",
-          summary: "Model packaging, deployment, and continuous retraining workflows.",
-          description:
-            "Package models, manage experiment tracking, automate deployment, and monitor drift with modern MLOps platforms. Implement CI/CD for ML, feature stores, and feedback loops that keep models accurate in production.",
-          reward:
-            "Unlocks dependable ML services that stay accurate after launch",
-          emoji: "🧬",
-          prof: 3,
-          unlocked: true,
-          tags: ["mlops", "deployment"],
-          focusAreas: ["Operations", "Automation"],
-          prereqs: ["ai-1", "devops-4"],
-          related: ["devops-10", "ai-7"],
-        },
-        {
           id: "ai-8",
           title: "Pandas & Data Analysis",
           summary: "Data manipulation, cleaning, and analysis with Pandas DataFrames.",
@@ -1147,22 +1018,6 @@
           related: ["ai-3"],
         },
         {
-          id: "ai-10",
-          title: "Scikit-learn",
-          summary: "Classical ML algorithms, preprocessing, and model evaluation.",
-          description:
-            "Apply preprocessing pipelines, feature engineering, and classical algorithms like regression, classification, and clustering with scikit-learn. Evaluate with cross-validation, tune hyperparameters, and plan deployments.",
-          reward:
-            "Unlocks rapid prototyping of predictive models and production-ready baselines",
-          emoji: "🔬",
-          prof: 2,
-          unlocked: true,
-          tags: ["scikit-learn", "ml"],
-          focusAreas: ["ML", "Modeling"],
-          prereqs: ["ai-8", "languages-9"],
-          related: ["ai-1", "ai-11", "ai-6"],
-        },
-        {
           id: "ai-11",
           title: "PyTorch",
           summary: "Dynamic neural networks and deep learning research framework.",
@@ -1177,22 +1032,6 @@
           focusAreas: ["Deep Learning", "Research"],
           prereqs: ["ai-3", "ai-8"],
           related: ["ai-1", "ai-2", "ai-6"],
-        },
-        {
-          id: "ai-7",
-          title: "LLM Ops & Evaluation",
-          summary: "Prompt pipelines, evaluation loops, and guardrails for LLMs.",
-          description:
-            "Design prompt pipelines, evaluation harnesses, guardrails, and observability for LLM-powered products. Address safety reviews, automated regression testing, and feedback loops to iterate on prompts and models.",
-          reward:
-            "Unlocks trustworthy, measurable LLM experiences ready for real users",
-          emoji: "🛡️",
-          prof: 0,
-          unlocked: false,
-          tags: ["llm", "evaluation"],
-          focusAreas: ["LLM", "Operations"],
-          prereqs: ["ai-4", "ai-6", "backend-2"],
-          related: ["ai-5", "backend-10"],
         },
       ],
     },

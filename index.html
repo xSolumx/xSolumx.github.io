@@ -127,12 +127,28 @@
     <div class="game-container">
       <!-- Game Header with Navigation -->
       <header class="game-header" role="banner">
-        <div class="game-nav">
-          <nav class="nav-tabs" role="tablist" aria-label="Main navigation">
+        <div class="game-nav" data-nav-open="false">
+          <button
+            class="nav-toggle"
+            type="button"
+            id="nav-toggle"
+            aria-expanded="false"
+            aria-controls="main-navigation">
+            <span class="nav-toggle-icon" aria-hidden="true">
+              <i class="fas fa-bars"></i>
+              <i class="fas fa-xmark"></i>
+            </span>
+            <span class="nav-toggle-label">Menu</span>
+          </button>
+          <nav
+            class="nav-tabs"
+            role="tablist"
+            aria-label="Main navigation"
+            id="main-navigation">
             <button
-              class="nav-tab"
+              class="nav-tab active"
               role="tab"
-              aria-selected="false"
+              aria-selected="true"
               aria-controls="profile-section"
               data-section="profile"
               id="profile-tab">
@@ -148,9 +164,9 @@
               <span class="nav-text">SKILLS</span>
             </button>
             <button
-              class="nav-tab active"
+              class="nav-tab"
               role="tab"
-              aria-selected="true"
+              aria-selected="false"
               aria-controls="perks-section"
               data-section="perks"
               id="perks-tab">
@@ -174,16 +190,15 @@
               id="projects-tab">
               <span class="nav-text">PROJECTS</span>
             </button>
-            <a
-              href="/CV.pdf"
+            <button
               class="nav-tab"
               role="tab"
               aria-selected="false"
-              aria-controls="cv-view"
-              id="cv-view"
-              >
+              aria-controls="cv-section"
+              data-section="cv"
+              id="cv-tab">
               <span class="nav-text">CV</span>
-            </a>
+            </button>
           </nav>
         </div>
       </header>
@@ -193,10 +208,9 @@
         <!-- Profile Section (MISSIONS) -->
         <section
           id="profile-section"
-          class="game-section"
+          class="game-section active"
           role="tabpanel"
-          aria-labelledby="profile-tab"
-          hidden>
+          aria-labelledby="profile-tab">
           <div class="profile-panel">
             <div class="player-avatar">
               <img
@@ -339,11 +353,11 @@
                     <span class="profile-action-detail">+27 67 975 8624</span>
                   </span>
                 </a>
-                <a href="/CV.pdf" class="contact-link profile-action">
+                <a href="#cv-section" class="contact-link profile-action" data-open-section="cv">
                   <span class="contact-icon" aria-hidden="true"><i class="fas fa-file-pdf"></i></span>
                   <span class="profile-action-text">
                     <span class="profile-action-label">CV</span>
-                    <span class="profile-action-detail">Download my CV</span>
+                    <span class="profile-action-detail">View or download my CV</span>
                   </span>
                 </a>
               </div>
@@ -386,43 +400,63 @@
         <!-- My skills (Main SkillTree Layout) -->
         <section
           id="perks-section"
-          class="game-section active"
+          class="game-section"
           role="tabpanel"
-          aria-labelledby="perks-tab">
+          aria-labelledby="perks-tab"
+          hidden>
           <div class="perks-container">
             <!-- Radial Node Graph -->
-            <div
-              class="perk-graph"
-              id="perk-graph"
-              aria-label="Skill tree graph">
-              <!-- Decorative rings (bottom layer) -->
-              <div class="graph-ring ring-1" aria-hidden="true"></div>
-              <div class="graph-ring ring-2" aria-hidden="true"></div>
-              <div class="graph-ring ring-3" aria-hidden="true"></div>
-              <div class="graph-ring ring-4" aria-hidden="true"></div>
-              <div class="graph-ring ring-5" aria-hidden="true"></div>
-
-              <!-- SVG for connection lines (above rings, below nodes) -->
-              <svg
-                class="perk-links"
-                id="perk-links"
-                width="100%"
-                height="100%"
-                aria-hidden="true"></svg>
-
-              <!-- Center Node -->
+            <div class="perk-graph-wrapper" id="perk-graph-wrapper">
               <div
-                class="perk-center"
-                id="perk-center"
-                tabindex="0"
-                aria-label="Core Skills">
-                <div class="perk-icon">
-                  <span class="icon-placeholder" aria-hidden="true"><i class="fas fa-globe"></i></span>
+                class="perk-graph"
+                id="perk-graph"
+                aria-label="Skill tree graph">
+                <!-- Decorative rings (bottom layer) -->
+                <div class="graph-ring ring-1" aria-hidden="true"></div>
+                <div class="graph-ring ring-2" aria-hidden="true"></div>
+                <div class="graph-ring ring-3" aria-hidden="true"></div>
+                <div class="graph-ring ring-4" aria-hidden="true"></div>
+                <div class="graph-ring ring-5" aria-hidden="true"></div>
+
+                <!-- SVG for connection lines (above rings, below nodes) -->
+                <svg
+                  class="perk-links"
+                  id="perk-links"
+                  width="100%"
+                  height="100%"
+                  aria-hidden="true"></svg>
+
+                <!-- Center Node -->
+                <div
+                  class="perk-center"
+                  id="perk-center"
+                  tabindex="0"
+                  aria-label="Core Skills">
+                  <div class="perk-icon">
+                    <span class="icon-placeholder" aria-hidden="true"><i class="fas fa-globe"></i></span>
+                  </div>
                 </div>
+
+                <!-- Skill nodes (top layer) -->
+                <div class="perk-nodes" id="perk-nodes" aria-live="polite"></div>
               </div>
 
-              <!-- Skill nodes (top layer) -->
-              <div class="perk-nodes" id="perk-nodes" aria-live="polite"></div>
+              <div class="perk-scroll-hint is-hidden" id="perk-scroll-hint" aria-hidden="true">
+                <i class="fas fa-hand-pointer" aria-hidden="true"></i>
+                <span>Swipe or drag to explore the tree</span>
+              </div>
+
+              <div class="perk-zoom-controls" id="perk-zoom-controls" role="group" aria-label="Skill tree zoom controls">
+                <button type="button" class="perk-zoom-btn" data-zoom="out" aria-label="Zoom out">
+                  <i class="fas fa-minus" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="perk-zoom-btn" data-zoom="reset" aria-label="Reset zoom">
+                  <i class="fas fa-compress" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="perk-zoom-btn" data-zoom="in" aria-label="Zoom in">
+                  <i class="fas fa-plus" aria-hidden="true"></i>
+                </button>
+              </div>
             </div>
 
             <!-- Progress Panel -->
@@ -856,6 +890,31 @@
               </div>
             </div>
           </div>
+        </section>
+
+        <section
+          id="cv-section"
+          class="game-section"
+          role="tabpanel"
+          aria-labelledby="cv-tab"
+          hidden>
+          <h2 class="section-title">Curriculum Vitae</h2>
+          <div class="section-intro">
+            <p>
+              Browse the full CV directly in the viewer below. Use the download button for an offline copy if needed.
+            </p>
+          </div>
+          <div class="cv-viewer" role="region" aria-label="Curriculum vitae viewer">
+            <iframe
+              src="CV.pdf#view=FitH"
+              title="Hayden Austin Curriculum Vitae"
+              loading="lazy">
+            </iframe>
+          </div>
+          <p class="cv-download">
+            Having trouble with the inline viewer?
+            <a href="CV.pdf" target="_blank" rel="noopener noreferrer">Open the PDF in a new tab</a>.
+          </p>
         </section>
       </main>
     </div>

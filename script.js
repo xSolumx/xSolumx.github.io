@@ -7,6 +7,25 @@
     });
     const MAX_SKILLS_PER_GROUP = 12;
     const STAT_SIGNS_THRESHOLD = 12;
+    const VIEWPORT_BREAKPOINTS = Object.freeze({
+        phoneSmall: 480,
+        phone: 768,
+        tablet: 1024,
+    });
+
+    let skillGraphViewportState = null;
+    let skillGraphResizeHandler = null;
+    let skillGraphScrollHintCleanup = null;
+    let skillGraphZoomState = null;
+
+    function debounce(fn, wait = 200) {
+        let timerId = null;
+        return function debounced(...args) {
+            const context = this;
+            window.clearTimeout(timerId);
+            timerId = window.setTimeout(() => fn.apply(context, args), wait);
+        };
+    }
 
     const projects = Object.freeze({
         "ai-nexus": {
@@ -111,6 +130,17 @@
         renderSkillCategories(skillTree);
         initializeSkillGraph(skillTree, curatedPairs, datasetValidation);
 
+        document.querySelectorAll("[data-open-section]").forEach((trigger) => {
+            trigger.addEventListener("click", (event) => {
+                const targetSection = trigger.getAttribute("data-open-section");
+                if (!targetSection || typeof window.navigateToSection !== "function") {
+                    return;
+                }
+                event.preventDefault();
+                window.navigateToSection(targetSection);
+            });
+        });
+
         if (typeof hideLoadingScreen === "function") {
             hideLoadingScreen();
         }
@@ -154,12 +184,96 @@
     function initNavigation() {
         const navTabs = Array.from(document.querySelectorAll(".nav-tab"));
         const sections = Array.from(document.querySelectorAll(".game-section"));
+        const navContainer = document.querySelector(".game-nav");
+        const navToggle = document.getElementById("nav-toggle");
+        const navList = document.getElementById("main-navigation");
+        const navToggleLabel = navToggle
+            ? navToggle.querySelector(".nav-toggle-label")
+            : null;
+        const mobileQuery = typeof window.matchMedia === "function"
+            ? window.matchMedia("(max-width: 768px)")
+            : null;
         if (!navTabs.length || !sections.length) {
             return;
         }
 
+        const setNavState = (open) => {
+            const state = open ? "true" : "false";
+            if (navContainer) {
+                navContainer.dataset.navOpen = state;
+            }
+            if (navToggle) {
+                navToggle.setAttribute("aria-expanded", state);
+            }
+            if (navToggleLabel) {
+                navToggleLabel.textContent = open ? "Close" : "Menu";
+            }
+            if (navList) {
+                if (mobileQuery && mobileQuery.matches) {
+                    navList.setAttribute("aria-hidden", open ? "false" : "true");
+                } else {
+                    navList.removeAttribute("aria-hidden");
+                }
+            }
+        };
+
+        const collapseNavOnMobile = () => {
+            if (mobileQuery && mobileQuery.matches) {
+                setNavState(false);
+                if (navToggle && typeof navToggle.focus === "function") {
+                    navToggle.focus();
+                }
+            }
+        };
+
+        if (navToggle) {
+            navToggle.addEventListener("click", () => {
+                const willOpen = !navContainer || navContainer.dataset.navOpen !== "true";
+                setNavState(willOpen);
+            });
+        }
+
+        if (navContainer && navToggle) {
+            document.addEventListener("click", (event) => {
+                if (!mobileQuery || !mobileQuery.matches) {
+                    return;
+                }
+                if (navContainer.dataset.navOpen !== "true") {
+                    return;
+                }
+                if (navContainer.contains(event.target)) {
+                    return;
+                }
+                setNavState(false);
+            });
+        }
+
+        if (mobileQuery) {
+            const handleViewportChange = (event) => {
+                if (event.matches) {
+                    setNavState(false);
+                } else {
+                    setNavState(true);
+                }
+            };
+
+            if (typeof mobileQuery.addEventListener === "function") {
+                mobileQuery.addEventListener("change", handleViewportChange);
+            } else if (typeof mobileQuery.addListener === "function") {
+                mobileQuery.addListener(handleViewportChange);
+            }
+
+            if (mobileQuery.matches) {
+                setNavState(false);
+            } else {
+                setNavState(true);
+            }
+        } else {
+            setNavState(true);
+        }
+
         function setActiveSection(name, { updateHash = true, persist = true } = {}) {
-            const targetName = name || "perks";
+            const targetName = name || "profile";
 
             navTabs.forEach((tab) => {
                 const isActive = tab.dataset.section === targetName;
@@ -200,31 +314,36 @@
             }
         }
 
+        window.navigateToSection = (targetName, options = {}) => {
+            if (!targetName) {
+                return;
+            }
+            setActiveSection(targetName, options);
+        };
+
         function getInitialSection() {
             const hash = (window.location.hash || "").replace(/^#/, "");
             if (hash && document.getElementById(hash)) {
                 return hash.replace(/-section$/, "");
             }
-            try {
-                const stored = window.localStorage.getItem(STORAGE_KEYS.activeSection);
-                if (stored && document.querySelector(`.nav-tab[data-section="${stored}"]`)) {
-                    return stored;
-                }
-            } catch (err) {
-                if (isDevelopment) {
-                    console.warn("Unable to read stored section", err);
-                }
-            }
-            return "perks";
+            return "profile";
         }
 
         navTabs.forEach((tab, index) => {
             tab.addEventListener("click", (event) => {
+                const sectionName = tab.dataset.section;
+                if (!sectionName) {
+                    return;
+                }
                 event.preventDefault();
-                setActiveSection(tab.dataset.section);
+                setActiveSection(sectionName);
+                collapseNavOnMobile();
             });
 
             tab.addEventListener("keydown", (event) => {
+                if (!tab.dataset.section) {
+                    return;
+                }
                 let targetIndex = null;
                 switch (event.key) {
                     case "ArrowRight":
@@ -245,6 +364,7 @@
                     case " ":
                         event.preventDefault();
                         setActiveSection(tab.dataset.section);
+                        collapseNavOnMobile();
                         return;
                     default:
                         break;
@@ -515,6 +635,500 @@
         container.setAttribute("aria-busy", "false");
     }
 
+    function computeSkillGraphViewportState() {
+        const viewportWidth = window.innerWidth
+            || document.documentElement.clientWidth
+            || (VIEWPORT_BREAKPOINTS.tablet + 1);
+        const screenWidth = window.screen && window.screen.width
+            ? window.screen.width
+            : viewportWidth;
+        const effectiveWidth = Math.min(viewportWidth, screenWidth);
+
+        if (effectiveWidth <= VIEWPORT_BREAKPOINTS.phoneSmall) {
+            return {
+                key: "mobile-xs",
+                constants: {
+                    NODE_SIZE: 40,
+                    MIN_INNER_RADIUS_FACTOR: 0.24,
+                    MIN_INNER_ABSOLUTE: 72,
+                    OUTER_PADDING: 16,
+                    GROUP_GAP_DEG: 18,
+                    ANGULAR_SPACING_MULTIPLIER: 1.65,
+                    LANE_SPACING_FACTOR: 1.05,
+                    TOOLTIP_OFFSET: 12,
+                },
+            };
+        }
+
+        if (effectiveWidth <= VIEWPORT_BREAKPOINTS.phone) {
+            return {
+                key: "mobile",
+                constants: {
+                    NODE_SIZE: 46,
+                    MIN_INNER_RADIUS_FACTOR: 0.25,
+                    MIN_INNER_ABSOLUTE: 82,
+                    OUTER_PADDING: 18,
+                    GROUP_GAP_DEG: 16,
+                    ANGULAR_SPACING_MULTIPLIER: 1.72,
+                    LANE_SPACING_FACTOR: 1.15,
+                    TOOLTIP_OFFSET: 14,
+                },
+            };
+        }
+
+        if (effectiveWidth <= VIEWPORT_BREAKPOINTS.tablet) {
+            return {
+                key: "tablet",
+                constants: {
+                    NODE_SIZE: 54,
+                    MIN_INNER_RADIUS_FACTOR: 0.24,
+                    MIN_INNER_ABSOLUTE: 96,
+                    OUTER_PADDING: 28,
+                    GROUP_GAP_DEG: 14,
+                    ANGULAR_SPACING_MULTIPLIER: 1.58,
+                    LANE_SPACING_FACTOR: 0.9,
+                    TOOLTIP_OFFSET: 16,
+                },
+            };
+        }
+
+        return {
+            key: "desktop",
+            constants: {},
+        };
+    }
+
+    function applySkillGraphDensityClass(key) {
+        const perksSection = document.getElementById("perks-section");
+        if (!perksSection) {
+            return;
+        }
+        if (key) {
+            perksSection.dataset.skillDensity = key;
+        } else if (perksSection.dataset.skillDensity) {
+            delete perksSection.dataset.skillDensity;
+        }
+    }
+
+    function setupSkillGraphZoom({ graphWrapper, graphElement, controller, viewportState, centerGraphViewport }) {
+        if (skillGraphZoomState && typeof skillGraphZoomState.cleanup === "function") {
+            skillGraphZoomState.cleanup();
+            skillGraphZoomState.cleanup = null;
+        }
+
+        if (!graphWrapper || !graphElement || !controller) {
+            skillGraphZoomState = null;
+            return;
+        }
+
+        if (!skillGraphZoomState) {
+            skillGraphZoomState = {
+                scale: 1,
+                baseWidth: null,
+                baseHeight: null,
+                viewportKey: viewportState.key,
+                cleanup: null,
+            };
+        }
+
+        const zoomState = skillGraphZoomState;
+        if (zoomState.viewportKey !== viewportState.key) {
+            zoomState.scale = 1;
+            zoomState.baseWidth = null;
+            zoomState.baseHeight = null;
+            zoomState.viewportKey = viewportState.key;
+        }
+
+        const rect = graphElement.getBoundingClientRect();
+        const currentScale = zoomState.scale || 1;
+        const fallbackSize = viewportState.key.startsWith("mobile")
+            ? Math.max(rect.width, rect.height, 540)
+            : Math.max(rect.width, rect.height, 680);
+
+        if (!zoomState.baseWidth) {
+            zoomState.baseWidth = (rect.width || fallbackSize) / currentScale;
+        }
+        if (!zoomState.baseHeight) {
+            zoomState.baseHeight = (rect.height || fallbackSize) / currentScale;
+        }
+        zoomState.scale = currentScale;
+
+        graphElement.style.maxWidth = "none";
+        graphElement.style.maxHeight = "none";
+
+        const zoomControls = document.getElementById("perk-zoom-controls");
+        if (zoomControls) {
+            zoomControls.dataset.scale = zoomState.scale.toFixed(2);
+        }
+        const isMobileDensity = viewportState.key.startsWith("mobile");
+        const minScale = isMobileDensity ? 0.55 : 0.75;
+        const maxScale = isMobileDensity ? 2.5 : 2.2;
+
+        let redrawScheduled = false;
+        let shouldRecentre = false;
+        const scheduleRedraw = (recentre = false) => {
+            shouldRecentre = shouldRecentre || recentre;
+            if (redrawScheduled) {
+                return;
+            }
+            redrawScheduled = true;
+            window.requestAnimationFrame(() => {
+                redrawScheduled = false;
+                if (controller && typeof controller.redraw === "function") {
+                    controller.redraw();
+                } else if (window.SkillGraph && typeof window.SkillGraph.redraw === "function") {
+                    window.SkillGraph.redraw();
+                }
+                if (shouldRecentre && typeof centerGraphViewport === "function") {
+                    centerGraphViewport();
+                }
+                shouldRecentre = false;
+            });
+        };
+
+        const clampScale = (value) => Math.min(maxScale, Math.max(minScale, value));
+        const getFittedScale = () => {
+            if (!graphWrapper || !zoomState.baseWidth) {
+                return zoomState.scale;
+            }
+            const availableWidth = graphWrapper.clientWidth || 0;
+            if (!availableWidth) {
+                return zoomState.scale;
+            }
+            const fit = availableWidth / zoomState.baseWidth;
+            if (!isFinite(fit) || fit <= 0) {
+                return zoomState.scale;
+            }
+            return clampScale(isMobileDensity ? Math.min(1, fit) : zoomState.scale);
+        };
+
+        const applyScale = (value, { immediate = false, preserveViewport = false } = {}) => {
+            const next = clampScale(value);
+            zoomState.scale = next;
+            const widthPx = Math.max(1, zoomState.baseWidth * next);
+            const heightPx = Math.max(1, zoomState.baseHeight * next);
+            graphElement.style.width = `${widthPx}px`;
+            graphElement.style.height = `${heightPx}px`;
+            graphWrapper.dataset.zoomScale = next.toFixed(2);
+            if (zoomControls) {
+                zoomControls.dataset.scale = next.toFixed(2);
+            }
+            if (immediate) {
+                if (controller && typeof controller.redraw === "function") {
+                    controller.redraw();
+                } else if (window.SkillGraph && typeof window.SkillGraph.redraw === "function") {
+                    window.SkillGraph.redraw();
+                }
+                if (!preserveViewport && typeof centerGraphViewport === "function") {
+                    centerGraphViewport();
+                }
+            } else {
+                scheduleRedraw(!preserveViewport);
+            }
+        };
+
+        const initialScale = clampScale(getFittedScale());
+        applyScale(initialScale, { immediate: true, preserveViewport: true });
+
+        let fitObserver = null;
+        let pendingFitTimeout = null;
+
+        const ensureGraphFitsWidth = () => {
+            if (!isMobileDensity) {
+                return;
+            }
+            const fitted = clampScale(getFittedScale());
+            if (Math.abs(fitted - zoomState.scale) > 0.01) {
+                applyScale(fitted, { immediate: true, preserveViewport: true });
+            }
+        };
+
+        if (isMobileDensity) {
+            if (graphWrapper.clientWidth) {
+                ensureGraphFitsWidth();
+            } else if (typeof window.ResizeObserver === "function") {
+                fitObserver = new window.ResizeObserver(() => {
+                    if (!graphWrapper.clientWidth) {
+                        return;
+                    }
+                    ensureGraphFitsWidth();
+                    if (fitObserver) {
+                        fitObserver.disconnect();
+                        fitObserver = null;
+                    }
+                });
+                fitObserver.observe(graphWrapper);
+            } else {
+                let fallbackAttempts = 0;
+                const tryFitLater = () => {
+                    if (!graphWrapper.clientWidth) {
+                        if (fallbackAttempts < 6) {
+                            fallbackAttempts += 1;
+                            if (pendingFitTimeout) {
+                                window.clearTimeout(pendingFitTimeout);
+                            }
+                            pendingFitTimeout = window.setTimeout(tryFitLater, 220);
+                        }
+                        return;
+                    }
+                    ensureGraphFitsWidth();
+                    if (pendingFitTimeout) {
+                        window.clearTimeout(pendingFitTimeout);
+                        pendingFitTimeout = null;
+                    }
+                };
+                window.requestAnimationFrame(tryFitLater);
+            }
+        }
+
+        const activePointers = new Map();
+        let pinchStartDistance = null;
+        let pinchStartScale = zoomState.scale;
+        let lastTapTime = 0;
+
+        const getDistance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+        const resetTapClock = () => {
+            lastTapTime = 0;
+        };
+        const getResetScale = () => clampScale(isMobileDensity ? getFittedScale() : 1);
+        const capturePointerIfNeeded = (pointerId, info) => {
+            if (!info || info.captured || typeof graphWrapper.setPointerCapture !== "function") {
+                return;
+            }
+            try {
+                graphWrapper.setPointerCapture(pointerId);
+                info.captured = true;
+            } catch (_) {
+                info.captured = false;
+            }
+        };
+
+        const pointerDown = (event) => {
+            if (zoomControls && zoomControls.contains(event.target)) {
+                return;
+            }
+            const isTouchLike = event.pointerType === "touch" || event.pointerType === "pen";
+            const isPrimaryMouse = event.pointerType === "mouse" && event.button === 0;
+            if (!isTouchLike && !isPrimaryMouse) {
+                return;
+            }
+            const pointerTarget = event.target;
+            const isInteractiveTarget = Boolean(
+                pointerTarget
+                && pointerTarget.closest(".perk-node, .perk-center")
+            );
+            const pointerInfo = {
+                x: event.clientX,
+                y: event.clientY,
+                prevX: event.clientX,
+                prevY: event.clientY,
+                initialX: event.clientX,
+                initialY: event.clientY,
+                allowClick: isInteractiveTarget,
+            };
+            pointerInfo.captured = false;
+            if (!pointerInfo.allowClick) {
+                capturePointerIfNeeded(event.pointerId, pointerInfo);
+            }
+            activePointers.set(event.pointerId, pointerInfo);
+            if (activePointers.size === 1) {
+                pinchStartDistance = null;
+                pinchStartScale = zoomState.scale;
+            } else if (activePointers.size === 2) {
+                activePointers.forEach((meta, id) => {
+                    meta.allowClick = false;
+                    capturePointerIfNeeded(id, meta);
+                });
+                const points = Array.from(activePointers.values());
+                pinchStartDistance = getDistance(points[0], points[1]) || 1;
+                pinchStartScale = zoomState.scale;
+            }
+            if (!pointerInfo.allowClick) {
+                graphWrapper.classList.add("is-interacting");
+                event.preventDefault();
+            }
+        };
+
+        const pointerMove = (event) => {
+            if (!activePointers.has(event.pointerId)) {
+                return;
+            }
+            const pointerInfo = activePointers.get(event.pointerId);
+            const nextPoint = { x: event.clientX, y: event.clientY };
+            const deltaFromStartX = nextPoint.x - pointerInfo.initialX;
+            const deltaFromStartY = nextPoint.y - pointerInfo.initialY;
+            const dragThreshold = 6;
+            let handled = false;
+
+            if (
+                pointerInfo.allowClick
+                && (Math.abs(deltaFromStartX) > dragThreshold || Math.abs(deltaFromStartY) > dragThreshold)
+            ) {
+                pointerInfo.allowClick = false;
+                capturePointerIfNeeded(event.pointerId, pointerInfo);
+            }
+
+            pointerInfo.x = nextPoint.x;
+            pointerInfo.y = nextPoint.y;
+
+            if (activePointers.size === 1 && !pointerInfo.allowClick) {
+                const deltaX = nextPoint.x - pointerInfo.prevX;
+                const deltaY = nextPoint.y - pointerInfo.prevY;
+                graphWrapper.scrollLeft -= deltaX;
+                graphWrapper.scrollTop -= deltaY;
+                handled = true;
+            } else if (activePointers.size === 2) {
+                const points = Array.from(activePointers.entries());
+                points.forEach(([id, meta]) => {
+                    meta.allowClick = false;
+                    capturePointerIfNeeded(id, meta);
+                });
+                const distance = getDistance(points[0][1], points[1][1]);
+                if (!pinchStartDistance) {
+                    pinchStartDistance = distance || 1;
+                    pinchStartScale = zoomState.scale;
+                }
+                if (distance > 0 && pinchStartDistance) {
+                    const ratio = distance / pinchStartDistance;
+                    applyScale(pinchStartScale * ratio, { preserveViewport: true });
+                    handled = true;
+                }
+            }
+
+            pointerInfo.prevX = nextPoint.x;
+            pointerInfo.prevY = nextPoint.y;
+
+            if (handled) {
+                graphWrapper.classList.add("is-interacting");
+                event.preventDefault();
+            }
+        };
+
+        const pointerUp = (event) => {
+            if (!activePointers.has(event.pointerId)) {
+                return;
+            }
+            const pointerInfo = activePointers.get(event.pointerId);
+            const shouldAllowClick = pointerInfo ? pointerInfo.allowClick : false;
+
+            if (pointerInfo && pointerInfo.captured) {
+                if (typeof graphWrapper.hasPointerCapture === "function") {
+                    if (graphWrapper.hasPointerCapture(event.pointerId)) {
+                        graphWrapper.releasePointerCapture(event.pointerId);
+                    }
+                } else {
+                    try {
+                        graphWrapper.releasePointerCapture(event.pointerId);
+                    } catch (_) {
+                        /* ignore */
+                    }
+                }
+            }
+            activePointers.delete(event.pointerId);
+
+            if (activePointers.size === 0) {
+                graphWrapper.classList.remove("is-interacting");
+                pinchStartDistance = null;
+                pinchStartScale = zoomState.scale;
+                if (event.pointerType === "touch" && !shouldAllowClick) {
+                    const now = Date.now();
+                    if (now - lastTapTime < 320) {
+                        applyScale(getResetScale(), { immediate: true, preserveViewport: true });
+                        resetTapClock();
+                    } else {
+                        lastTapTime = now;
+                    }
+                } else if (event.pointerType === "touch" && shouldAllowClick) {
+                    resetTapClock();
+                }
+            } else if (activePointers.size === 1) {
+                pinchStartDistance = null;
+                pinchStartScale = zoomState.scale;
+            }
+
+            if (!shouldAllowClick) {
+                event.preventDefault();
+            }
+        };
+
+        const wheelHandler = (event) => {
+            if (!event.ctrlKey) {
+                return;
+            }
+            event.preventDefault();
+            const delta = event.deltaY > 0 ? -0.12 : 0.12;
+            applyScale(zoomState.scale + delta, { preserveViewport: true });
+        };
+
+        const handleZoomControl = (event) => {
+            const trigger = event.target.closest("[data-zoom]");
+            if (!trigger) {
+                return;
+            }
+            event.preventDefault();
+            switch (trigger.dataset.zoom) {
+                case "in":
+                    applyScale(zoomState.scale + 0.15);
+                    break;
+                case "out":
+                    applyScale(zoomState.scale - 0.15);
+                    break;
+                case "reset":
+                    applyScale(getResetScale(), { immediate: true, preserveViewport: true });
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        const handleZoomKeydown = (event) => {
+            if (event.key !== "Enter" && event.key !== " ") {
+                return;
+            }
+            const trigger = event.target.closest("[data-zoom]");
+            if (!trigger) {
+                return;
+            }
+            event.preventDefault();
+            trigger.click();
+        };
+
+        graphWrapper.addEventListener("pointerdown", pointerDown);
+        graphWrapper.addEventListener("pointermove", pointerMove);
+        graphWrapper.addEventListener("pointerup", pointerUp);
+        graphWrapper.addEventListener("pointercancel", pointerUp);
+        graphWrapper.addEventListener("lostpointercapture", pointerUp);
+        graphWrapper.addEventListener("wheel", wheelHandler, { passive: false });
+
+        if (zoomControls) {
+            zoomControls.addEventListener("click", handleZoomControl);
+            zoomControls.addEventListener("keydown", handleZoomKeydown);
+        }
+
+        zoomState.cleanup = () => {
+            graphWrapper.classList.remove("is-interacting");
+            activePointers.clear();
+            graphWrapper.removeEventListener("pointerdown", pointerDown);
+            graphWrapper.removeEventListener("pointermove", pointerMove);
+            graphWrapper.removeEventListener("pointerup", pointerUp);
+            graphWrapper.removeEventListener("pointercancel", pointerUp);
+            graphWrapper.removeEventListener("lostpointercapture", pointerUp);
+            graphWrapper.removeEventListener("wheel", wheelHandler);
+            if (fitObserver) {
+                fitObserver.disconnect();
+                fitObserver = null;
+            }
+            if (pendingFitTimeout) {
+                window.clearTimeout(pendingFitTimeout);
+                pendingFitTimeout = null;
+            }
+            if (zoomControls) {
+                zoomControls.removeEventListener("click", handleZoomControl);
+                zoomControls.removeEventListener("keydown", handleZoomKeydown);
+            }
+        };
+    }
+
     function initializeSkillGraph(skillTree, relatedPairs, datasetValidation) {
         if (!window.SkillGraph || typeof window.SkillGraph.initialize !== "function") {
             if (isDevelopment) {
@@ -522,6 +1136,20 @@
             }
             return;
         }
+
+        if (skillGraphResizeHandler) {
+            window.removeEventListener("resize", skillGraphResizeHandler);
+            skillGraphResizeHandler = null;
+        }
+
+        if (skillGraphScrollHintCleanup) {
+            skillGraphScrollHintCleanup();
+            skillGraphScrollHintCleanup = null;
+        }
+
+        const viewportState = computeSkillGraphViewportState();
+        skillGraphViewportState = viewportState;
+        applySkillGraphDensityClass(viewportState.key);
 
         const controller = window.SkillGraph.initialize({
             skillTree,
@@ -531,15 +1159,129 @@
             relatedPairs,
             datasetValidation,
             isDevelopment,
+            constants: viewportState.constants,
         });
 
+        let centerGraphViewport = () => {};
+
         if (controller && typeof controller.redraw === "function") {
-            window.redrawSkillTree = () => controller.redraw();
+            window.redrawSkillTree = () => {
+                controller.redraw();
+                centerGraphViewport();
+            };
         } else {
-            window.redrawSkillTree = () => window.SkillGraph.redraw && window.SkillGraph.redraw();
+            window.redrawSkillTree = () => {
+                if (window.SkillGraph && typeof window.SkillGraph.redraw === "function") {
+                    window.SkillGraph.redraw();
+                    centerGraphViewport();
+                }
+            };
         }
 
         window.focusSkillInTree = (skillId) => focusSkill(skillId);
+
+        const graphWrapper = document.getElementById("perk-graph-wrapper");
+        const scrollHint = document.getElementById("perk-scroll-hint");
+        const nodesLayer = document.getElementById("perk-nodes");
+        const graphElement = document.getElementById("perk-graph");
+
+        centerGraphViewport = () => {
+            if (!graphWrapper) {
+                return;
+            }
+            window.requestAnimationFrame(() => {
+                const maxScrollLeft = Math.max(0, graphWrapper.scrollWidth - graphWrapper.clientWidth);
+                const maxScrollTop = Math.max(0, graphWrapper.scrollHeight - graphWrapper.clientHeight);
+                const targetLeft = maxScrollLeft > 0 ? maxScrollLeft / 2 : 0;
+                const targetTop = 0;
+                if (Math.abs(graphWrapper.scrollLeft - targetLeft) > 1) {
+                    graphWrapper.scrollLeft = targetLeft;
+                }
+                if (Math.abs(graphWrapper.scrollTop - targetTop) > 1) {
+                    graphWrapper.scrollTop = targetTop;
+                }
+            });
+        };
+
+        if (graphWrapper && scrollHint) {
+            const hasOverflow = graphWrapper.scrollWidth > graphWrapper.clientWidth
+                || graphWrapper.scrollHeight > graphWrapper.clientHeight;
+            const shouldShowHint = viewportState.key.startsWith("mobile") && hasOverflow;
+            scrollHint.classList.toggle("is-visible", shouldShowHint);
+            scrollHint.classList.toggle("is-hidden", !shouldShowHint);
+            scrollHint.setAttribute("aria-hidden", shouldShowHint ? "false" : "true");
+
+            if (shouldShowHint) {
+                let hintDismissed = false;
+                const handleInteraction = () => {
+                    if (hintDismissed) {
+                        return;
+                    }
+                    hintDismissed = true;
+                    scrollHint.classList.add("is-hidden");
+                    scrollHint.classList.remove("is-visible");
+                    scrollHint.setAttribute("aria-hidden", "true");
+                    if (skillGraphScrollHintCleanup) {
+                        skillGraphScrollHintCleanup();
+                        skillGraphScrollHintCleanup = null;
+                    }
+                };
+
+                const interactionNotifier = () => {
+                    window.requestAnimationFrame(handleInteraction);
+                };
+
+                graphWrapper.addEventListener("scroll", interactionNotifier, { passive: true });
+                graphWrapper.addEventListener("pointerdown", interactionNotifier, { passive: true });
+                graphWrapper.addEventListener("touchstart", interactionNotifier, { passive: true });
+
+                if (nodesLayer) {
+                    nodesLayer.addEventListener("click", interactionNotifier);
+                    nodesLayer.addEventListener("focusin", interactionNotifier);
+                }
+
+                skillGraphScrollHintCleanup = () => {
+                    graphWrapper.removeEventListener("scroll", interactionNotifier);
+                    graphWrapper.removeEventListener("pointerdown", interactionNotifier);
+                    graphWrapper.removeEventListener("touchstart", interactionNotifier);
+                    if (nodesLayer) {
+                        nodesLayer.removeEventListener("click", interactionNotifier);
+                        nodesLayer.removeEventListener("focusin", interactionNotifier);
+                    }
+                };
+            } else {
+                skillGraphScrollHintCleanup = null;
+            }
+        }
+
+        setupSkillGraphZoom({
+            graphWrapper,
+            graphElement,
+            controller,
+            viewportState,
+            centerGraphViewport,
+        });
+
+        centerGraphViewport();
+
+        const debouncedResize = debounce(() => {
+            const nextState = computeSkillGraphViewportState();
+            if (!skillGraphViewportState || nextState.key !== skillGraphViewportState.key) {
+                initializeSkillGraph(skillTree, relatedPairs, datasetValidation);
+                return;
+            }
+
+            if (controller && typeof controller.redraw === "function") {
+                controller.redraw();
+                centerGraphViewport();
+            } else if (window.SkillGraph && typeof window.SkillGraph.redraw === "function") {
+                window.SkillGraph.redraw();
+                centerGraphViewport();
+            }
+        }, 250);
+
+        window.addEventListener("resize", debouncedResize);
+        skillGraphResizeHandler = debouncedResize;
     }
 
     function focusSkill(skillId) {

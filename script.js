@@ -782,13 +782,12 @@
             ? Math.max(rect.width, rect.height, 540)
             : Math.max(rect.width, rect.height, 680);
 
-        if (!zoomState.baseWidth) {
-            zoomState.baseWidth = (rect.width || fallbackSize) / currentScale;
-        }
-        if (!zoomState.baseHeight) {
-            zoomState.baseHeight = (rect.height || fallbackSize) / currentScale;
-        }
-        zoomState.scale = currentScale;
+        const measuredWidth = rect.width || fallbackSize;
+        const measuredHeight = rect.height || fallbackSize;
+        const safeCurrentScale = currentScale > 0 ? currentScale : 1;
+        zoomState.baseWidth = measuredWidth / safeCurrentScale;
+        zoomState.baseHeight = measuredHeight / safeCurrentScale;
+        zoomState.scale = safeCurrentScale;
 
         graphElement.style.maxWidth = "none";
         graphElement.style.maxHeight = "none";
@@ -803,7 +802,7 @@
 
         let redrawScheduled = false;
         let shouldRecentre = false;
-        const scheduleRedraw = (recentre = false) => {
+        const scheduleScaleUpdate = (recentre = false) => {
             shouldRecentre = shouldRecentre || recentre;
             if (redrawScheduled) {
                 return;
@@ -811,7 +810,9 @@
             redrawScheduled = true;
             window.requestAnimationFrame(() => {
                 redrawScheduled = false;
-                if (controller && typeof controller.redraw === "function") {
+                if (controller && typeof controller.setScale === "function") {
+                    controller.setScale(zoomState.scale);
+                } else if (controller && typeof controller.redraw === "function") {
                     controller.redraw();
                 } else if (window.SkillGraph && typeof window.SkillGraph.redraw === "function") {
                     window.SkillGraph.redraw();
@@ -844,23 +845,30 @@
             zoomState.scale = next;
             const widthPx = Math.max(1, zoomState.baseWidth * next);
             const heightPx = Math.max(1, zoomState.baseHeight * next);
-            graphElement.style.width = `${widthPx}px`;
-            graphElement.style.height = `${heightPx}px`;
             graphWrapper.dataset.zoomScale = next.toFixed(2);
             if (zoomControls) {
                 zoomControls.dataset.scale = next.toFixed(2);
             }
             if (immediate) {
-                if (controller && typeof controller.redraw === "function") {
+                if (controller && typeof controller.setScale === "function") {
+                    controller.setScale(next);
+                } else if (controller && typeof controller.redraw === "function") {
                     controller.redraw();
                 } else if (window.SkillGraph && typeof window.SkillGraph.redraw === "function") {
                     window.SkillGraph.redraw();
+                } else {
+                    graphElement.style.width = `${widthPx}px`;
+                    graphElement.style.height = `${heightPx}px`;
                 }
                 if (!preserveViewport && typeof centerGraphViewport === "function") {
                     centerGraphViewport();
                 }
             } else {
-                scheduleRedraw(!preserveViewport);
+                if (!(controller && typeof controller.setScale === "function")) {
+                    graphElement.style.width = `${widthPx}px`;
+                    graphElement.style.height = `${heightPx}px`;
+                }
+                scheduleScaleUpdate(!preserveViewport);
             }
         };
 
@@ -1168,8 +1176,10 @@
 
     function initializeSkillGraph(skillTree, relatedPairs, datasetValidation) {
         if (!window.SkillGraph || typeof window.SkillGraph.initialize !== "function") {
-            if (isDevelopment) {
-                console.warn("SkillGraph module unavailable; radial skill tree will not render.");
+            console.error("SkillGraph library not found or is invalid.");
+            const perksSection = document.getElementById("perks-section");
+            if (perksSection) {
+                perksSection.innerHTML = `<div class="error-message">Error: Skill Tree component failed to load.</div>`;
             }
             return;
         }
@@ -1184,9 +1194,9 @@
             skillGraphScrollHintCleanup = null;
         }
 
-        const viewportState = computeSkillGraphViewportState();
-        skillGraphViewportState = viewportState;
-        applySkillGraphDensityClass(viewportState.key);
+        // Cache the initial viewport state
+        skillGraphViewportState = computeSkillGraphViewportState();
+        applySkillGraphDensityClass(skillGraphViewportState.key);
 
         const controller = window.SkillGraph.initialize({
             skillTree,
@@ -1196,23 +1206,18 @@
             relatedPairs,
             datasetValidation,
             isDevelopment,
-            constants: viewportState.constants,
+            constants: skillGraphViewportState.constants,
         });
 
         let centerGraphViewport = () => {};
 
-        if (controller && typeof controller.redraw === "function") {
-            window.redrawSkillTree = () => {
-                controller.redraw();
-                centerGraphViewport();
-            };
-        } else {
-            window.redrawSkillTree = () => {
-                if (window.SkillGraph && typeof window.SkillGraph.redraw === "function") {
-                    window.SkillGraph.redraw();
-                    centerGraphViewport();
-                }
-            };
+        if (!controller || typeof controller.redraw !== "function") {
+            console.error("SkillGraph controller is invalid or missing a redraw method.");
+            const graphElement = document.getElementById("perk-graph");
+            if (graphElement) {
+                graphElement.innerHTML = `<div class="error-message">Could not render skill tree.</div>`;
+            }
+            return;
         }
 
         window.focusSkillInTree = (skillId) => focusSkill(skillId);
@@ -1240,10 +1245,23 @@
             });
         };
 
+        window.redrawSkillTree = () => {
+            if (controller && typeof controller.redraw === "function") {
+                controller.redraw();
+                if (controller && typeof controller.setScale === "function" && skillGraphZoomState) {
+                    controller.setScale(skillGraphZoomState.scale || 1);
+                }
+                centerGraphViewport();
+            } else if (window.SkillGraph && typeof window.SkillGraph.redraw === "function") {
+                window.SkillGraph.redraw();
+                centerGraphViewport();
+            }
+        };
+
         if (graphWrapper && scrollHint) {
             const hasOverflow = graphWrapper.scrollWidth > graphWrapper.clientWidth
                 || graphWrapper.scrollHeight > graphWrapper.clientHeight;
-            const shouldShowHint = viewportState.key.startsWith("mobile") && hasOverflow;
+            const shouldShowHint = skillGraphViewportState.key.startsWith("mobile") && hasOverflow;
             scrollHint.classList.toggle("is-visible", shouldShowHint);
             scrollHint.classList.toggle("is-hidden", !shouldShowHint);
             scrollHint.setAttribute("aria-hidden", shouldShowHint ? "false" : "true");
@@ -1295,7 +1313,7 @@
             graphWrapper,
             graphElement,
             controller,
-            viewportState,
+            viewportState: skillGraphViewportState,
             centerGraphViewport,
         });
 
@@ -1303,13 +1321,19 @@
 
         const debouncedResize = debounce(() => {
             const nextState = computeSkillGraphViewportState();
-            if (!skillGraphViewportState || nextState.key !== skillGraphViewportState.key) {
+            const previousKey = skillGraphViewportState ? skillGraphViewportState.key : null;
+            skillGraphViewportState = nextState;
+            applySkillGraphDensityClass(nextState.key);
+            if (!previousKey || nextState.key !== previousKey) {
                 initializeSkillGraph(skillTree, relatedPairs, datasetValidation);
                 return;
             }
 
             if (controller && typeof controller.redraw === "function") {
                 controller.redraw();
+                if (controller && typeof controller.setScale === "function" && skillGraphZoomState) {
+                    controller.setScale(skillGraphZoomState.scale || 1);
+                }
                 centerGraphViewport();
             } else if (window.SkillGraph && typeof window.SkillGraph.redraw === "function") {
                 window.SkillGraph.redraw();

@@ -102,13 +102,19 @@
       isDevelopment,
       nodePositions: {},
       nodeMeta: {},
-  prereqMap: {},
-  dependentMap: {},
-  relatedMap,
+      prereqMap: {},
+      dependentMap: {},
+      relatedMap,
       groupAngles: {},
       disposeHandlers: [],
       tooltipEl: null,
       lastBounds: { width: 0, height: 0 },
+      baseBounds: null,
+      ringBaseRadii: [],
+      layoutCache: {},
+      currentScale: 1,
+      baseOuterRadius: 0,
+      scaledCenter: { x: 0, y: 0 },
       svgLayers: { related: null, prereqs: null },
       hoverPerkId: null,
       activePerkId: null,
@@ -500,6 +506,8 @@
         line.setAttribute("y2", String(target.y));
         line.setAttribute("stroke-linecap", "round");
         line.dataset.path = type;
+        line.dataset.from = from;
+        line.dataset.to = to;
         state.svgLayers.prereqs.appendChild(line);
       });
     }
@@ -658,17 +666,24 @@
     }
 
     function buildNodes() {
-      const bounds = graphEl.getBoundingClientRect();
-      if (bounds.width === 0 || bounds.height === 0) {
+      const scaleFactor = Number.isFinite(state.currentScale) ? Math.max(state.currentScale, 0.01) : 1;
+      const measuredBounds = graphEl.getBoundingClientRect();
+      if (measuredBounds.width === 0 || measuredBounds.height === 0) {
         return [];
       }
-      state.lastBounds = { width: bounds.width, height: bounds.height };
+      const baseWidth = measuredBounds.width / scaleFactor;
+      const baseHeight = measuredBounds.height / scaleFactor;
+      const bounds = { width: baseWidth, height: baseHeight };
+
+      state.baseBounds = { width: baseWidth, height: baseHeight };
+      state.lastBounds = { width: baseWidth, height: baseHeight };
 
       ensureSvgLayers();
       hideTooltip();
       state.nodePositions = {};
       state.nodeMeta = {};
       state.groupAngles = {};
+      state.layoutCache = {};
       nodesContainer.innerHTML = "";
 
       const cx = bounds.width / 2;
@@ -696,6 +711,10 @@
         return innerRadius + (outerRadius - innerRadius) * eased;
       });
 
+      state.ringBaseRadii = radii.slice();
+      state.baseOuterRadius = radii[radii.length - 1] || 0;
+      state.scaledCenter = { x: cx, y: cy };
+
       const ringEls = graphEl.querySelectorAll(".graph-ring");
       ringEls.forEach((ringEl, idx) => {
         const radius = radii[Math.min(idx, radii.length - 1)];
@@ -722,9 +741,9 @@
         return [];
       }
 
-  const baseGap = Number(layoutConstants.GROUP_GAP_DEG) || 12;
-  const spacingMultiplier = Math.max(1, Number(layoutConstants.ANGULAR_SPACING_MULTIPLIER) || 1.35);
-  const laneSpacingFactor = clamp(Number(layoutConstants.LANE_SPACING_FACTOR) || 0.9, 0.5, 1.5);
+      const baseGap = Number(layoutConstants.GROUP_GAP_DEG) || 12;
+      const spacingMultiplier = Math.max(1, Number(layoutConstants.ANGULAR_SPACING_MULTIPLIER) || 1.35);
+      const laneSpacingFactor = clamp(Number(layoutConstants.LANE_SPACING_FACTOR) || 0.9, 0.5, 1.5);
 
       const weightedGroups = activeGroups
         .map((entry) => {
@@ -784,11 +803,11 @@
       const created = [];
       const layoutNodes = [];
 
-  weightedGroups.forEach((entry) => {
-    const { group, layouts, totalSpacing, requiredSpacing } = entry;
-    const weightRatio = entry.weight / totalWeight;
-    const arcSpan = Math.max(32, usable * weightRatio);
-    const innerGap = Math.min(perGroupGap, arcSpan * 0.25);
+      weightedGroups.forEach((entry) => {
+        const { group, layouts, totalSpacing, requiredSpacing } = entry;
+        const weightRatio = entry.weight / totalWeight;
+        const arcSpan = Math.max(32, usable * weightRatio);
+        const innerGap = Math.min(perGroupGap, arcSpan * 0.25);
         const start = currentStart;
         const innerStart = start + innerGap / 2;
         let innerSpan = Math.max(arcSpan - innerGap, arcSpan * 0.4);
@@ -798,9 +817,9 @@
         const innerEnd = innerStart + innerSpan;
         state.groupAngles[group.id] = { start, span: arcSpan, innerStart, innerEnd };
 
-    const desiredSpacings = layouts.map((layout) => layout.spacingDeg * spacingMultiplier);
-    const sumDesired = desiredSpacings.reduce((sum, value) => sum + value, 0);
-    const scaling = sumDesired > 0 ? Math.min(1, innerSpan / sumDesired) : 0;
+        const desiredSpacings = layouts.map((layout) => layout.spacingDeg * spacingMultiplier);
+        const sumDesired = desiredSpacings.reduce((sum, value) => sum + value, 0);
+        const scaling = sumDesired > 0 ? Math.min(1, innerSpan / sumDesired) : 0;
         const segments = layouts.map((layout, index) => {
           let delta;
           if (sumDesired > 0) {
@@ -875,7 +894,15 @@
           prereqs: Array.isArray(meta.prereqs) ? Array.from(meta.prereqs) : [],
           metaSource: meta.metaSource || raw.metaSource || "canonical",
         };
-  state.nodePositions[id] = { x, y, ringIndex, angle, radius: effectiveRadius, lane: laneIndex || 0 };
+        state.nodePositions[id] = { x, y, ringIndex, angle, radius: effectiveRadius, lane: laneIndex || 0 };
+        state.layoutCache[id] = {
+          baseX: x,
+          baseY: y,
+          ringIndex,
+          angle,
+          radius: effectiveRadius,
+          lane: laneIndex || 0,
+        };
 
         const el = document.createElement("div");
         el.className = `perk-node ${unlocked ? "unlocked" : "locked"}`;
@@ -943,9 +970,100 @@
         });
       });
 
-      drawRelatedLinks();
-      drawGroupLabels(cx, cy, radii[radii.length - 1]);
       return created;
+    }
+
+    // Keep existing SVG link endpoints in sync with current node coordinates.
+    function refreshSvgLinkPositions() {
+      if (state.svgLayers.related) {
+        Array.from(state.svgLayers.related.children).forEach((line) => {
+          const source = state.nodePositions[line.dataset.from];
+          const target = state.nodePositions[line.dataset.to];
+          if (!source || !target) {
+            return;
+          }
+          line.setAttribute("x1", String(source.x));
+          line.setAttribute("y1", String(source.y));
+          line.setAttribute("x2", String(target.x));
+          line.setAttribute("y2", String(target.y));
+        });
+      }
+      if (state.svgLayers.prereqs) {
+        Array.from(state.svgLayers.prereqs.children).forEach((line) => {
+          const source = state.nodePositions[line.dataset.from];
+          const target = state.nodePositions[line.dataset.to];
+          if (!source || !target) {
+            return;
+          }
+          line.setAttribute("x1", String(source.x));
+          line.setAttribute("y1", String(source.y));
+          line.setAttribute("x2", String(target.x));
+          line.setAttribute("y2", String(target.y));
+        });
+      }
+    }
+
+    // Apply zoom scaling by reusing cached layout data instead of rebuilding nodes.
+    function updateScaledLayout(scale, { updateLinks = true } = {}) {
+      const safeScale = Number.isFinite(scale) ? Math.max(0.35, scale) : 1;
+      state.currentScale = safeScale;
+
+      const baseWidth = state.baseBounds?.width || graphEl.getBoundingClientRect().width;
+      const baseHeight = state.baseBounds?.height || graphEl.getBoundingClientRect().height;
+      const scaledWidth = baseWidth * safeScale;
+      const scaledHeight = baseHeight * safeScale;
+
+      graphEl.style.width = `${scaledWidth}px`;
+      graphEl.style.height = `${scaledHeight}px`;
+
+      const ringEls = graphEl.querySelectorAll(".graph-ring");
+      ringEls.forEach((ringEl, idx) => {
+        const baseRadius = state.ringBaseRadii[idx] ?? state.ringBaseRadii[state.ringBaseRadii.length - 1] ?? 0;
+        const diameter = Math.round(baseRadius * safeScale * 2);
+        ringEl.style.width = `${diameter}px`;
+        ringEl.style.height = `${diameter}px`;
+      });
+
+      Object.entries(state.layoutCache).forEach(([id, layout]) => {
+        const scaledX = layout.baseX * safeScale;
+        const scaledY = layout.baseY * safeScale;
+        const nodeEl = nodesContainer.querySelector(`.perk-node[data-perk="${id}"]`);
+        if (nodeEl) {
+          nodeEl.style.left = `${scaledX}px`;
+          nodeEl.style.top = `${scaledY}px`;
+        }
+        state.nodePositions[id] = {
+          x: scaledX,
+          y: scaledY,
+          ringIndex: layout.ringIndex,
+          angle: layout.angle,
+          radius: layout.radius * safeScale,
+          lane: layout.lane,
+        };
+      });
+
+      const cx = scaledWidth / 2;
+      const cy = scaledHeight / 2;
+      state.scaledCenter = { x: cx, y: cy };
+      const scaledOuterRadius = (state.baseOuterRadius || 0) * safeScale;
+
+      if (state.groupAngles && Object.keys(state.groupAngles).length) {
+        drawGroupLabels(cx, cy, scaledOuterRadius);
+      }
+
+      if (updateLinks) {
+        refreshSvgLinkPositions();
+        if (state.hoverPerkId) {
+          highlightRelatedLinks(state.hoverPerkId);
+        } else if (state.activePerkId) {
+          highlightRelatedLinks(state.activePerkId);
+        }
+        if (state.activePerkId) {
+          drawPrereqLinks(state.activePerkId);
+        } else if (state.hoverPerkId) {
+          drawPrereqLinks(state.hoverPerkId);
+        }
+      }
     }
 
     function wireNodes(nodeEls) {
@@ -995,8 +1113,12 @@
     }
 
     function redraw() {
+      const preservedScale = state.currentScale || 1;
       const nodes = buildNodes();
       wireNodes(nodes);
+      updateScaledLayout(preservedScale, { updateLinks: false });
+      drawRelatedLinks();
+      refreshSvgLinkPositions();
       if (state.hoverPerkId) {
         highlightRelatedLinks(state.hoverPerkId);
         drawPrereqLinks(state.hoverPerkId);
@@ -1025,9 +1147,12 @@
 
     function handleResize() {
       const bounds = graphEl.getBoundingClientRect();
+      const scaleFactor = state.currentScale || 1;
+      const width = bounds.width / scaleFactor;
+      const height = bounds.height / scaleFactor;
       if (
-        Math.abs(bounds.width - state.lastBounds.width) < 32 &&
-        Math.abs(bounds.height - state.lastBounds.height) < 32
+        Math.abs(width - state.lastBounds.width) < 32 &&
+        Math.abs(height - state.lastBounds.height) < 32
       ) {
         return;
       }
@@ -1065,8 +1190,12 @@
       clearSelection,
       drawPrereqLinks,
       enableResizeHandling,
+      setScale: (scale) => updateScaledLayout(scale),
       layoutConstants,
       dispose() {
+        state.currentScale = 1;
+        graphEl.style.removeProperty("width");
+        graphEl.style.removeProperty("height");
         hideTooltip();
         clearSkillPath();
         state.disposeHandlers.forEach((fn) => {
@@ -1098,6 +1227,7 @@
     focusSkill,
     clearSelection,
     redraw,
+    setScale: (scale) => activeController?.setScale?.(scale),
     getActiveController: () => activeController,
     constants: DEFAULT_LAYOUT_CONSTANTS,
   });

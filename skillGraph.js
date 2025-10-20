@@ -102,6 +102,7 @@
       isDevelopment,
       nodePositions: {},
       nodeMeta: {},
+      nodeElements: new Map(),
       prereqMap: {},
       dependentMap: {},
       relatedMap,
@@ -116,6 +117,10 @@
       baseOuterRadius: 0,
       scaledCenter: { x: 0, y: 0 },
       svgLayers: { related: null, prereqs: null },
+      relatedLinkElements: new Map(),
+      prereqLinkElements: new Map(),
+      labelsContainer: null,
+      scaleTargets: [],
       hoverPerkId: null,
       activePerkId: null,
     };
@@ -145,6 +150,85 @@
     } = state;
 
     const RELATED_VISIBLE_CLASS = "is-visible";
+
+    state.scaleTargets = [];
+    const registerScaleTarget = (element) => {
+      if (element && !state.scaleTargets.includes(element)) {
+        state.scaleTargets.push(element);
+      }
+    };
+
+    registerScaleTarget(graphEl);
+
+    const looksLikeIconClass = (value) => {
+      if (!value) {
+        return false;
+      }
+      return /\bfa[bsrl]?\b/.test(value) || value.includes("fa-");
+    };
+
+    // Ensure cached node icon markup aligns with the latest metadata.
+    function syncIconContent(iconWrapper, meta, nodeMeta) {
+      if (!iconWrapper) {
+        return;
+      }
+      const iconSrc = meta?.icon ? String(meta.icon) : "";
+      const emojiValue = meta?.emoji ? String(meta.emoji).trim() : "";
+
+      let type = "";
+      let key = "";
+      let element = null;
+
+      if (iconSrc) {
+        type = "image";
+        key = iconSrc;
+        element = document.createElement("img");
+        element.src = iconSrc;
+        element.alt = "";
+      } else if (emojiValue) {
+        if (looksLikeIconClass(emojiValue)) {
+          type = "icon-class";
+          key = emojiValue;
+          element = document.createElement("i");
+          element.className = emojiValue;
+          element.setAttribute("aria-hidden", "true");
+        } else {
+          type = "emoji";
+          key = emojiValue;
+          element = document.createElement("span");
+          element.className = "emoji-icon";
+          element.textContent = emojiValue;
+        }
+      } else {
+        type = "placeholder";
+        key = nodeMeta?.label?.charAt(0) || "?";
+        element = document.createElement("span");
+        element.className = "icon-placeholder";
+        element.textContent = key;
+      }
+
+      const nextSignature = `${type}:${key}`;
+      if (iconWrapper.dataset.iconSignature === nextSignature) {
+        return;
+      }
+
+      iconWrapper.replaceChildren(element);
+      iconWrapper.dataset.iconSignature = nextSignature;
+    }
+
+    const getNodeElement = (id) => {
+      if (!id) {
+        return null;
+      }
+      if (state.nodeElements.has(id)) {
+        return state.nodeElements.get(id);
+      }
+      const nodeEl = nodesContainer.querySelector(`.perk-node[data-perk="${id}"]`);
+      if (nodeEl) {
+        state.nodeElements.set(id, nodeEl);
+      }
+      return nodeEl;
+    };
 
     const ringCount = Math.max(3, Number(layoutConstants.RING_COUNT) || 5);
     const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
@@ -196,13 +280,18 @@
     const progressBar = progressPanel?.querySelector(".progress-svg .progress-bar") || null;
 
     function ensureSvgLayers() {
-      linksSvg.innerHTML = "";
-      state.svgLayers.related = document.createElementNS(SVG_NS, "g");
-      state.svgLayers.related.setAttribute("id", "skill-related-links");
-      state.svgLayers.prereqs = document.createElementNS(SVG_NS, "g");
-      state.svgLayers.prereqs.setAttribute("id", "skill-prereq-links");
-      linksSvg.appendChild(state.svgLayers.related);
-      linksSvg.appendChild(state.svgLayers.prereqs);
+      if (!linksSvg) {
+        return;
+      }
+      if (!state.svgLayers.related || !state.svgLayers.prereqs) {
+        linksSvg.innerHTML = "";
+        state.svgLayers.related = document.createElementNS(SVG_NS, "g");
+        state.svgLayers.related.setAttribute("id", "skill-related-links");
+        state.svgLayers.prereqs = document.createElementNS(SVG_NS, "g");
+        state.svgLayers.prereqs.setAttribute("id", "skill-prereq-links");
+        linksSvg.appendChild(state.svgLayers.related);
+        linksSvg.appendChild(state.svgLayers.prereqs);
+      }
     }
 
     function getTooltip() {
@@ -358,6 +447,7 @@
       while (layer.firstChild) {
         layer.removeChild(layer.firstChild);
       }
+      state.prereqLinkElements.clear();
     }
 
     function resetNodeHighlights() {
@@ -442,21 +532,43 @@
       return { ancestors, descendants, related, edges };
     }
 
+    const relatedEdgeKey = (from, to) => {
+      if (!from || !to) {
+        return "";
+      }
+      return from < to ? `${from}|${to}` : `${to}|${from}`;
+    };
+
+    function setLineEndpoints(line, source, target) {
+      if (!line || !source || !target) {
+        return;
+      }
+      if (line.x1 && line.x1.baseVal) {
+        line.x1.baseVal.value = source.x;
+        line.y1.baseVal.value = source.y;
+        line.x2.baseVal.value = target.x;
+        line.y2.baseVal.value = target.y;
+      } else {
+        line.setAttribute("x1", String(source.x));
+        line.setAttribute("y1", String(source.y));
+        line.setAttribute("x2", String(target.x));
+        line.setAttribute("y2", String(target.y));
+      }
+    }
+
     function highlightNodesFromData(rootId, pathData) {
       if (!rootId || !pathData) {
         return;
       }
       const { ancestors, descendants, related } = pathData;
-      const getNode = (id) => nodesContainer.querySelector(`.perk-node[data-perk="${id}"]`);
-
-      const rootNode = getNode(rootId);
+      const rootNode = getNodeElement(rootId);
       if (rootNode) {
         rootNode.classList.add("path-node", "path-root");
         rootNode.dataset.pathRole = "root";
       }
 
       ancestors.forEach((id) => {
-        const node = getNode(id);
+        const node = getNodeElement(id);
         if (node) {
           node.classList.add("path-node", "path-ancestor");
           node.dataset.pathRole = "ancestor";
@@ -464,7 +576,7 @@
       });
 
       descendants.forEach((id) => {
-        const node = getNode(id);
+        const node = getNodeElement(id);
         if (node) {
           node.classList.add("path-node", "path-descendant");
           node.dataset.pathRole = node.dataset.pathRole
@@ -477,7 +589,7 @@
         if (id === rootId || ancestors.has(id) || descendants.has(id)) {
           return;
         }
-        const node = getNode(id);
+        const node = getNodeElement(id);
         if (node) {
           node.classList.add("path-node", "path-related");
           node.dataset.pathRole = node.dataset.pathRole
@@ -488,27 +600,46 @@
     }
 
     function drawPathLines(edges) {
-      clearPrereqLinks();
       const layer = state.svgLayers.prereqs;
       if (!layer || !Array.isArray(edges)) {
         return;
       }
+
+      const fragment = document.createDocumentFragment();
+      const activeKeys = new Set();
+
       edges.forEach(({ from, to, type }) => {
         const source = state.nodePositions[from];
         const target = state.nodePositions[to];
         if (!source || !target) {
           return;
         }
-        const line = document.createElementNS(SVG_NS, "line");
-        line.setAttribute("x1", String(source.x));
-        line.setAttribute("y1", String(source.y));
-        line.setAttribute("x2", String(target.x));
-        line.setAttribute("y2", String(target.y));
-        line.setAttribute("stroke-linecap", "round");
-        line.dataset.path = type;
+        const key = `${from}->${to}`;
+        activeKeys.add(key);
+        let line = state.prereqLinkElements.get(key);
+        if (!line) {
+          line = document.createElementNS(SVG_NS, "line");
+          line.setAttribute("stroke-linecap", "round");
+          state.prereqLinkElements.set(key, line);
+          fragment.appendChild(line);
+        }
+        if (line.dataset.path !== type) {
+          line.dataset.path = type;
+        }
         line.dataset.from = from;
         line.dataset.to = to;
-        state.svgLayers.prereqs.appendChild(line);
+        setLineEndpoints(line, source, target);
+      });
+
+      if (fragment.childNodes.length) {
+        layer.appendChild(fragment);
+      }
+
+      state.prereqLinkElements.forEach((line, key) => {
+        if (!activeKeys.has(key)) {
+          line.remove();
+          state.prereqLinkElements.delete(key);
+        }
       });
     }
 
@@ -525,25 +656,49 @@
 
     function drawRelatedLinks() {
       const layer = state.svgLayers.related;
-      if (!layer) return;
-      while (layer.firstChild) {
-        layer.removeChild(layer.firstChild);
+      if (!layer) {
+        return;
       }
+
+      const fragment = document.createDocumentFragment();
+      const activeKeys = new Set();
+
       relatedPairs.forEach(([from, to]) => {
         const a = state.nodePositions[from];
         const b = state.nodePositions[to];
-        if (!a || !b) return;
-        const line = document.createElementNS(SVG_NS, "line");
-        line.setAttribute("x1", String(a.x));
-        line.setAttribute("y1", String(a.y));
-        line.setAttribute("x2", String(b.x));
-        line.setAttribute("y2", String(b.y));
-        line.setAttribute("stroke", "rgba(200, 180, 140, 0.35)");
-        line.setAttribute("stroke-width", "1.5");
+        if (!a || !b) {
+          return;
+        }
+        const key = relatedEdgeKey(from, to);
+        if (!key) {
+          return;
+        }
+        activeKeys.add(key);
+        let line = state.relatedLinkElements.get(key);
+        if (!line) {
+          line = document.createElementNS(SVG_NS, "line");
+          line.setAttribute("stroke", "rgba(200, 180, 140, 0.35)");
+          line.setAttribute("stroke-width", "1.5");
+          line.setAttribute("stroke-linecap", "round");
+          state.relatedLinkElements.set(key, line);
+          fragment.appendChild(line);
+        }
         line.dataset.from = from;
         line.dataset.to = to;
-        layer.appendChild(line);
+        setLineEndpoints(line, a, b);
       });
+
+      if (fragment.childNodes.length) {
+        layer.appendChild(fragment);
+      }
+
+      state.relatedLinkElements.forEach((line, key) => {
+        if (!activeKeys.has(key)) {
+          line.remove();
+          state.relatedLinkElements.delete(key);
+        }
+      });
+
       if (state.hoverPerkId) {
         highlightRelatedLinks(state.hoverPerkId);
       } else if (state.activePerkId) {
@@ -554,18 +709,14 @@
     }
 
     function hideAllRelatedLinks() {
-      const layer = state.svgLayers.related;
-      if (!layer) return;
-      Array.from(layer.children).forEach((line) => {
+      state.relatedLinkElements.forEach((line) => {
         line.classList.remove(RELATED_VISIBLE_CLASS);
       });
     }
 
     function highlightRelatedLinks(perkId) {
-      const layer = state.svgLayers.related;
-      if (!layer) return;
       const targetId = perkId || "";
-      Array.from(layer.children).forEach((line) => {
+      state.relatedLinkElements.forEach((line) => {
         const isRelated = line.dataset.from === targetId || line.dataset.to === targetId;
         line.classList.toggle(RELATED_VISIBLE_CLASS, isRelated);
       });
@@ -583,8 +734,12 @@
         labelsContainer.style.height = "100%";
         labelsContainer.style.pointerEvents = "none";
         graphEl.appendChild(labelsContainer);
+        state.labelsContainer = labelsContainer;
       }
-      labelsContainer.innerHTML = "";
+
+      labelsContainer.textContent = "";
+      const fragment = document.createDocumentFragment();
+
       Object.entries(state.groupAngles).forEach(([groupId, meta]) => {
         const group = groups.find((g) => g.id === groupId);
         if (!group) return;
@@ -601,8 +756,10 @@
         label.style.letterSpacing = "0.08em";
         label.style.textTransform = "uppercase";
         label.style.opacity = "0.8";
-        labelsContainer.appendChild(label);
+        fragment.appendChild(label);
       });
+
+      labelsContainer.appendChild(fragment);
     }
 
     function clearSelection() {
@@ -684,7 +841,6 @@
       state.nodeMeta = {};
       state.groupAngles = {};
       state.layoutCache = {};
-      nodesContainer.innerHTML = "";
 
       const cx = bounds.width / 2;
       const cy = bounds.height / 2;
@@ -876,6 +1032,9 @@
         currentStart += arcSpan + perGroupGap;
       });
 
+      const fragment = document.createDocumentFragment();
+      const retained = new Set();
+
       layoutNodes.forEach((layout) => {
         const { id, meta, raw, groupId, ringIndex, radius, radiusWithLane, angle, unlocked, current, target, laneIndex } = layout;
         const effectiveRadius = Math.max(32, radiusWithLane ?? radius);
@@ -883,7 +1042,7 @@
         const x = cx + effectiveRadius * Math.cos(angleRad);
         const y = cy + effectiveRadius * Math.sin(angleRad);
 
-        state.nodeMeta[id] = {
+        const nodeMeta = {
           id,
           group: groupId,
           label: meta.title || meta.label || id,
@@ -894,6 +1053,8 @@
           prereqs: Array.isArray(meta.prereqs) ? Array.from(meta.prereqs) : [],
           metaSource: meta.metaSource || raw.metaSource || "canonical",
         };
+
+        state.nodeMeta[id] = nodeMeta;
         state.nodePositions[id] = { x, y, ringIndex, angle, radius: effectiveRadius, lane: laneIndex || 0 };
         state.layoutCache[id] = {
           baseX: x,
@@ -904,52 +1065,59 @@
           lane: laneIndex || 0,
         };
 
-        const el = document.createElement("div");
-        el.className = `perk-node ${unlocked ? "unlocked" : "locked"}`;
+        let el = state.nodeElements.get(id);
+        let iconWrapper = null;
+        if (!el) {
+          el = document.createElement("div");
+          el.className = "perk-node";
+          el.setAttribute("tabindex", "0");
+          el.setAttribute("role", "button");
+          iconWrapper = document.createElement("div");
+          iconWrapper.className = "perk-icon";
+          el.appendChild(iconWrapper);
+          state.nodeElements.set(id, el);
+          fragment.appendChild(el);
+          created.push(el);
+        } else {
+          iconWrapper = el.querySelector(".perk-icon");
+          if (!iconWrapper) {
+            iconWrapper = document.createElement("div");
+            iconWrapper.className = "perk-icon";
+            el.appendChild(iconWrapper);
+          }
+        }
+
+        syncIconContent(iconWrapper, meta, nodeMeta);
+
+        el.classList.toggle("unlocked", Boolean(unlocked));
+        el.classList.toggle("locked", !unlocked);
         el.dataset.perk = id;
         el.dataset.group = groupId;
-        el.dataset.tier = String(state.nodeMeta[id].target);
-        el.style.left = `${x}px`;
-        el.style.top = `${y}px`;
-        el.setAttribute("tabindex", "0");
-        el.setAttribute("role", "button");
-        el.setAttribute("aria-label", state.nodeMeta[id].label);
-
-        const iconWrapper = document.createElement("div");
-        iconWrapper.className = "perk-icon";
-        if (meta.icon) {
-          const img = document.createElement("img");
-          img.src = meta.icon;
-          img.alt = "";
-          iconWrapper.appendChild(img);
-        } else if (meta.emoji) {
-          const emojiValue = String(meta.emoji).trim();
-          const looksLikeIconClass = /\bfa[bsrl]?\b/.test(emojiValue) || emojiValue.includes("fa-");
-          if (looksLikeIconClass) {
-            const i = document.createElement("i");
-            i.className = emojiValue;
-            i.setAttribute("aria-hidden", "true");
-            iconWrapper.appendChild(i);
-          } else {
-            const span = document.createElement("span");
-            span.className = "emoji-icon";
-            span.textContent = emojiValue;
-            iconWrapper.appendChild(span);
-          }
-        } else {
-          const span = document.createElement("span");
-          span.className = "icon-placeholder";
-          span.textContent = state.nodeMeta[id].label?.charAt(0) || "?";
-          iconWrapper.appendChild(span);
-        }
-        el.appendChild(iconWrapper);
-
+        el.dataset.tier = String(nodeMeta.target);
         if (laneIndex && laneIndex !== 0) {
           el.dataset.lane = String(laneIndex);
+        } else {
+          delete el.dataset.lane;
         }
+        el.setAttribute("aria-label", nodeMeta.label);
+        el.style.left = `${x}px`;
+        el.style.top = `${y}px`;
 
-        nodesContainer.appendChild(el);
-        created.push(el);
+        retained.add(id);
+      });
+
+      if (fragment.childNodes.length) {
+        nodesContainer.appendChild(fragment);
+      }
+
+      Array.from(state.nodeElements.keys()).forEach((nodeId) => {
+        if (!retained.has(nodeId)) {
+          const nodeEl = state.nodeElements.get(nodeId);
+          if (nodeEl) {
+            nodeEl.remove();
+          }
+          state.nodeElements.delete(nodeId);
+        }
       });
 
       state.prereqMap = {};
@@ -975,32 +1143,22 @@
 
     // Keep existing SVG link endpoints in sync with current node coordinates.
     function refreshSvgLinkPositions() {
-      if (state.svgLayers.related) {
-        Array.from(state.svgLayers.related.children).forEach((line) => {
-          const source = state.nodePositions[line.dataset.from];
-          const target = state.nodePositions[line.dataset.to];
-          if (!source || !target) {
-            return;
-          }
-          line.setAttribute("x1", String(source.x));
-          line.setAttribute("y1", String(source.y));
-          line.setAttribute("x2", String(target.x));
-          line.setAttribute("y2", String(target.y));
-        });
-      }
-      if (state.svgLayers.prereqs) {
-        Array.from(state.svgLayers.prereqs.children).forEach((line) => {
-          const source = state.nodePositions[line.dataset.from];
-          const target = state.nodePositions[line.dataset.to];
-          if (!source || !target) {
-            return;
-          }
-          line.setAttribute("x1", String(source.x));
-          line.setAttribute("y1", String(source.y));
-          line.setAttribute("x2", String(target.x));
-          line.setAttribute("y2", String(target.y));
-        });
-      }
+      state.relatedLinkElements.forEach((line) => {
+        const source = state.nodePositions[line.dataset.from];
+        const target = state.nodePositions[line.dataset.to];
+        if (!source || !target) {
+          return;
+        }
+        setLineEndpoints(line, source, target);
+      });
+      state.prereqLinkElements.forEach((line) => {
+        const source = state.nodePositions[line.dataset.from];
+        const target = state.nodePositions[line.dataset.to];
+        if (!source || !target) {
+          return;
+        }
+        setLineEndpoints(line, source, target);
+      });
     }
 
     // Apply zoom scaling by reusing cached layout data instead of rebuilding nodes.
@@ -1010,45 +1168,26 @@
 
       const baseWidth = state.baseBounds?.width || graphEl.getBoundingClientRect().width;
       const baseHeight = state.baseBounds?.height || graphEl.getBoundingClientRect().height;
-      const scaledWidth = baseWidth * safeScale;
-      const scaledHeight = baseHeight * safeScale;
 
-      graphEl.style.width = `${scaledWidth}px`;
-      graphEl.style.height = `${scaledHeight}px`;
+      graphEl.style.width = `${baseWidth}px`;
+      graphEl.style.height = `${baseHeight}px`;
 
-      const ringEls = graphEl.querySelectorAll(".graph-ring");
-      ringEls.forEach((ringEl, idx) => {
-        const baseRadius = state.ringBaseRadii[idx] ?? state.ringBaseRadii[state.ringBaseRadii.length - 1] ?? 0;
-        const diameter = Math.round(baseRadius * safeScale * 2);
-        ringEl.style.width = `${diameter}px`;
-        ringEl.style.height = `${diameter}px`;
-      });
-
-      Object.entries(state.layoutCache).forEach(([id, layout]) => {
-        const scaledX = layout.baseX * safeScale;
-        const scaledY = layout.baseY * safeScale;
-        const nodeEl = nodesContainer.querySelector(`.perk-node[data-perk="${id}"]`);
-        if (nodeEl) {
-          nodeEl.style.left = `${scaledX}px`;
-          nodeEl.style.top = `${scaledY}px`;
+      const scaleValue = `scale(${safeScale})`;
+      state.scaleTargets.forEach((target) => {
+        if (!target) {
+          return;
         }
-        state.nodePositions[id] = {
-          x: scaledX,
-          y: scaledY,
-          ringIndex: layout.ringIndex,
-          angle: layout.angle,
-          radius: layout.radius * safeScale,
-          lane: layout.lane,
-        };
+        target.style.transform = scaleValue;
+        target.style.transformOrigin = "50% 50%";
       });
 
-      const cx = scaledWidth / 2;
-      const cy = scaledHeight / 2;
-      state.scaledCenter = { x: cx, y: cy };
-      const scaledOuterRadius = (state.baseOuterRadius || 0) * safeScale;
+      state.scaledCenter = {
+        x: (baseWidth * safeScale) / 2,
+        y: (baseHeight * safeScale) / 2,
+      };
 
       if (state.groupAngles && Object.keys(state.groupAngles).length) {
-        drawGroupLabels(cx, cy, scaledOuterRadius);
+        drawGroupLabels(baseWidth / 2, baseHeight / 2, state.baseOuterRadius || 0);
       }
 
       if (updateLinks) {
@@ -1139,7 +1278,7 @@
 
     function focusSkill(perkId) {
       if (!perkId) return;
-      const node = nodesContainer.querySelector(`.perk-node[data-perk="${perkId}"]`);
+      const node = getNodeElement(perkId);
       if (!node) return;
       showPerk(perkId, node);
       node.focus({ preventScroll: false });

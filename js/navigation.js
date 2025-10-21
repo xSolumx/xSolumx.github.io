@@ -39,8 +39,17 @@ export function initNavigation() {
                     history.replaceState(null, "", `#${id}`);
                 }
             }
-            if (name === "perks" && typeof window.redrawSkillTree === "function") {
-                requestAnimationFrame(() => window.redrawSkillTree());
+            if (name === "perks") {
+                if (typeof window.ensureSkillGraphInitialized === "function") {
+                    window.ensureSkillGraphInitialized();
+                }
+                requestAnimationFrame(() => {
+                    if (typeof window.redrawSkillTree === "function") {
+                        window.redrawSkillTree();
+                    } else if (window.SkillGraph && typeof window.SkillGraph.redraw === "function") {
+                        window.SkillGraph.redraw();
+                    }
+                });
             }
         }
     }

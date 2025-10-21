@@ -17,6 +17,12 @@
     let skillGraphResizeHandler = null;
     let skillGraphScrollHintCleanup = null;
     let skillGraphZoomState = null;
+    let skillGraphInitPayload = null;
+    let skillGraphInitialized = false;
+    const SKILL_GRAPH_LAYOUT_MAX_RETRIES = 8;
+    let skillGraphLayoutRetryCount = 0;
+    let skillGraphInitRafId = 0;
+    let skillGraphInitTimeoutId = 0;
 
     function debounce(fn, wait = 200) {
         let timerId = null;
@@ -128,7 +134,15 @@
         initNavigation();
         renderSkillOverview(skillTree, datasetValidation, projects);
         renderSkillCategories(skillTree);
-        initializeSkillGraph(skillTree, curatedPairs, datasetValidation);
+        skillGraphInitPayload = {
+            skillTree,
+            relatedPairs: curatedPairs,
+            datasetValidation,
+        };
+
+        if (document.getElementById("perks-section")?.classList.contains("active")) {
+            ensureSkillGraphInitialized();
+        }
 
         document.querySelectorAll("[data-open-section]").forEach((trigger) => {
             trigger.addEventListener("click", (event) => {
@@ -320,8 +334,15 @@
                 }
             }
 
-            if (targetName === "perks" && window.SkillGraph && typeof window.SkillGraph.redraw === "function") {
-                window.requestAnimationFrame(() => window.SkillGraph.redraw());
+            if (targetName === "perks") {
+                ensureSkillGraphInitialized();
+                window.requestAnimationFrame(() => {
+                    if (typeof window.redrawSkillTree === "function") {
+                        window.redrawSkillTree();
+                    } else if (window.SkillGraph && typeof window.SkillGraph.redraw === "function") {
+                        window.SkillGraph.redraw();
+                    }
+                });
             }
         }
 
@@ -1174,15 +1195,85 @@
         };
     }
 
+    function cancelPendingSkillGraphInit() {
+        if (skillGraphInitRafId) {
+            window.cancelAnimationFrame(skillGraphInitRafId);
+            skillGraphInitRafId = 0;
+        }
+        if (skillGraphInitTimeoutId) {
+            window.clearTimeout(skillGraphInitTimeoutId);
+            skillGraphInitTimeoutId = 0;
+        }
+    }
+
+    function scheduleSkillGraphInitializationRetry() {
+        cancelPendingSkillGraphInit();
+        const useTimeout = skillGraphLayoutRetryCount > 2;
+        if (useTimeout) {
+            skillGraphInitTimeoutId = window.setTimeout(() => {
+                skillGraphInitTimeoutId = 0;
+                ensureSkillGraphInitialized();
+            }, 50);
+        } else {
+            skillGraphInitRafId = window.requestAnimationFrame(() => {
+                skillGraphInitRafId = 0;
+                ensureSkillGraphInitialized();
+            });
+        }
+    }
+
+    function ensureSkillGraphInitialized() {
+        if (skillGraphInitialized) {
+            return true;
+        }
+        if (!skillGraphInitPayload) {
+            return false;
+        }
+
+        const graphEl = document.getElementById("perk-graph");
+        if (!graphEl) {
+            return false;
+        }
+
+        const bounds = graphEl.getBoundingClientRect();
+        const hasSize = bounds.width > 0 && bounds.height > 0;
+        if (!hasSize) {
+            if (skillGraphLayoutRetryCount < SKILL_GRAPH_LAYOUT_MAX_RETRIES) {
+                skillGraphLayoutRetryCount += 1;
+            }
+            scheduleSkillGraphInitializationRetry();
+            return false;
+        }
+
+        skillGraphLayoutRetryCount = 0;
+
+        cancelPendingSkillGraphInit();
+        const { skillTree, relatedPairs, datasetValidation } = skillGraphInitPayload;
+        initializeSkillGraph(skillTree, relatedPairs, datasetValidation);
+        return skillGraphInitialized;
+    }
+
+    window.ensureSkillGraphInitialized = ensureSkillGraphInitialized;
+
     function initializeSkillGraph(skillTree, relatedPairs, datasetValidation) {
+        cancelPendingSkillGraphInit();
+        skillGraphLayoutRetryCount = 0;
+
         if (!window.SkillGraph || typeof window.SkillGraph.initialize !== "function") {
             console.error("SkillGraph library not found or is invalid.");
             const perksSection = document.getElementById("perks-section");
             if (perksSection) {
                 perksSection.innerHTML = `<div class="error-message">Error: Skill Tree component failed to load.</div>`;
             }
+            skillGraphInitialized = false;
             return;
         }
+
+        skillGraphInitPayload = {
+            skillTree,
+            relatedPairs,
+            datasetValidation,
+        };
 
         if (skillGraphResizeHandler) {
             window.removeEventListener("resize", skillGraphResizeHandler);
@@ -1217,8 +1308,11 @@
             if (graphElement) {
                 graphElement.innerHTML = `<div class="error-message">Could not render skill tree.</div>`;
             }
+            skillGraphInitialized = false;
             return;
         }
+
+        skillGraphInitialized = true;
 
         window.focusSkillInTree = (skillId) => focusSkill(skillId);
 
@@ -1346,6 +1440,7 @@
     }
 
     function focusSkill(skillId) {
+        ensureSkillGraphInitialized();
         if (!skillId || !window.SkillGraph || typeof window.SkillGraph.focusSkill !== "function") {
             return;
         }

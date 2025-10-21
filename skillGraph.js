@@ -109,6 +109,9 @@
       groupAngles: {},
       disposeHandlers: [],
       tooltipEl: null,
+      tooltipRefs: null,
+      tooltipRaf: 0,
+      pendingTooltipPosition: null,
       lastBounds: { width: 0, height: 0 },
       baseBounds: null,
       ringBaseRadii: [],
@@ -123,6 +126,10 @@
       scaleTargets: [],
       hoverPerkId: null,
       activePerkId: null,
+      pathCache: new Map(),
+      activePathNodes: new Set(),
+      hoverEnabled: true,
+      resizeRaf: 0,
     };
 
     const controller = buildController(state);
@@ -272,6 +279,36 @@
       }
     }
 
+    // Skip hover affordances on touch-centric devices to reduce needless updates.
+    const hoverCapabilityQuery = typeof window.matchMedia === "function"
+      ? window.matchMedia("(hover: hover) and (pointer: fine)")
+      : null;
+    if (hoverCapabilityQuery) {
+      state.hoverEnabled = hoverCapabilityQuery.matches;
+      const handleHoverCapabilityChange = () => {
+        state.hoverEnabled = hoverCapabilityQuery.matches;
+        if (!state.hoverEnabled) {
+          state.hoverPerkId = null;
+          hideTooltip();
+          hideAllRelatedLinks();
+          clearSkillPath();
+          if (state.activePerkId) {
+            highlightRelatedLinks(state.activePerkId);
+            drawPrereqLinks(state.activePerkId);
+          }
+        }
+      };
+      if (typeof hoverCapabilityQuery.addEventListener === "function") {
+        hoverCapabilityQuery.addEventListener("change", handleHoverCapabilityChange);
+        state.disposeHandlers.push(() => hoverCapabilityQuery.removeEventListener("change", handleHoverCapabilityChange));
+      } else if (typeof hoverCapabilityQuery.addListener === "function") {
+        hoverCapabilityQuery.addListener(handleHoverCapabilityChange);
+        state.disposeHandlers.push(() => hoverCapabilityQuery.removeListener(handleHoverCapabilityChange));
+      }
+    } else {
+      state.hoverEnabled = true;
+    }
+
     const detailsTitle = progressPanel?.querySelector(".progress-details h4") || null;
     const detailsDesc = progressPanel?.querySelector(".progress-details p") || null;
     const rewardSection = progressPanel?.querySelector(".reward-section") || null;
@@ -301,14 +338,30 @@
       const tooltip = document.createElement("div");
       tooltip.className = "perk-tooltip";
       tooltip.style.display = "none";
+      tooltip.style.pointerEvents = "none";
       tooltip.setAttribute("role", "dialog");
       tooltip.setAttribute("aria-hidden", "true");
+      const titleEl = document.createElement("div");
+      titleEl.className = "tt-title";
+      const subtitleEl = document.createElement("div");
+      subtitleEl.className = "tt-sub";
+      const bodyEl = document.createElement("div");
+      bodyEl.className = "tt-body";
+      tooltip.appendChild(titleEl);
+      tooltip.appendChild(subtitleEl);
+      tooltip.appendChild(bodyEl);
+      state.tooltipRefs = { titleEl, subtitleEl, bodyEl };
       document.body.appendChild(tooltip);
       state.tooltipEl = tooltip;
       return tooltip;
     }
 
     function hideTooltip() {
+      if (state.tooltipRaf) {
+        cancelAnimationFrame(state.tooltipRaf);
+        state.tooltipRaf = 0;
+      }
+      state.pendingTooltipPosition = null;
       if (state.tooltipEl) {
         state.tooltipEl.style.display = "none";
         state.tooltipEl.setAttribute("aria-hidden", "true");
@@ -320,37 +373,67 @@
         return null;
       }
       const tooltip = getTooltip();
-      tooltip.replaceChildren();
+      const refs = state.tooltipRefs;
+      if (!refs) {
+        return tooltip;
+      }
 
       const info = resolveMeta(perkId) || state.nodeMeta[perkId] || {};
-      const title = document.createElement("div");
-      title.className = "tt-title";
-      title.textContent = info.title || state.nodeMeta[perkId]?.label || perkId;
+      const titleText = info.title || state.nodeMeta[perkId]?.label || perkId;
+      refs.titleEl.textContent = titleText;
 
-      const subtitle = document.createElement("div");
-      subtitle.className = "tt-sub";
-      const groupLabel = groups.find((g) => g.id === state.nodeMeta[perkId]?.group)?.label;
+      const groupLabel = groups.find((g) => g.id === state.nodeMeta[perkId]?.group)?.label || "";
       if (groupLabel) {
-        subtitle.textContent = groupLabel;
+        refs.subtitleEl.textContent = groupLabel;
+        refs.subtitleEl.style.display = "";
+      } else {
+        refs.subtitleEl.textContent = "";
+        refs.subtitleEl.style.display = "none";
       }
 
-      const body = document.createElement("div");
-      body.className = "tt-body";
       const bodyText = info.summary || info.description || "";
       if (bodyText) {
-        body.textContent = bodyText;
+        refs.bodyEl.textContent = bodyText;
+        refs.bodyEl.style.display = "";
+      } else {
+        refs.bodyEl.textContent = "";
+        refs.bodyEl.style.display = "none";
       }
 
-      tooltip.appendChild(title);
-      if (subtitle.textContent) {
-        tooltip.appendChild(subtitle);
-      }
-      if (body.textContent) {
-        tooltip.appendChild(body);
-      }
+      const hasContent = Boolean(titleText || bodyText || groupLabel);
+      tooltip.setAttribute("aria-hidden", hasContent ? "false" : "true");
+      tooltip.style.display = hasContent ? "block" : "none";
+      return hasContent ? tooltip : null;
+    }
 
-      tooltip.setAttribute("aria-hidden", tooltip.childElementCount ? "false" : "true");
-      return tooltip;
+    function scheduleTooltipPosition(event) {
+      if (!state.tooltipEl || state.tooltipEl.style.display === "none") {
+        return;
+      }
+      if (!event) {
+        return;
+      }
+      // Batch tooltip positioning to the next animation frame so pointer move events remain cheap.
+      const scrollX = typeof window.scrollX === "number" ? window.scrollX : window.pageXOffset || 0;
+      const scrollY = typeof window.scrollY === "number" ? window.scrollY : window.pageYOffset || 0;
+      const effectivePageX = Number.isFinite(event.pageX) ? event.pageX : event.clientX + scrollX;
+      const effectivePageY = Number.isFinite(event.pageY) ? event.pageY : event.clientY + scrollY;
+      state.pendingTooltipPosition = { x: effectivePageX, y: effectivePageY };
+      if (state.tooltipRaf) {
+        return;
+      }
+      state.tooltipRaf = window.requestAnimationFrame(() => {
+        state.tooltipRaf = 0;
+        const tooltip = state.tooltipEl;
+        const pointer = state.pendingTooltipPosition;
+        state.pendingTooltipPosition = null;
+        if (!tooltip || tooltip.style.display === "none" || !pointer) {
+          return;
+        }
+        const offset = Number(layoutConstants.TOOLTIP_OFFSET) || 16;
+        tooltip.style.left = `${pointer.x + offset}px`;
+        tooltip.style.top = `${pointer.y + offset}px`;
+      });
     }
 
     function resolveMeta(perkId) {
@@ -451,14 +534,17 @@
     }
 
     function resetNodeHighlights() {
-      nodesContainer
-        .querySelectorAll(
-          ".perk-node.path-node, .perk-node.path-root, .perk-node.path-ancestor, .perk-node.path-descendant, .perk-node.path-related"
-        )
-        .forEach((node) => {
+      if (!state.activePathNodes || state.activePathNodes.size === 0) {
+        return;
+      }
+      state.activePathNodes.forEach((id) => {
+        const node = getNodeElement(id);
+        if (node) {
           node.classList.remove("path-node", "path-root", "path-ancestor", "path-descendant", "path-related");
           delete node.dataset.pathRole;
-        });
+        }
+      });
+      state.activePathNodes.clear();
     }
 
     function clearSkillPath() {
@@ -467,6 +553,17 @@
     }
 
     function collectPathData(perkId) {
+      if (!perkId) {
+        return {
+          ancestors: new Set(),
+          descendants: new Set(),
+          related: new Set(),
+          edges: [],
+        };
+      }
+      if (state.pathCache.has(perkId)) {
+        return state.pathCache.get(perkId);
+      }
       const ancestors = new Set();
       const descendants = new Set();
       const related = new Set();
@@ -529,7 +626,9 @@
         });
       }
 
-      return { ancestors, descendants, related, edges };
+      const result = { ancestors, descendants, related, edges };
+      state.pathCache.set(perkId, result);
+      return result;
     }
 
     const relatedEdgeKey = (from, to) => {
@@ -561,10 +660,12 @@
         return;
       }
       const { ancestors, descendants, related } = pathData;
+      const activeNodes = state.activePathNodes;
       const rootNode = getNodeElement(rootId);
       if (rootNode) {
         rootNode.classList.add("path-node", "path-root");
         rootNode.dataset.pathRole = "root";
+        activeNodes.add(rootId);
       }
 
       ancestors.forEach((id) => {
@@ -572,6 +673,7 @@
         if (node) {
           node.classList.add("path-node", "path-ancestor");
           node.dataset.pathRole = "ancestor";
+          activeNodes.add(id);
         }
       });
 
@@ -582,6 +684,7 @@
           node.dataset.pathRole = node.dataset.pathRole
             ? `${node.dataset.pathRole} descendant`
             : "descendant";
+          activeNodes.add(id);
         }
       });
 
@@ -595,6 +698,7 @@
           node.dataset.pathRole = node.dataset.pathRole
             ? `${node.dataset.pathRole} related`
             : "related";
+          activeNodes.add(id);
         }
       });
     }
@@ -841,6 +945,8 @@
       state.nodeMeta = {};
       state.groupAngles = {};
       state.layoutCache = {};
+      state.pathCache.clear();
+      state.activePathNodes.clear();
 
       const cx = bounds.width / 2;
       const cy = bounds.height / 2;
@@ -1206,27 +1312,55 @@
     }
 
     function wireNodes(nodeEls) {
+      const usePointerEvents = typeof window.PointerEvent === "function";
+      const pointerMoveOptions = { passive: true };
+      // Treat coarse pointers (touch) as non-hover to avoid expensive redraws on mobile.
+      const allowHover = (event) => {
+        if (!state.hoverEnabled) {
+          return false;
+        }
+        if (event && typeof event.pointerType === "string") {
+          return event.pointerType !== "touch";
+        }
+        return true;
+      };
+
       nodeEls.forEach((el) => {
         const perkId = el.dataset.perk;
+        if (!perkId) {
+          return;
+        }
 
-        el.addEventListener("mouseenter", () => {
+        const handleHoverStart = (event) => {
+          if (!allowHover(event)) {
+            return;
+          }
+          const firstActivation = state.hoverPerkId !== perkId;
           state.hoverPerkId = perkId;
           highlightRelatedLinks(perkId);
           const tooltip = renderTooltip(perkId);
           if (tooltip) {
-            tooltip.style.display = "block";
+            scheduleTooltipPosition(event);
           }
-          drawPrereqLinks(perkId);
-        });
+          if (firstActivation) {
+            drawPrereqLinks(perkId);
+          }
+        };
 
-        el.addEventListener("mousemove", (event) => {
-          const tooltip = getTooltip();
-          const offset = Number(layoutConstants.TOOLTIP_OFFSET) || 16;
-          tooltip.style.left = `${event.pageX + offset}px`;
-          tooltip.style.top = `${event.pageY + offset}px`;
-        });
+        const handleHoverMove = (event) => {
+          if (!allowHover(event)) {
+            return;
+          }
+          if (state.hoverPerkId !== perkId) {
+            return;
+          }
+          scheduleTooltipPosition(event);
+        };
 
-        el.addEventListener("mouseleave", () => {
+        const handleHoverEnd = () => {
+          if (state.hoverPerkId !== perkId) {
+            return;
+          }
           state.hoverPerkId = null;
           hideTooltip();
           if (state.activePerkId) {
@@ -1236,7 +1370,18 @@
             hideAllRelatedLinks();
             clearSkillPath();
           }
-        });
+        };
+
+        if (usePointerEvents) {
+          el.addEventListener("pointerenter", handleHoverStart);
+          el.addEventListener("pointermove", handleHoverMove, pointerMoveOptions);
+          el.addEventListener("pointerleave", handleHoverEnd);
+          el.addEventListener("pointercancel", handleHoverEnd);
+        } else {
+          el.addEventListener("mouseenter", handleHoverStart);
+          el.addEventListener("mousemove", handleHoverMove, { passive: true });
+          el.addEventListener("mouseleave", handleHoverEnd);
+        }
 
         el.addEventListener("click", () => {
           showPerk(perkId, el);
@@ -1298,12 +1443,27 @@
       redraw();
     }
 
+    // Collapse clusters of resize notifications into a single layout recalculation frame.
+    function scheduleResizeCheck() {
+      if (state.resizeRaf) {
+        return;
+      }
+      state.resizeRaf = window.requestAnimationFrame(() => {
+        state.resizeRaf = 0;
+        handleResize();
+      });
+    }
+
     function enableResizeHandling() {
-      const resizeHandler = () => {
-        window.requestAnimationFrame(() => handleResize());
-      };
+      const resizeHandler = () => scheduleResizeCheck();
       window.addEventListener("resize", resizeHandler);
       state.disposeHandlers.push(() => window.removeEventListener("resize", resizeHandler));
+
+      if (typeof ResizeObserver === "function") {
+        const observer = new ResizeObserver(() => scheduleResizeCheck());
+        observer.observe(graphEl);
+        state.disposeHandlers.push(() => observer.disconnect());
+      }
     }
 
     if (centerEl) {
@@ -1335,6 +1495,10 @@
         state.currentScale = 1;
         graphEl.style.removeProperty("width");
         graphEl.style.removeProperty("height");
+        if (state.resizeRaf) {
+          cancelAnimationFrame(state.resizeRaf);
+          state.resizeRaf = 0;
+        }
         hideTooltip();
         clearSkillPath();
         state.disposeHandlers.forEach((fn) => {

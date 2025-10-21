@@ -1238,7 +1238,6 @@ a:focus {
     max-width: 1200px;
     display: block;
     min-width: 0;
-    padding: var(--spacing-md);
     overflow: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
@@ -1881,7 +1880,6 @@ a:focus {
         flex: 1 1 100%;
         max-width: none;
         width: 100%;
-        padding: var(--spacing-md);
     }
 
     .perk-graph {

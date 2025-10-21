@@ -9,8 +9,8 @@
     const STAT_SIGNS_THRESHOLD = 12;
     const VIEWPORT_BREAKPOINTS = Object.freeze({
         phoneSmall: 480,
-        phone: 768,
-        tablet: 1024,
+        phone: 1024,
+        tablet: 1280,
     });
 
     let skillGraphViewportState = null;
@@ -205,7 +205,7 @@
             ? navToggle.querySelector(".nav-toggle-label")
             : null;
         const mobileQuery = typeof window.matchMedia === "function"
-            ? window.matchMedia("(max-width: 768px)")
+            ? window.matchMedia("(max-width: 1024)")
             : null;
         if (!navTabs.length || !sections.length) {
             return;

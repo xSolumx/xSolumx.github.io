@@ -1,6 +1,6 @@
 # Swazi Green Land Map Studio
 
-Public deployment of the v2.6 mobile-first land-map viewer and editor.
+Public deployment of the v2.7 mobile-first land-map viewer and editor.
 
 Open the application at:
 
@@ -12,13 +12,12 @@ stored in the browser unless the user explicitly exports or downloads them.
 
 ## Verified release
 
-- Editor: v2.6
+- Editor: v2.7
 - Baseline features: 1,892
 - Baseline coordinates: 2,967
-- Standalone file: 13,934,706 bytes
-- SHA-256: `68aae154f5afaddc088e368aca8eaf9020d57a5812a3a141657890e6dcda8784`
+- Standalone file: 13,938,625 bytes
+- SHA-256: `79af4d7d5b0f37d2c1deb9a4700acec9d8848f34bf5714e0bb4836a99b75dc7b`
 
 The full source, cartographic generation pipeline, evidence records and test
 suite are maintained separately in the private companion repository. See
 `NOTICE.md` before redistributing the embedded map or imagery.
-
